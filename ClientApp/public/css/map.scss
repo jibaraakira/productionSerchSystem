@@ -1,0 +1,23 @@
+body {
+  padding: 30px;
+}
+
+#map {
+  width: 100%;
+  height: 300px;
+  background-color: rgb(82, 219, 100);
+  position: relative;
+  z-index: 0;
+}
+
+.pin {
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  position: absolute;
+  &--stalker {
+    @extend .pin;
+    visibility: hidden;
+    z-index: 10;
+  }
+}

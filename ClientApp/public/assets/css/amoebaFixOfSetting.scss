@@ -1,0 +1,149 @@
+@import "_amoebaFixCommon";
+
+#main {
+  margin-top: 0;
+}
+
+.nav {
+  &__user {
+    display: flex;
+  }
+
+  &__usersvb {
+    margin: auto 10px;
+    fill: white;
+    width: 40px;
+    height: 40px;
+  }
+  &__username {
+    margin: auto 30px auto 0;
+    color: white;
+  }
+}
+
+#shopinfo {
+  background-color: $color-main;
+  padding: 80px 0;
+}
+
+.property {
+  @include img;
+  display: block;
+  padding-top: 30px;
+  width: 100%;
+  margin-bottom: 20px;
+  background-color: #243e61;
+
+  &__shopdetail {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  &__title {
+    margin-top: 30px;
+    text-align: center;
+  }
+
+  &__controlepanel {
+    width: 70%;
+    margin: 30px auto;
+    dl {
+      $border-color: 1px solid white;
+      border-top: $border-color;
+      &:last-child {
+        border-bottom: $border-color;
+      }
+    }
+  }
+
+  &__bottompartial {
+    &--onlyButton {
+      margin-top: 20px;
+    }
+    &--map {
+      display: flex;
+      width: 95%;
+      margin: 0 auto;
+    }
+    &--setting {
+      display: flex;
+      margin-top: 10px;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: flex-end;
+  }
+  &__btncontainer {
+    display: flex;
+  }
+  &__pointcontrol {
+  }
+
+  &__mapsetting {
+    margin-top: 30px;
+  }
+
+  &__map {
+    width: 60%;
+    margin: 0 20px;
+  }
+
+  &__current {
+    @extend.definition--type2;
+  }
+
+  &__setters {
+    display: flex;
+  }
+
+  &__setter {
+    width: 100%;
+    margin: 10px;
+    p {
+      margin-top: 10px;
+    }
+  }
+
+  &__legend {
+    p {
+      margin-top: 10px;
+      height: 50px;
+    }
+  }
+  &__pin {
+    display: block;
+    width: 40px;
+    height: 40px;
+    margin: 0 auto;
+  }
+
+  &__buttonsets {
+    button {
+      margin: 10px auto;
+    }
+  }
+
+  &__rangeinside {
+    width: 40px;
+    height: 40px;
+    background-color: $color-pin-active;
+    border: 3px solid $color-pin-line;
+    margin: 0 auto;
+  }
+
+  &__productcontroler {
+    @extend %definition;
+  }
+
+  &__refinesearch {
+    display: flex;
+    justify-content: center;
+    input {
+      width: 60%;
+    }
+  }
+
+  @include card;
+}

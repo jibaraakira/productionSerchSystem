@@ -1,0 +1,73 @@
+@import "_amoebaFixCommon";
+
+#heroSearch .btn-get-started {
+  &:active {
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+    transition: background-color 50ms;
+  }
+}
+
+.result {
+  &__keywordetitle {
+    margin-bottom: 20px;
+  }
+
+  &__title {
+    h2 {
+      margin-top: 20px;
+    }
+  }
+
+  &__result {
+    transition: 100ms;
+    -webkit-transition: 100ms;
+    &:hover {
+      transform: scale(1.1);
+    }
+    &:active {
+      opacity: 0.8;
+    }
+  }
+  &__item {
+    padding: 20px;
+  }
+  &__img {
+    background-color: white;
+    margin: 0 auto;
+    width: 80%;
+    height: 100px;
+  }
+  &__details {
+    margin-top: 10px;
+  }
+}
+
+.proinfo {
+  &__bottompartial {
+    display: flex;
+  }
+
+  &__leftpartail {
+    width: 55%;
+  }
+
+  &__map {
+    width: 100%;
+  }
+  &__rightpartail {
+    width: 40%;
+    padding: 10px;
+  }
+
+  &__data {
+    margin: auto 10px;
+  }
+
+  &__detail {
+    width: auto;
+  }
+  @include card;
+  @include img;
+}

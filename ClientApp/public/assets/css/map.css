@@ -1,0 +1,32 @@
+body {
+  padding: 30px;
+}
+
+#map {
+  width: 100%;
+  height: 300px;
+  background-color: #52db64;
+  position: relative;
+  z-index: 0;
+}
+
+.pin, .pin--stalker, .rangepin {
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  position: absolute;
+}
+
+.pin--stalker {
+  z-index: 10;
+}
+
+.rangepin {
+  background-color: yellow;
+  resize: none;
+}
+
+.drsMoveHandle {
+  border-bottom: 1px solid #666;
+  cursor: move;
+}
