@@ -20,7 +20,7 @@ export class dummy {
 
     data.forEach((index) => {
       list.push(
-        this.objectCreator.createSearchResult({
+        this.objectCreator.createSearchResultItem({
           storeName: index[0],
           productName: index[1],
           placeName: index[2],

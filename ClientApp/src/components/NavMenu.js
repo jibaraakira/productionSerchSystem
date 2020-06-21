@@ -9,7 +9,6 @@ import {
   NavLink,
 } from "reactstrap";
 import { Link } from "react-router-dom";
-import "./NavMenu.css";
 
 export default class NavMenu extends React.Component {
   constructor(props) {

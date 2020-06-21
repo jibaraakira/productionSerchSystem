@@ -23,21 +23,36 @@ export const reducer = (state, action) => {
   if (action.type === searchProduct) {
     return {
       ...state,
-      searchResult: dum.getDummySearchResult(),
-      shopInfo: dum.getDummyStoreInfo(true),
-      product: dum.getDummyProductInfo(),
+      searchResult: {
+        ...state.searchResult,
+        resultList: dum.getDummySearchResult(),
+      },
+      nshop: {
+        ...state.nshop,
+        dataList: dum.getDummyStoreInfo(true),
+      },
+      product: {
+        ...state.product,
+        dataList: dum.getDummyProductInfo(),
+      }
     };
   }
 
   if (action.type === selectStore) {
-    let selectedResult = state.searchResult["list"].find((result) => {
+    let selectedResult = state.searchResult.resultList["list"].find((result) => {
       return result.index === action.selectedIndex;
     });
 
     return {
       ...state,
-      currentStoreInfo: common.getCurrentStore(state, selectedResult),
-      currentProduct: common.getCurrentProduct(state, action.selectedIndex),
+      nshop: {
+        ...state.nshop,
+        current: common.getCurrentStore(state, selectedResult),
+      },
+      product: {
+        ...state.product,
+        current: common.getCurrentProduct(state, action.selectedIndex),
+      }
     };
   }
 

@@ -6,7 +6,7 @@ export class SearchResult extends React.Component {
 
   renderResult() {
     let results = [];
-    let props = this.props.init.searchResult;
+    let props = this.props.init.searchResult.resultList;
     if (props == null) return null;
 
     props["list"].forEach((ele) => {

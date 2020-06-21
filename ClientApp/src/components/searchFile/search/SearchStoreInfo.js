@@ -2,7 +2,7 @@ import React from "react";
 import * as common from "../SearchCommon";
 export class ProductInformation extends React.Component {
   render() {
-    let storeInfo = this.props.init.currentStoreInfo;
+    let storeInfo = this.props.init.nshop.current;
     if (storeInfo == null) return null;
     const storeDefinition = common.getStoreDefinition(storeInfo.loopValues);
     return (

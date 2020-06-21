@@ -4,18 +4,20 @@ import * as storeCommon from "../../../store/searchFile/SearchCommon";
 
 export class ProductItems extends React.Component {
   getProductions() {
-    let product = this.props.init.product;
+    let product = this.props.init.product.dataList;
 
     if (product == null) return null;
 
     let cards = [];
     for (let index = 0; index < product.values.length; index++) {
-      let current = storeCommon.getCurrentProduct(this.props.init, index);
+
+
       cards.push(
         <common.Card
+          key={index}
           init={this.props.init}
           mode={"product"}
-          current={current}
+          current={storeCommon.getCurrentProduct(this.props.init, index)}
         />
       );
     }

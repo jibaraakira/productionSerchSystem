@@ -1,14 +1,13 @@
 import { applyMiddleware, combineReducers, compose, createStore } from "redux";
 import thunk from "redux-thunk";
 import { routerReducer, routerMiddleware } from "react-router-redux";
-import * as Counter from "./Counter";
-import * as Maps from "./mapStore";
+
+//import * as Maps from "./mapStore";
 import * as Search from "./searchFile/search";
 import * as SearchSetting from "./searchFile/searchSettingSub";
 export default function configureStore(history, initialState) {
   const reducers = {
-    counter: Counter.reducer,
-    maps: Maps.reducer,
+    //maps: Maps.reducer,
     search: Search.reducer,
     searchSetting: SearchSetting.reducer,
   };

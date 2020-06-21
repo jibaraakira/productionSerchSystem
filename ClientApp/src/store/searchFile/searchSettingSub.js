@@ -25,7 +25,7 @@ export const actionCreators = {
   createStoreInfo: () => ({ type: createStoreInfo }),
   searchProducts: () => ({ type: searchProducts }),
   createProductInfo: () => ({ type: createProductInfo }),
-  updateProductInfo: () => ({ type: updateProductInfo }),
+  updateProductInfo: (index) => ({ type: updateProductInfo, index }),
   deleteProductInfo: () => ({ type: deleteProductInfo }),
 };
 
@@ -73,42 +73,47 @@ class searchReducer {
   // }
 
   editStoreInfo(state, action) {
-    if (action == null) return state;
+
     return {
       ...state,
-      canEditStoreSearch: true,
+      nshop: { ...state.nshop, canEdit: true }
     };
   }
 
   endToEditStoreInfo(state, action) {
     if (action == null) return state;
-    let update = Object.assign({}, state.currentStoreInfo);
+    let update = Object.assign({}, state.nshop.current);
     let shopInfo = Object.assign({}, state.shopInfo);
 
     update.loopValues.forEach((ele) => {
       shopInfo.values[update.valuesIndex][ele.keyName] = ele.value;
     });
-
     return {
       ...state,
-      shopInfo: shopInfo,
-      canEditStoreSearch: false,
+      nshop: {
+        ...state.nshop,
+        dataList: shopInfo,
+        canEdit: false,
+      },
     };
   }
 
   insertValue(state, action) {
     if (action == null) return state;
-    let selectedStore = Object.assign({}, state.shopInfo.values);
-
-    selectedStore[action.index][action.valueKeyName] = action.value;
+    let selectedStore = state.nshop.dataList.values;
+    selectedStore[action.index][action.valueKeyName]
+      = action.value;
 
     return {
       ...state,
-      currentStoreInfo: this.objectCreator.createDatasets(
-        action.index,
-        state.shopInfo.valueNames,
-        selectedStore[action.index]
-      ),
+      nshop: {
+        ...state.nshop,
+        current: this.objectCreator.createDatasets(
+          action.index,
+          state.nshop.dataList.valueNames,
+          selectedStore[action.index]
+        ),
+      },
     };
   }
   createStoreInfo(state, action) {
@@ -120,7 +125,11 @@ class searchReducer {
   searchProducts(state, action) {
     return {
       ...state,
-      product: this.dum.getDummyProductInfo(),
+      product: {
+        ...state.product,
+        dataList: this.dum.getDummyProductInfo(),
+      }
+
     };
   }
 
@@ -130,10 +139,16 @@ class searchReducer {
   }
 
   updateProductInfo(state, action) {
-    let flag = state.canEditProduct;
+
+    let flag = state.product.canEdit;
     return {
       ...state,
-      canEditProduct: !flag,
+      product: {
+        ...state.product,
+        canEdit: !flag,
+        currentIndex: action.index,
+      }
+
     };
   }
   deleteProductInfo(state, action) {

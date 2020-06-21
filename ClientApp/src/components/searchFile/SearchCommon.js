@@ -1,5 +1,5 @@
 import React from "react";
-
+import * as common from "../../store/searchFile/SearchCommon";
 export function createDefinitions(storeInfo) {
   let definitions = [];
   storeInfo.forEach((ele) => {
@@ -14,7 +14,6 @@ export function createDefinitions(storeInfo) {
 }
 
 export function getStoreDefinition(storeInfo) {
-  console.log(storeInfo);
   if (storeInfo == null) return null;
 
   let definitions = createDefinitions(storeInfo);
@@ -22,14 +21,14 @@ export function getStoreDefinition(storeInfo) {
   return <div className="proinfo__data--type1">{definitions}</div>;
 }
 
-export function getProductDefinitions(product) {
+export function getProductDefinitions(product, title) {
   if (product == null) return null;
 
   let definitions = createDefinitions(product);
 
   return (
     <div className="proinfo__detail">
-      <h3>商品詳細</h3>
+      <h3>{title}</h3>
       <div className="proinfo__data--type1">{definitions}</div>
     </div>
   );
@@ -42,8 +41,6 @@ export class InputDefinition extends React.Component {
 
   render() {
     let dataSet = this.props.dataSet;
-    console.log("insert");
-    console.log(dataSet);
     if (dataSet == null) return null;
     const definitions = [];
     dataSet.loopValues.forEach((ele) => {
@@ -69,40 +66,49 @@ export class InputDefinition extends React.Component {
 
 export class Card extends React.Component {
 
+  renderDefinition(outArgs) {
 
-  renderDefinition(mode, current) {
     const renderProperty = function (props) {
-      if (mode === 'store') {
+      if (outArgs.mode === 'store') {
         return {
-          info: props.init.currentStoreInfo,
-          canEdit: props.init.canEditStoreSearch,
-          isNone: props.init.storeInfoIsNone,
+          info: props.init.nshop.current,
+          canEdit: props.init.nshop.canEdit,
+          isNone: props.init.nshop.currentInfoIsNull,
+          title: "",
+          class: "proinfo__data--type2"
         };
       }
 
-      if (mode === 'product') {
+      if (outArgs.mode === 'product') {
+        let currentIndex = props.init.product.currentIndex;
+        let canEdit = null;
+        if (currentIndex == null) {
+          canEdit = props.init.product.canEdit;
+        } else {
+          canEdit = props.init.product.canEdit &&
+            outArgs.current.valuesIndex === currentIndex;
+        }
         return {
-          info: current,
-          canEdit: props.init.canEditProduct,
-          isNone: props.init.productInfoIsNone,
+          info: outArgs.current,
+          canEdit: canEdit,
+          isNone: props.init.product.currentInfoIsNull,
+          title: "商品詳細",
+          class: "proinfo__data--type1"
         };
       }
     }
 
-
+    console.log(outArgs.current);
     let property = renderProperty(this.props);
-    if (property === undefined) return null;
-
     if (property.canEdit) {
       return (
-        <div className="proinfo__data--type2">
+        <div className={property.class}>
           <InputDefinition init={this.props.init} dataSet={property.info} />
         </div>
       );
     }
-
     if (!property.isNone) {
-      return getProductDefinitions(property.info.loopValues);
+      return getProductDefinitions(property.info.loopValues, property.title);
     } else {
       return <div>現在設定されていません。</div>;
     }
@@ -164,7 +170,7 @@ export class Card extends React.Component {
       </div>
     );
 
-    if (this.props.init.canEditStoreSearch) {
+    if (this.props.init.nshop.canEdit) {
       return saveButton;
     } else {
       return updateButton;
@@ -189,20 +195,24 @@ export class Card extends React.Component {
 
   render() {
     let cardSetting = { topPartial: null, button: null };
-
+    let objCreator = new common.objectCreator();
     if (this.props.mode === "store") {
       let prop = this.props.init;
+      let outerArgs = objCreator.createDefProperty({
+        mode: this.props.mode,
+        current: null,
+      });
       cardSetting = {
         topPartial: (
           <div className="property__toppartial">
             <div className="property__img"></div>
-            <div className="property__detail">{this.renderDefinition(this.props.mode, null)}</div>
+            <div className="property__detail">{this.renderDefinition(outerArgs)}</div>
           </div>
         ),
         button: this.getButtons(
           {
-            infoIsNone: prop.canEditStoreSearch,
-            canEdit: prop.storeInfoIsNone,
+            infoIsNone: prop.nshop.currentInfoIsNull,
+            canEdit: prop.nshop.canEdit,
           },
           {
             insertMethod: prop.endToEditStoreInfo,
@@ -215,22 +225,25 @@ export class Card extends React.Component {
 
     if (this.props.mode === "product") {
       let prop = this.props.init;
+      var outerArgs = objCreator.createDefProperty({
+        mode: this.props.mode,
+        current: this.props.current,
+      });
       cardSetting = {
         topPartial: (
           <div className="property__toppartial">
             <div className="property__img"></div>
-            {this.renderDefinition(this.props.mode, this.props.current)}
-
+            {this.renderDefinition(outerArgs)}
           </div>
         ),
         button: this.getButtons(
           {
-            infoIsNone: prop.canEditProduct,
-            canEdit: prop.productInfoIsNone,
+            infoIsNone: prop.nshop.currentInfoIsNull,
+            canEdit: prop.nshop.canEdit,
           },
           {
             insertMethod: prop.createProductInfo,
-            updateMethod: prop.updateProductInfo,
+            updateMethod: () => prop.updateProductInfo(this.props.current.valuesIndex),
             deleteMethod: prop.deleteProductInfo,
           }
         ),

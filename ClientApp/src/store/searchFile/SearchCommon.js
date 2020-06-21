@@ -4,6 +4,7 @@ export class objectCreator {
     this.counterOf = 0;
     this.coun = 0;
   }
+
   createDataSetObject() {
     return {
       viewNames: null,
@@ -11,25 +12,25 @@ export class objectCreator {
     };
   }
 
-  createSearchResult({ storeName, productName, placeName, value, count } = {}) {
+  createSearchResultItem({ storeName, productName, placeName, value, count } = {}) {
     const resultObj = {
       index: this.counterOf++,
-      storeName: storeName,
-      productName: productName,
-      placeName: placeName,
-      value: value,
-      count: count,
+      storeName,
+      productName,
+      placeName,
+      value,
+      count,
     };
     return resultObj;
   }
 
   createShopInfo({ storeName, address, telephone, url, time } = {}) {
     const shopInfo = {
-      storeName: storeName,
-      address: address,
-      telephone: telephone,
-      url: url,
-      time: time,
+      storeName,
+      address,
+      telephone,
+      url,
+      time,
     };
     return shopInfo;
   }
@@ -45,22 +46,30 @@ export class objectCreator {
   } = {}) {
     const shopInfo = {
       index: this.coun++,
-      productName: productName,
-      value: value,
-      count: count,
-      commonName: commonName,
-      expirationDate: expirationDate,
-      seller: seller,
-      factory: factory,
+      productName,
+      value,
+      count,
+      commonName,
+      expirationDate,
+      seller,
+      factory,
     };
     return shopInfo;
   }
 
+  createDefProperty({
+    mode,
+    current,
+  } = {}) {
+    return {
+      mode,
+      current,
+    }
+  }
 
-  
   createDatasets(valuesIndex, valueNames, values) {
     let dataSet = {
-      valuesIndex: valuesIndex,
+      valuesIndex,
       loopValues: null,
     };
     let loopValues = [];
@@ -75,23 +84,42 @@ export class objectCreator {
     dataSet.loopValues = loopValues;
     return dataSet;
   }
+
+  createProductDefinition(dataset) {
+    return {
+      canEditProduct: false,
+      dataset,
+    }
+  }
+
+  createEntityRenderSet() {
+    return {
+      canEdit: null,
+      current: null,
+      currentIndex: null,
+      dataList: null,
+      currentInfoIsNull: null,
+    }
+  }
+  createSerchResult() {
+    return {
+      resultList: null,
+      currentStore: null,
+      currentProduct: null,
+    }
+  }
 }
 
 export class stateCreator {
   constructor() {
+    this.objectCreator = new objectCreator();
     this.stateOrigin = {
-      searchResult: null,
-      shopInfo: null,
-      currentStoreInfo: null,
-      storeInfoIsNone: null,
-      canEditStoreSearch: null,
-      productInfoIsNone: null,
-      canEditProduct: null,
-      product: null,
-      currentProduct: null,
+      searchResult: this.objectCreator.createSerchResult(),
+      nshop: this.objectCreator.createEntityRenderSet(),
+      product: this.objectCreator.createEntityRenderSet(),
     };
     this.dum = new dummy();
-    this.objectCreator = new objectCreator();
+
   }
 
   getSearch() {
@@ -103,15 +131,17 @@ export class stateCreator {
     let dummy = this.stateOrigin;
     Object.assign(dummy, {
       shopInfo: storeInfoDum,
-      currentStoreInfo: this.objectCreator.createDatasets(
-        0,
-        storeInfoDum.valueNames,
-        storeInfoDum.values[0]
-      ),
-      productInfoIsNone: false,
-      canEditProduct: false,
-      storeInfoIsNone: false,
-      canEditStoreSearch: false,
+      nshop: {
+        canEdit: false,
+        current: this.objectCreator.createDatasets(
+          0,
+          storeInfoDum.valueNames,
+          storeInfoDum.values[0]
+        ),
+        currentIndex: 0,
+        currentInfoIsNull: false,
+        dataList: storeInfoDum.values,
+      },
     });
     return dummy;
   }
@@ -119,25 +149,29 @@ export class stateCreator {
 
 export function getCurrentStore(state, selectedResult) {
   const objCreator = new objectCreator();
-  let storeIndex = state.shopInfo.values.findIndex((store) => {
+  let dataList = state.nshop.dataList;
+  let storeIndex = dataList.values.findIndex((store) => {
     return store.storeName === selectedResult.storeName;
   });
 
   return objCreator.createDatasets(
     storeIndex,
-    state.shopInfo.valueNames,
-    state.shopInfo.values[storeIndex]
+    dataList.valueNames,
+    dataList.values[storeIndex]
   );
 }
 
 export function getCurrentProduct(state, selectedIndex) {
+
   const objCreator = new objectCreator();
-  let productIndex = state.product.values.findIndex((product) => {
+  let dataList = state.product.dataList;
+  let productIndex = dataList.values.findIndex((product) => {
     return product.index === selectedIndex;
   });
+
   return objCreator.createDatasets(
     productIndex,
-    state.product.valueNames,
-    state.product.values[productIndex]
+    dataList.valueNames,
+    dataList.values[productIndex]
   );
 }

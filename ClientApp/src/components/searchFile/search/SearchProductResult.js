@@ -2,7 +2,8 @@ import React from "react";
 import * as common from "../SearchCommon";
 export class ProductResult extends React.Component {
   render() {
-    let product = this.props.init.currentProduct;
+
+    let product = this.props.init.product.current;
     if (product == null) return null;
     let productDefinitions = common.getProductDefinitions(product.loopValues);
     return (
