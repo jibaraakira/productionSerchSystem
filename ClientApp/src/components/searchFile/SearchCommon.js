@@ -12,6 +12,7 @@ export function createDefinitions(storeInfo) {
   });
   return definitions;
 }
+
 export function getStoreDefinition(storeInfo) {
   console.log(storeInfo);
   if (storeInfo == null) return null;
@@ -22,7 +23,6 @@ export function getStoreDefinition(storeInfo) {
 }
 
 export function getProductDefinitions(product) {
-  console.log(product);
   if (product == null) return null;
 
   let definitions = createDefinitions(product);
@@ -68,23 +68,45 @@ export class InputDefinition extends React.Component {
 }
 
 export class Card extends React.Component {
-  renderDefinition() {
-    const current = this.props.init.currentStoreInfo;
-    const storeInfoIsNone = this.props.init.storeInfoIsNone;
 
-    if (this.props.init.canEditStoreSearch) {
+
+  renderDefinition(mode, current) {
+    const renderProperty = function (props) {
+      if (mode === 'store') {
+        return {
+          info: props.init.currentStoreInfo,
+          canEdit: props.init.canEditStoreSearch,
+          isNone: props.init.storeInfoIsNone,
+        };
+      }
+
+      if (mode === 'product') {
+        return {
+          info: current,
+          canEdit: props.init.canEditProduct,
+          isNone: props.init.productInfoIsNone,
+        };
+      }
+    }
+
+
+    let property = renderProperty(this.props);
+    if (property === undefined) return null;
+
+    if (property.canEdit) {
       return (
         <div className="proinfo__data--type2">
-          <InputDefinition init={this.props.init} dataSet={current} />
+          <InputDefinition init={this.props.init} dataSet={property.info} />
         </div>
       );
     }
 
-    if (!storeInfoIsNone) {
-      return getProductDefinitions(current.loopValues);
+    if (!property.isNone) {
+      return getProductDefinitions(property.info.loopValues);
     } else {
       return <div>現在設定されていません。</div>;
     }
+
   }
 
   insertButton() {
@@ -164,6 +186,7 @@ export class Card extends React.Component {
       </div>
     );
   }
+
   render() {
     let cardSetting = { topPartial: null, button: null };
 
@@ -173,7 +196,7 @@ export class Card extends React.Component {
         topPartial: (
           <div className="property__toppartial">
             <div className="property__img"></div>
-            <div className="property__detail">{this.renderDefinition()}</div>
+            <div className="property__detail">{this.renderDefinition(this.props.mode, null)}</div>
           </div>
         ),
         button: this.getButtons(
@@ -196,7 +219,8 @@ export class Card extends React.Component {
         topPartial: (
           <div className="property__toppartial">
             <div className="property__img"></div>
-            {getProductDefinitions(this.props.current.loopValues)}
+            {this.renderDefinition(this.props.mode, this.props.current)}
+
           </div>
         ),
         button: this.getButtons(

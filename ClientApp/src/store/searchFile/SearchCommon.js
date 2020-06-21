@@ -55,6 +55,9 @@ export class objectCreator {
     };
     return shopInfo;
   }
+
+
+  
   createDatasets(valuesIndex, valueNames, values) {
     let dataSet = {
       valuesIndex: valuesIndex,
