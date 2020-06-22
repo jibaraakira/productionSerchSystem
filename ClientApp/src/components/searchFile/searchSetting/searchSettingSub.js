@@ -3,7 +3,7 @@ import * as common from "../SearchCommon";
 export class Header extends React.Component {
   render() {
     return (
-      <div className="container">
+      <div className="lock-container">
         <h1 className="logo">店内商品位置検索サービス</h1>
         <nav className="nav-menu">
           <form className="nav__form" action="POST">

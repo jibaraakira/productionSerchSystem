@@ -28,7 +28,7 @@ export class ProductItems extends React.Component {
   render() {
     let productCards = this.getProductions();
     return (
-      <section id="products" className="products">
+      <article id="products" className="products">
         <div className="property__title section-title">
           <h1>商品項目</h1>
         </div>
@@ -66,7 +66,7 @@ export class ProductItems extends React.Component {
           </div>
           {productCards}
         </div>
-      </section>
+      </article>
     );
   }
 }

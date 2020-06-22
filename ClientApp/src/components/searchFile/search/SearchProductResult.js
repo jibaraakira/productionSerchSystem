@@ -7,12 +7,14 @@ export class ProductResult extends React.Component {
     if (product == null) return null;
     let productDefinitions = common.getProductDefinitions(product.loopValues);
     return (
-      <div className="proinfo__cards container">
-        <div className="proinfo__card--result">
-          <div className="proinfo__img"></div>
-          {productDefinitions}
+      <article class="proinfo__result">
+        <div className="proinfo__cards container">
+          <div className="proinfo__card--result">
+            <div className="proinfo__img"></div>
+            {productDefinitions}
+          </div>
         </div>
-      </div>
+      </article>
     );
   }
 }

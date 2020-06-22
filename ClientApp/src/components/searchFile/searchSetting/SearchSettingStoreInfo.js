@@ -4,7 +4,8 @@ import * as common from "../SearchCommon";
 export class StoreInfo extends React.Component {
   getStoreMapSetter() {
     return (
-      <section className="property__mapsetting">
+
+      <div className="property__mapsetting">
         <div className="property__toppertail section-title">
           <h2>店内図</h2>
         </div>
@@ -65,21 +66,23 @@ export class StoreInfo extends React.Component {
             </div>
           </div>
         </div>
-      </section>
+      </div>
+
+
     );
   }
-  renderInsertedStoreDefinition() {}
+  renderInsertedStoreDefinition() { }
 
   render() {
     const storeMapSetter = this.getStoreMapSetter();
     return (
-      <div>
+      <article id="shopinfo" >
         <section className="property__shopdetail contact section-title">
           <h1>店舗情報</h1>
           <common.Card init={this.props.init} mode={'store'} />
         </section>
         {storeMapSetter}
-      </div>
+      </article>
     );
   }
 }

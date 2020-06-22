@@ -15,12 +15,12 @@ section:last-child {
   height: auto;
 }
 
-#header .container {
+#header .lock-container {
   display: flex;
   justify-content: space-between;
 }
 
-#header .container .logo {
+#header .lock-container .logo {
   color: white;
 }
 
@@ -36,7 +36,7 @@ section:last-child {
   #header {
     height: auto;
   }
-  #header .container {
+  #header .lock-container {
     margin: auto;
     display: block;
   }

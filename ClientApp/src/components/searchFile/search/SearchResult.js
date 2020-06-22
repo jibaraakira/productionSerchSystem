@@ -39,14 +39,16 @@ export class SearchResult extends React.Component {
     const result = this.renderResult();
 
     return (
-      <div className="result__container container">
-        <div className="result__title section-title">
-          <h2>検索結果</h2>
+      <article id="searchresult" class="result portfolio">
+        <div className="result__container container">
+          <div className="result__title section-title">
+            <h2>検索結果</h2>
+          </div>
+          <div className="result__keywordresults portfolio-container">
+            {result}
+          </div>
         </div>
-        <div className="result__keywordresults portfolio-container">
-          {result}
-        </div>
-      </div>
+      </article>
     );
   }
 }

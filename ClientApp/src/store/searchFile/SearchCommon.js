@@ -140,7 +140,7 @@ export class stateCreator {
         ),
         currentIndex: 0,
         currentInfoIsNull: false,
-        dataList: storeInfoDum.values,
+        dataList: storeInfoDum,
       },
     });
     return dummy;
