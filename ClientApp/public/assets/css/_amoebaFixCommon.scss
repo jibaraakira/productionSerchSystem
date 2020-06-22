@@ -65,10 +65,10 @@ section {
 }
 
 #heroSearch {
+
   h1 {
     margin: 20px;
   }
-  height: 100vh;
   .btn-get-started {
     display: block;
     width: 30%;
@@ -84,7 +84,7 @@ section {
   }
   &__input {
     margin: 10px 0;
-    width: 80%;
+    width: 50%;
   }
 }
 
@@ -132,7 +132,7 @@ section {
     background-color: $color-accent;
     color: $color-base;
     border: 1px solid $color-base;
-
+    margin: 0 5px;
     &:focus {
       background-color: $color-accent;
       color: $color-base;
