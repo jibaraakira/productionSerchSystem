@@ -1,5 +1,5 @@
 import React from "react";
-import { Header } from "./SearchSettingHeader";
+import { Header } from "../SearchHeader";
 import { StoreInfo } from "./SearchSettingStoreInfo";
 import { ProductItems } from "./SearchSettingProductItems";
 import { actionCreators } from "../../../store/searchFile/searchSettingSub";
@@ -11,8 +11,10 @@ export class Setting extends React.Component {
     return (
       <div>
         <Header init={this.props} />
-        <StoreInfo init={this.props} />
-        <ProductItems init={this.props} />
+        <main>
+          <StoreInfo init={this.props} />
+          <ProductItems init={this.props} />
+        </main>
       </div>
     );
   }

@@ -3,6 +3,7 @@ import { dummy } from "./DummyData";
 
 const searchProduct = "Search";
 const selectStore = "selectStore";
+const memoryStoreSearch = "memoryStoreSearch";
 
 export const actionCreators = {
   searchProduct: () => ({ type: searchProduct }),
@@ -13,10 +14,11 @@ export const actionCreators = {
       selectedKeyWord: key,
     };
   },
+  memoryStoreSearch: () => ({ type: memoryStoreSearch }),
 };
 
 const dum = new dummy();
-const initial = new common.stateCreator().getSearch();
+const initial = new common.stateCreator().getSearchDefault();
 export const reducer = (state, action) => {
   state = state || initial;
 
@@ -30,19 +32,21 @@ export const reducer = (state, action) => {
       },
       store: {
         ...state.store,
-        dataList: dum.getDummyStoreInfo(true),
+        dataContainer: dum.getDummyStoreContainer(true),
       },
       product: {
         ...state.product,
-        dataList: dum.getDummyProductInfo(),
-      }
+        dataContainer: dum.getDummyProductContainer(),
+      },
     };
   }
 
   if (action.type === selectStore) {
-    let selectedResult = state.searchResult.resultList["list"].find((result) => {
-      return result.index === action.selectedIndex;
-    });
+    let selectedResult = state.searchResult.resultList["list"].find(
+      (result) => {
+        return result.index === action.selectedIndex;
+      }
+    );
 
     return {
       ...state,
@@ -53,9 +57,10 @@ export const reducer = (state, action) => {
       product: {
         ...state.product,
         current: common.getCurrentProduct(state, action.selectedIndex),
-      }
+      },
     };
   }
-
+  if (action.type === memoryStoreSearch) {
+  }
   return state;
 };

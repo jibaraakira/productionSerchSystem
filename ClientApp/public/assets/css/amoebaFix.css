@@ -2,6 +2,10 @@ button:focus {
   outline: none;
 }
 
+body {
+  color: #555;
+}
+
 section {
   padding: 0;
   margin-top: 20px;
@@ -54,24 +58,45 @@ section:last-child {
   justify-content: center;
 }
 
-#heroSearch {
-  position: unset;
+.mainsearch {
   background: rgba(112, 185, 176, 0.85);
+  padding-bottom: 30px;
 }
 
-#heroSearch:before {
-  position: unset;
+.mainsearch__container h1 {
+  text-align: center;
+  margin: 20px auto;
 }
 
-#heroSearch h1 {
-  margin: 20px;
+.mainsearch__search {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  vertical-align: middle;
+  padding: 5px 0;
 }
 
-#heroSearch .btn-get-started {
+.mainsearch__search .button--search1 {
+  height: 100%;
+  margin: 10px 5px;
+}
+
+.mainsearch .search__input {
+  margin: 10px 5px;
+}
+
+.mainsearch .btn-get-started {
   display: block;
   width: 30%;
   margin: 0 auto;
   margin-top: 10px;
+}
+
+.btn-get-started:active {
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+  transition: background-color 50ms;
 }
 
 .search__form {
@@ -96,6 +121,7 @@ section:last-child {
   border-radius: 5px;
   border: 1px solid white;
   height: 40px;
+  transition: all 150ms;
   /* IE */
   /* Edge */
 }
@@ -135,16 +161,20 @@ section:last-child {
 
 .input--type2 {
   background-color: #85c3bc;
-  color: #2d6760;
+  color: #082925;
   border: 1px solid #2d6760;
   margin: 0 5px;
   /* IE */
   /* Edge */
 }
 
+.input--type2:hover {
+  border: 1px solid white;
+}
+
 .input--type2:focus {
   background-color: #85c3bc;
-  color: #2d6760;
+  color: #082925;
 }
 
 .input--type2::placeholder {
@@ -196,8 +226,8 @@ section:last-child {
   border-style: none;
   background-color: #2d6760;
   border-radius: 20px;
-  -webkit-transition: all 0.5s;
-  transition: all 0.5s;
+  -webkit-transition: all 150ms;
+  transition: all 150ms;
 }
 
 .button:hover, .button--insert:hover, .button--insertnormal:hover, .button--insertproduct:hover, .button--update:hover, .button--delete:hover {
@@ -241,6 +271,8 @@ section:last-child {
   border-radius: 20px;
   padding: 5px;
   display: block;
+  -webkit-transition: all 150ms;
+  transition: all 150ms;
 }
 
 .button--login:hover {
@@ -257,6 +289,7 @@ section:last-child {
 
 .button--search, .button--search1, .button--search2 {
   background-color: transparent;
+  transition: all 150ms;
   padding: 8px 28px 10px 28px;
   border-radius: 50px;
   transition: 0.5s;
@@ -275,7 +308,7 @@ section:last-child {
 }
 
 .button--search1 {
-  margin: 10px auto;
+  width: 10%;
 }
 
 .button--search2 {
@@ -339,23 +372,12 @@ section:last-child {
   padding: 20px;
 }
 
-#heroSearch .btn-get-started:active {
-  background-color: transparent;
-  color: white;
-  border: 1px solid white;
-  transition: background-color 50ms;
-}
-
-#heroSearch .heroSearch-container {
-  padding-top: 0px;
-}
-
 .result__keywordetitle {
   margin-bottom: 20px;
 }
 
 .result__title h2 {
-  padding-top: 50px;
+  justify-content: center;
 }
 
 .result__result {
@@ -384,6 +406,10 @@ section:last-child {
 
 .result__details {
   margin-top: 10px;
+}
+
+.result__resultMessage {
+  text-align: center;
 }
 
 .proinfo {
@@ -476,7 +502,6 @@ section:last-child {
 #shopinfo {
   background-color: #dcf3f0;
   padding: 80px 0;
-  margin-top: 90px;
 }
 
 .property {
@@ -548,6 +573,11 @@ section:last-child {
 
 .property__btncontainer {
   display: flex;
+}
+
+.property__controlindex {
+  margin-top: 20px;
+  text-align: center;
 }
 
 .property__mapsetting {

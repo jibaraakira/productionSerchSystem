@@ -1,6 +1,7 @@
 $color-main: #dcf3f0;
 $color-base: #2d6760;
 $color-accent: rgb(133, 195, 188);
+$color-accent2: rgb(112, 185, 176);
 $button-color-insert: $color-accent;
 $button-color-update: $color-base;
 $button-color-delete: red;
@@ -8,11 +9,17 @@ $button-color-delete: red;
 $color-pin-active: rgb(192, 62, 62);
 $color-pin-normal: $color-accent;
 $color-pin-line: rgb(218, 205, 29);
-$transition-type1 : all 100ms;
+$color-font-type1: #555;
+$color-font-type2: #082925;
+$transition-type1: all 150ms;
+
 button:focus {
   outline: none;
 }
 
+body {
+  color: $color-font-type1;
+}
 section {
   padding: 0;
   margin-top: 20px;
@@ -64,20 +71,46 @@ section {
   justify-content: center;
 }
 
-#heroSearch {
-  position: unset;
-  background: rgba(112,185,176,.85);
-  &:before{
-     position: unset;
+.mainsearch {
+  background: rgba(112, 185, 176, 0.85);
+  padding-bottom: 30px;
+  &__container {
+    h1 {
+      text-align: center;
+      margin: 20px auto;
+    }
   }
-  h1 {
-    margin: 20px;
+
+  &__search {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    vertical-align: middle;
+    padding: 5px 0;
+    .button--search1 {
+      height: 100%;
+      margin: 10px 5px;
+    }
   }
+
+  .search__input {
+    margin: 10px 5px;
+  }
+
   .btn-get-started {
     display: block;
     width: 30%;
     margin: 0 auto;
     margin-top: 10px;
+  }
+}
+
+.btn-get-started {
+  &:active {
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+    transition: background-color 50ms;
   }
 }
 
@@ -90,8 +123,8 @@ section {
     margin: 10px 0;
     width: 50%;
   }
-  &__button{
-    width:30%;
+  &__button {
+    width: 30%;
   }
 }
 
@@ -104,7 +137,7 @@ section {
   border-radius: 5px;
   border: 1px solid white;
   height: 40px;
-
+  transition: $transition-type1;
   &:focus {
     &::placeholder {
       color: transparent;
@@ -118,6 +151,7 @@ section {
       color: transparent;
     }
   }
+
   &::placeholder {
     color: $color-main;
   }
@@ -130,22 +164,26 @@ section {
     color: $color-main;
   }
 
-  &--type1{
+  &--type1 {
     @extend .input;
     &:hover {
-      $color : rgb(187, 186, 186);
-      border: 1px solid $color ;
+      $color: rgb(187, 186, 186);
+      border: 1px solid $color;
     }
   }
   &--type2 {
     @extend .input;
     background-color: $color-accent;
-    color: $color-base;
+    color: $color-font-type2;
     border: 1px solid $color-base;
     margin: 0 5px;
+    &:hover {
+      $color: white;
+      border: 1px solid $color;
+    }
     &:focus {
       background-color: $color-accent;
-      color: $color-base;
+      color: $color-font-type2;
     }
     &::placeholder {
       color: $color-base;
@@ -195,8 +233,9 @@ section {
   border-style: none;
   background-color: $color-base;
   border-radius: 20px;
-  -webkit-transition: all 0.5s;
-  transition: all 0.5s;
+  -webkit-transition: $transition-type1;
+  transition: $transition-type1;
+
   &:hover {
     color: $color-base;
     background-color: #fff;
@@ -248,6 +287,9 @@ section {
     border-radius: 20px;
     padding: 5px;
     display: block;
+    -webkit-transition: $transition-type1;
+    transition: $transition-type1;
+
     &:hover {
       background-color: $color-base;
       border: 1px solid $color-main;
@@ -262,7 +304,7 @@ section {
 
   &--search {
     background-color: transparent;
-
+    transition: $transition-type1;
     padding: 8px 28px 10px 28px;
     border-radius: 50px;
     transition: 0.5s;
@@ -279,7 +321,7 @@ section {
 
     &1 {
       @extend .button--search;
-      margin: 10px auto;
+      width: 10%;
     }
     &2 {
       @extend .button--search;
@@ -413,20 +455,6 @@ section {
   }
 }
 
-
-#heroSearch .btn-get-started {
-  &:active {
-    background-color: transparent;
-    color: white;
-    border: 1px solid white;
-    transition: background-color 50ms;
-  }
-}
-
-#heroSearch .heroSearch-container{
-   padding-top: 0px;
-}
-
 .result {
   &__keywordetitle {
     margin-bottom: 20px;
@@ -434,7 +462,7 @@ section {
 
   &__title {
     h2 {
-     padding-top: 50px;
+      justify-content: center;
     }
   }
 
@@ -459,6 +487,9 @@ section {
   }
   &__details {
     margin-top: 10px;
+  }
+  &__resultMessage {
+    text-align: center;
   }
 }
 
@@ -490,7 +521,6 @@ section {
   @include img;
 }
 
-
 #main {
   margin-top: 0;
 }
@@ -515,7 +545,6 @@ section {
 #shopinfo {
   background-color: $color-main;
   padding: 80px 0;
-  margin-top: 90px;
 }
 
 .property {
@@ -570,7 +599,10 @@ section {
   &__btncontainer {
     display: flex;
   }
-  &__pointcontrol {
+
+  &__controlindex {
+    margin-top: 20px;
+    text-align: center;
   }
 
   &__mapsetting {

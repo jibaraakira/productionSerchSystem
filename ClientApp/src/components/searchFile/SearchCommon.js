@@ -1,11 +1,19 @@
 import React from "react";
 import * as common from "../../store/searchFile/SearchCommon";
+
+export function selectJsx(jsxArray, keyName, selector) {
+  let result = jsxArray.find((index) => {
+    return index[keyName] === selector;
+  });
+  return result;
+}
+
 export function createDefinitions(storeInfo) {
   let definitions = [];
   storeInfo.forEach((ele) => {
     definitions.push(
       <dl>
-        <dt>{ele.valueNames}</dt>
+        <dt>{ele.logicName}</dt>
         <dd>{ele.value}</dd>
       </dl>
     );
@@ -48,61 +56,54 @@ export class InputDefinition extends React.Component {
   render() {
     let dataSet = this.props.dataSet;
     if (dataSet == null) return null;
-    const definitions = [];
 
     let insertMethod = function (th, keyName, valuesIndex) {
-      if (th.props.mode === 'store') {
-        return (event) =>
-          th.editStore(event, keyName, valuesIndex);
+      if (th.props.mode === "store") {
+        return (event) => th.editStore(event, keyName, valuesIndex);
       }
 
-      if (th.props.mode === 'product') {
+      if (th.props.mode === "product") {
         return (event) => th.editProduct(event, keyName, valuesIndex);
       }
-    }
-
-    dataSet.loopValues.forEach((ele) => {
-      definitions.push(
-        <dl>
-          <dt>{ele.valueNames}</dt>
-          <dd>
-            <input
-              type="text"
-              className="search__input input--type3"
-              onChange={insertMethod(this, ele.keyName, dataSet.valuesIndex)
-              }
-              defaultValue={ele.value}
-            />
-          </dd>
-        </dl>
-      );
-    });
-    return <div className="proinfo__data--type2">{definitions}</div>;
+    };
+    let data = dataSet.loopValues.map((ele) => (
+      <dl>
+        <dt>{ele.logicName}</dt>
+        <dd>
+          <input
+            type="text"
+            className="search__input input--type3"
+            onChange={insertMethod(this, ele.keyName, dataSet.valuesIndex)}
+            defaultValue={ele.value}
+          />
+        </dd>
+      </dl>
+    ));
+    return <div className="proinfo__data--type2">{data}</div>;
   }
 }
 
 export class Card extends React.Component {
-
   renderDefinition(outArgs) {
-
     const renderProperty = function (props) {
-      if (outArgs.mode === 'store') {
+      if (outArgs.mode === "store") {
         return {
           info: props.init.store.current,
           canEdit: props.init.store.canEdit,
           isNone: props.init.store.currentInfoIsNull,
           title: "",
-          class: "proinfo__data--type2"
+          class: "proinfo__data--type2",
         };
       }
 
-      if (outArgs.mode === 'product') {
+      if (outArgs.mode === "product") {
         let currentIndex = props.init.product.currentIndex;
         let canEdit = null;
         if (currentIndex == null) {
           canEdit = props.init.product.canEdit;
         } else {
-          canEdit = props.init.product.canEdit &&
+          canEdit =
+            props.init.product.canEdit &&
             outArgs.current.valuesIndex === currentIndex;
         }
         return {
@@ -110,16 +111,20 @@ export class Card extends React.Component {
           canEdit: canEdit,
           isNone: props.init.product.currentInfoIsNull,
           title: "商品詳細",
-          class: "proinfo__data--type1"
+          class: "proinfo__data--type1",
         };
       }
-    }
+    };
 
     let property = renderProperty(this.props);
     if (property.canEdit) {
       return (
         <div className={property.class}>
-          <InputDefinition init={this.props.init} dataSet={property.info} mode={this.props.mode} />
+          <InputDefinition
+            init={this.props.init}
+            dataSet={property.info}
+            mode={this.props.mode}
+          />
         </div>
       );
     }
@@ -128,7 +133,6 @@ export class Card extends React.Component {
     } else {
       return <div>現在設定されていません。</div>;
     }
-
   }
 
   insertButton() {
@@ -160,8 +164,12 @@ export class Card extends React.Component {
     }
   }
 
-  renderBtns({ insertMethod, updateMethod, deleteMethod, saveBtnIsVisible } = {}) {
-
+  renderBtns({
+    insertMethod,
+    updateMethod,
+    deleteMethod,
+    saveBtnIsVisible,
+  } = {}) {
     const saveButton = (
       <button
         className="property__button button--update"
@@ -206,7 +214,7 @@ export class Card extends React.Component {
           insertMethod,
           updateMethod,
           deleteMethod,
-          saveBtnIsVisible
+          saveBtnIsVisible,
         })}
       </div>
     );
@@ -226,7 +234,9 @@ export class Card extends React.Component {
         topPartial: (
           <div className="property__toppartial">
             <div className="property__img"></div>
-            <div className="property__detail">{this.renderDefinition(outerArgs)}</div>
+            <div className="property__detail">
+              {this.renderDefinition(outerArgs)}
+            </div>
           </div>
         ),
         button: this.getButtons(
@@ -265,9 +275,11 @@ export class Card extends React.Component {
           },
           {
             insertMethod: prop.updateProductInfo,
-            updateMethod: () => prop.enableToEditProduct(this.props.current.valuesIndex),
+            updateMethod: () =>
+              prop.enableToEditProduct(this.props.current.valuesIndex),
             deleteMethod: prop.deleteProductInfo,
-            saveBtnIsVisible: prop.product.canEdit &&
+            saveBtnIsVisible:
+              prop.product.canEdit &&
               outerArgs.current.valuesIndex === prop.product.currentIndex,
           }
         ),
@@ -284,4 +296,3 @@ export class Card extends React.Component {
     );
   }
 }
-

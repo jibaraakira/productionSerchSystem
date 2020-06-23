@@ -1,25 +1,26 @@
 import React from "react";
-export class HeroSearch extends React.Component {
+export class MainSearch extends React.Component {
   render() {
     return (
-      <article id="heroSearch">
-        <div className="heroSearch-container">
-          <h1>店舗商品サーチ</h1>
-          <h2>商品があるかを検索しましょう</h2>
-          <input
-            type="text"
-            className="search__input input--type2"
-            name=""
-            aria-describedby="helpId"
-            placeholder="keyword..."
-          />
-          <button
-            href="#about"
-            className="search__button button--search1"
-            onClick={this.props.init.searchProduct}
-          >
-            検索
-        </button>
+      <article className="mainsearch" id="mainsearch">
+        <div className="mainsearch__container">
+          <h1>店内商品位置検索サービス</h1>
+          <div className="mainsearch__search">
+            <input
+              type="text"
+              className="search__input input--type2"
+              name=""
+              aria-describedby="helpId"
+              placeholder="keyword..."
+            />
+            <button
+              href="#about"
+              className="search__button button--search1"
+              onClick={this.props.init.searchProduct}
+            >
+              検索
+            </button>
+          </div>
         </div>
       </article>
     );

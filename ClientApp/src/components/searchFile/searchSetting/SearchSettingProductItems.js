@@ -4,14 +4,12 @@ import * as storeCommon from "../../../store/searchFile/SearchCommon";
 
 export class ProductItems extends React.Component {
   getProductions() {
-    let product = this.props.init.product.dataList;
+    let product = this.props.init.product.dataContainer;
 
     if (product == null) return null;
 
     let cards = [];
-    for (let index = 0; index < product.values.length; index++) {
-
-
+    for (let index = 0; index < product.valueArray.length; index++) {
       cards.push(
         <common.Card
           key={index}
@@ -34,35 +32,27 @@ export class ProductItems extends React.Component {
         </div>
         <div className="property__container container">
           <div className="property__productcontroler">
-            <dl>
-              <dt>dddd</dt>
-              <dd>
-                <button className="property__button button--insertproduct">
-                  商品を追加する
-                </button>
-              </dd>
-            </dl>
-            <dl>
-              <dt>dddd</dt>
-              <dd>
-                <div className="property__refinesearch">
-                  <input
-                    type="text"
-                    className="input--type3"
-                    name=""
-                    id=""
-                    placeholder="keyword"
-                  />
-                  <button
-                    type="button"
-                    className="nav__button button--search2"
-                    onClick={this.props.init.searchProducts}
-                  >
-                    検索
-                  </button>
-                </div>
-              </dd>
-            </dl>
+            <h2 className="property__controlindex">新規追加する</h2>
+            <button className="property__button button--insertproduct">
+              商品を追加する
+            </button>
+            <h2 className="property__controlindex">既存登録商品の検索</h2>
+            <div className="property__refinesearch">
+              <input
+                type="text"
+                className="input--type3"
+                name=""
+                id=""
+                placeholder="keyword"
+              />
+              <button
+                type="button"
+                className="nav__button button--search2"
+                onClick={this.props.init.searchProducts}
+              >
+                検索
+              </button>
+            </div>
           </div>
           {productCards}
         </div>

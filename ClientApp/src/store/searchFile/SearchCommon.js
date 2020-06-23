@@ -2,17 +2,33 @@ import { dummy } from "./DummyData";
 export class objectCreator {
   constructor() {
     this.counterOf = 0;
-    this.coun = 0;
+    this.count = 0;
   }
 
-  createDataSetObject() {
-    return {
-      viewNames: null,
-      values: null,
+  createStateObject({ searchResult, store, product } = {}) {
+    const stateObject = {
+      searchResult,
+      store,
+      product,
     };
+    return stateObject;
   }
 
-  createSearchResultItem({ storeName, productName, placeName, value, count } = {}) {
+  createDataContainerObject({ logicNames, valueArray } = {}) {
+    const dataSetObject = {
+      logicNames,
+      valueArray,
+    };
+    return dataSetObject;
+  }
+
+  createSearchResultItem({
+    storeName,
+    productName,
+    placeName,
+    value,
+    count,
+  } = {}) {
     const resultObj = {
       index: this.counterOf++,
       storeName,
@@ -24,7 +40,7 @@ export class objectCreator {
     return resultObj;
   }
 
-  createShopInfo({ storeName, address, telephone, url, time } = {}) {
+  createShopObject({ storeName, address, telephone, url, time } = {}) {
     const shopInfo = {
       storeName,
       address,
@@ -35,17 +51,19 @@ export class objectCreator {
     return shopInfo;
   }
 
-  createProductInfo({
-    productName,
-    value,
-    count,
-    commonName,
-    expirationDate,
-    seller,
-    factory,
-  } = {}) {
+  createProductObject(
+    {
+      productName,
+      value,
+      count,
+      commonName,
+      expirationDate,
+      seller,
+      factory,
+    } = {},
+    indexIsNeed
+  ) {
     const shopInfo = {
-      index: this.coun++,
       productName,
       value,
       count,
@@ -54,132 +72,165 @@ export class objectCreator {
       seller,
       factory,
     };
+
+    if (indexIsNeed) shopInfo["index"] = this.count++;
+
     return shopInfo;
   }
 
-  createDefProperty({
-    mode,
-    current,
-  } = {}) {
+  createDefProperty({ mode, current } = {}) {
     return {
       mode,
       current,
-    }
-  }
-
-  createDatasets(valuesIndex, valueNames, values) {
-    let dataSet = {
-      valuesIndex,
-      loopValues: null,
     };
-    let loopValues = [];
+  }
 
-    Object.keys(valueNames).forEach(function (key) {
-      loopValues.push({
-        keyName: key,
-        valueNames: valueNames[key],
-        value: values[key],
-      });
+  createLoopValues({ keyName, logicName, value } = {}) {
+    const loopValues = {
+      keyName,
+      logicName,
+      value,
+    };
+    return loopValues;
+  }
+
+  createDefineObject({ valuesIndex, loopValues } = {}) {
+    const define = {
+      valuesIndex,
+      loopValues,
+    };
+    return define;
+  }
+
+  convertToDefineObject(valuesIndex, logicNames, valueArray) {
+    return this.createDefineObject({
+      valuesIndex,
+      loopValues: Object.keys(logicNames).map((key) => {
+        return this.createLoopValues({
+          keyName: key,
+          logicName: logicNames[key],
+          value: valueArray[key],
+        });
+      }),
     });
-    dataSet.loopValues = loopValues;
-    return dataSet;
   }
 
-  createProductDefinition(dataset) {
-    return {
-      canEditProduct: false,
-      dataset,
-    }
-  }
+  // createProductDefinition(dataset) {
+  //   return {
+  //     canEditProduct: false,
+  //     dataset,
+  //   };
+  // }
 
-  createEntityRenderSet() {
+  createEntityState() {
     return {
       canEdit: null,
       current: null,
       currentIndex: null,
-      dataList: null,
+      dataContainer: null,
       currentInfoIsNull: null,
-    }
+    };
   }
+
   createSearchResult() {
     return {
       searchIsDone: null,
       resultList: null,
       currentStore: null,
       currentProduct: null,
-    }
+    };
+  }
+
+  createSearchResultContainer({ searchWord, list } = {}) {
+    return {
+      searchWord,
+      list,
+    };
   }
 }
 
 export class stateCreator {
   constructor() {
-    this.objectCreator = new objectCreator();
-    this.stateOrigin = {
-      searchResult: this.objectCreator.createSearchResult(),
-      store: this.objectCreator.createEntityRenderSet(),
-      product: this.objectCreator.createEntityRenderSet(),
-    };
+    this.creator = new objectCreator();
+    this.stateOrigin = this.creator.createStateObject({
+      searchResult: this.creator.createSearchResult(),
+      store: this.creator.createEntityState(),
+      product: this.creator.createEntityState(),
+    });
 
     this.dum = new dummy();
-
   }
 
-  getSearch() {
+  getSearchDefault() {
     return {
       ...this.stateOrigin,
       searchResult: {
         ...this.stateOrigin.searchResult,
+        resultList: this.creator.createSearchResultContainer({
+          searchWord: "",
+          list: [],
+        }),
         searchIsDone: false,
-      }
+      },
     };
   }
 
-  getSearchDefault() {
-    let storeInfoDum = this.dum.getDummyStoreInfo(true);
-    let dummy = this.stateOrigin;
-    Object.assign(dummy, {
-      shopInfo: storeInfoDum,
+  getSearchSettingDefault() {
+    let dummyContainer = this.dum.getDummyStoreContainer(true);
+    let dummyState = this.stateOrigin;
+    Object.assign(dummyState, {
       store: {
         canEdit: false,
-        current: this.objectCreator.createDatasets(
+        current: this.creator.convertToDefineObject(
           0,
-          storeInfoDum.valueNames,
-          storeInfoDum.values[0]
+          dummyContainer.logicNames,
+          dummyContainer.valueArray[0]
         ),
         currentIndex: 0,
         currentInfoIsNull: false,
-        dataList: storeInfoDum,
+        dataContainer: dummyContainer,
       },
     });
-    return dummy;
+    return dummyState;
   }
 }
 
 export function getCurrentStore(state, selectedResult) {
   const objCreator = new objectCreator();
-  let dataList = state.store.dataList;
-  let storeIndex = dataList.values.findIndex((store) => {
+  let dataContainer = state.store.dataContainer;
+  let storeIndex = dataContainer.valueArray.findIndex((store) => {
     return store.storeName === selectedResult.storeName;
   });
 
-  return objCreator.createDatasets(
+  return objCreator.convertToDefineObject(
     storeIndex,
-    dataList.valueNames,
-    dataList.values[storeIndex]
+    dataContainer.logicNames,
+    dataContainer.valueArray[storeIndex]
   );
 }
 
 export function getCurrentProduct(state, selectedIndex) {
-
   const objCreator = new objectCreator();
-  let dataList = state.product.dataList;
-  let productIndex = dataList.values.findIndex((product) => {
+  let dataContainer = state.product.dataContainer;
+  let productIndex = dataContainer.valueArray.findIndex((product) => {
     return product.index === selectedIndex;
   });
 
-  return objCreator.createDatasets(
+  return objCreator.convertToDefineObject(
     productIndex,
-    dataList.valueNames,
-    dataList.values[productIndex]
+    dataContainer.logicNames,
+    dataContainer.valueArray[productIndex]
+  );
+}
+
+export function getInputAction(type, valueKeyName, value, index) {
+  return Object.assign(
+    {},
+    {
+      type,
+      valueKeyName,
+      value,
+      index,
+    }
   );
 }
