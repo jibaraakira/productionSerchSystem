@@ -99,7 +99,7 @@ class searchReducer {
 
     return {
       ...state,
-      nshop: { ...state.nshop, canEdit: true }
+      store: { ...state.store, canEdit: true }
     };
   }
 
@@ -107,17 +107,17 @@ class searchReducer {
     console.log(`editstreo${action.value}`);
     if (action == null) return state;
 
-    let selectedStore = state.nshop.dataList.values[action.index];
+    let selectedStore = state.store.dataList.values[action.index];
     selectedStore[action.valueKeyName] = action.value;
 
 
     return {
       ...state,
-      nshop: {
-        ...state.nshop,
+      store: {
+        ...state.store,
         current: this.objectCreator.createDatasets(
           action.index,
-          state.nshop.dataList.valueNames,
+          state.store.dataList.valueNames,
           selectedStore
         ),
       },
@@ -126,7 +126,7 @@ class searchReducer {
 
   updateStoreInfo(state, action) {
     if (action == null) return state;
-    let update = Object.assign({}, state.nshop.current);
+    let update = Object.assign({}, state.store.current);
     let shopInfo = Object.assign({}, state.shopInfo);
 
     update.loopValues.forEach((ele) => {
@@ -134,8 +134,8 @@ class searchReducer {
     });
     return {
       ...state,
-      nshop: {
-        ...state.nshop,
+      store: {
+        ...state.store,
         dataList: shopInfo,
         canEdit: false,
       },

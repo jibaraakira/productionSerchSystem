@@ -88,9 +88,9 @@ export class Card extends React.Component {
     const renderProperty = function (props) {
       if (outArgs.mode === 'store') {
         return {
-          info: props.init.nshop.current,
-          canEdit: props.init.nshop.canEdit,
-          isNone: props.init.nshop.currentInfoIsNull,
+          info: props.init.store.current,
+          canEdit: props.init.store.canEdit,
+          isNone: props.init.store.currentInfoIsNull,
           title: "",
           class: "proinfo__data--type2"
         };
@@ -231,14 +231,14 @@ export class Card extends React.Component {
         ),
         button: this.getButtons(
           {
-            infoIsNone: prop.nshop.currentInfoIsNull,
-            canEdit: prop.nshop.canEdit,
+            infoIsNone: prop.store.currentInfoIsNull,
+            canEdit: prop.store.canEdit,
           },
           {
             insertMethod: prop.updateStoreInfo,
             updateMethod: prop.enableToEditStore,
             deleteMethod: null,
-            saveBtnIsVisible: prop.nshop.canEdit,
+            saveBtnIsVisible: prop.store.canEdit,
           }
         ),
       };
@@ -260,8 +260,8 @@ export class Card extends React.Component {
         ),
         button: this.getButtons(
           {
-            infoIsNone: prop.nshop.currentInfoIsNull,
-            canEdit: prop.nshop.canEdit,
+            infoIsNone: prop.store.currentInfoIsNull,
+            canEdit: prop.store.canEdit,
           },
           {
             insertMethod: prop.updateProductInfo,

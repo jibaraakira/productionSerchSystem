@@ -4,7 +4,7 @@ export class SearchResult extends React.Component {
     this.props.init.selectStore(key, index);
   }
 
-  renderResult() {
+  getResultCards() {
     let results = [];
     let props = this.props.init.searchResult.resultList;
     if (props == null) return null;
@@ -35,18 +35,30 @@ export class SearchResult extends React.Component {
       </div>
     );
   }
+  resultView(resultCards) {
+    let searchResult = this.props.init.searchResult;
+    if (searchResult.searchIsDone.length > 0) {
+      return (
+        <div className="result__keywordresults portfolio-container">
+          {resultCards}
+        </div>);
+    } else {
+      return (
+        <div className="result__keywordresults portfolio-container">
+          <h1>結果は0です</h1>
+        </div>);
+    }
+  }
   render() {
-    const result = this.renderResult();
-
+    let searchIsDone = this.props.init.searchResult;
+    let result = searchIsDone ? this.resultView(this.getResultCards()) : null;
     return (
       <article id="searchresult" class="result portfolio">
         <div className="result__container container">
           <div className="result__title section-title">
             <h2>検索結果</h2>
           </div>
-          <div className="result__keywordresults portfolio-container">
-            {result}
-          </div>
+          {result}
         </div>
       </article>
     );

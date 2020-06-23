@@ -101,8 +101,9 @@ export class objectCreator {
       currentInfoIsNull: null,
     }
   }
-  createSerchResult() {
+  createSearchResult() {
     return {
+      searchIsDone: null,
       resultList: null,
       currentStore: null,
       currentProduct: null,
@@ -114,16 +115,23 @@ export class stateCreator {
   constructor() {
     this.objectCreator = new objectCreator();
     this.stateOrigin = {
-      searchResult: this.objectCreator.createSerchResult(),
-      nshop: this.objectCreator.createEntityRenderSet(),
+      searchResult: this.objectCreator.createSearchResult(),
+      store: this.objectCreator.createEntityRenderSet(),
       product: this.objectCreator.createEntityRenderSet(),
     };
+
     this.dum = new dummy();
 
   }
 
   getSearch() {
-    return this.stateOrigin;
+    return {
+      ...this.stateOrigin,
+      searchResult: {
+        ...this.stateOrigin.searchResult,
+        searchIsDone: false,
+      }
+    };
   }
 
   getSearchDefault() {
@@ -131,7 +139,7 @@ export class stateCreator {
     let dummy = this.stateOrigin;
     Object.assign(dummy, {
       shopInfo: storeInfoDum,
-      nshop: {
+      store: {
         canEdit: false,
         current: this.objectCreator.createDatasets(
           0,
@@ -149,7 +157,7 @@ export class stateCreator {
 
 export function getCurrentStore(state, selectedResult) {
   const objCreator = new objectCreator();
-  let dataList = state.nshop.dataList;
+  let dataList = state.store.dataList;
   let storeIndex = dataList.values.findIndex((store) => {
     return store.storeName === selectedResult.storeName;
   });

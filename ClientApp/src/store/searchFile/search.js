@@ -25,10 +25,11 @@ export const reducer = (state, action) => {
       ...state,
       searchResult: {
         ...state.searchResult,
+        searchIsDone: true,
         resultList: dum.getDummySearchResult(),
       },
-      nshop: {
-        ...state.nshop,
+      store: {
+        ...state.store,
         dataList: dum.getDummyStoreInfo(true),
       },
       product: {
@@ -45,8 +46,8 @@ export const reducer = (state, action) => {
 
     return {
       ...state,
-      nshop: {
-        ...state.nshop,
+      store: {
+        ...state.store,
         current: common.getCurrentStore(state, selectedResult),
       },
       product: {
