@@ -43,7 +43,6 @@ export function getProductDefinitions(product, title) {
 }
 
 export class InputDefinition extends React.Component {
-
   editProduct(event, valueKeyName, valueIndex) {
     console.log(`edit ${event.target.value}`);
     this.props.init.editProduct(valueKeyName, event.target.value, valueIndex);
@@ -66,6 +65,7 @@ export class InputDefinition extends React.Component {
         return (event) => th.editProduct(event, keyName, valuesIndex);
       }
     };
+
     let data = dataSet.loopValues.map((ele) => (
       <dl>
         <dt>{ele.logicName}</dt>
@@ -79,7 +79,7 @@ export class InputDefinition extends React.Component {
         </dd>
       </dl>
     ));
-    return <div className="proinfo__data--type2">{data}</div>;
+    return <div className="proinfo__container">{data}</div>;
   }
 }
 
@@ -111,7 +111,7 @@ export class Card extends React.Component {
           canEdit: canEdit,
           isNone: props.init.product.currentInfoIsNull,
           title: "商品詳細",
-          class: "proinfo__data--type1",
+          class: "proinfo__data--type2",
         };
       }
     };
@@ -265,7 +265,9 @@ export class Card extends React.Component {
         topPartial: (
           <div className="property__toppartial">
             <div className="property__img"></div>
-            {this.renderDefinition(outerArgs)}
+            <div className="property__detail">
+              {this.renderDefinition(outerArgs)}
+            </div>
           </div>
         ),
         button: this.getButtons(
