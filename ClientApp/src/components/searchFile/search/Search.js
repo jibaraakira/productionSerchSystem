@@ -1,10 +1,10 @@
 import React from "react";
-import { actionCreators } from "../../../store/searchFile/search";
+import { actionCreators } from "../../../store/searchFile/SearchStoreByCustomer";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { Header } from "../SearchHeader";
 import { MainSearch } from "./SearchHeroSearch";
-import { SearchResult } from "./SearchResult";
+import { SearchStoreByCustomer } from "./SearchStoreByCustomer";
 import { ProductInformation } from "./SearchStoreInfo";
 import { ProductResult } from "./SearchProductResult";
 
@@ -15,7 +15,7 @@ export class Search extends React.Component {
         <Header init={this.props} />
         <main>
           <MainSearch init={this.props} />
-          <SearchResult init={this.props} />
+          <SearchStoreByCustomer init={this.props} />
           <ProductInformation init={this.props} />
           <ProductResult init={this.props} />
         </main>

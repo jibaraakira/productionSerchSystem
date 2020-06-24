@@ -1,21 +1,21 @@
-import { objectCreator } from "./SearchCommon";
+import { objectCreator } from "./CommonSource";
 
 export class dummy {
   constructor() {
     this.objectCreator = new objectCreator();
   }
 
-  getDummySearchResult() {
+  getDummySearchStoreByCustomer() {
     let data = [
       ["AA店", "ラーメン太郎の麺", "2階", "220", "19"],
       ["BB店", "ラーメン太郎の麺", "1階", "230", "5"],
       ["CC店", "ラーメン次郎の麺", "5階", "240", "3"],
     ];
 
-    return this.objectCreator.createSearchResultContainer({
+    return this.objectCreator.createSearchStoreByCustomerContainer({
       searchWord: "麺",
       list: data.map((index) => {
-        return this.objectCreator.createSearchResultItem({
+        return this.objectCreator.createSearchStoreByCustomerItem({
           storeName: index[0],
           productName: index[1],
           placeName: index[2],

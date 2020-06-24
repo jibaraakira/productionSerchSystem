@@ -1,5 +1,5 @@
 import React from "react";
-import * as common from "./SearchCommon";
+import * as common from "./CommonComponent";
 export class Header extends React.Component {
   createForm(selector) {
     if (selector == null) return null;

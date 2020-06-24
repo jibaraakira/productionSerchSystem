@@ -1,5 +1,5 @@
 import React from "react";
-import * as common from "../SearchCommon";
+import * as common from "../CommonComponent";
 export class ProductInformation extends React.Component {
   render() {
     let storeInfo = this.props.init.store.current.value;

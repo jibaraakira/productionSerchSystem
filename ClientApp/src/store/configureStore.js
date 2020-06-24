@@ -3,13 +3,13 @@ import thunk from "redux-thunk";
 import { routerReducer, routerMiddleware } from "react-router-redux";
 
 //import * as Maps from "./mapStore";
-import * as Search from "./searchFile/search";
-import * as SearchSetting from "./searchFile/searchSettingSub";
+import * as SearchStoreByCustomer from "./searchFile/SearchStoreByCustomer";
+import * as SearchSetting from "./searchFile/SystemSetting";
 export default function configureStore(history, initialState) {
   const reducers = {
     //maps: Maps.reducer,
-    search: Search.reducer,
-    searchSetting: SearchSetting.reducer,
+    search: SearchStoreByCustomer.reducer,
+    systemSetting: SearchSetting.reducer,
   };
 
   const middleware = [thunk, routerMiddleware(history)];
