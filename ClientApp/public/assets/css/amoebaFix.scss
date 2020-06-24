@@ -622,6 +622,12 @@ section {
     display: flex;
   }
 
+  &__productstoppartial,
+  &__productsbottompartial {
+    margin: 0 auto 120px auto;
+    width: 80%;
+  }
+
   &__setter {
     width: 100%;
     margin: 10px;

@@ -31,7 +31,7 @@ export class ProductItems extends React.Component {
           <div className="property__title section-title">
             <h1>商品項目</h1>
           </div>
-          <div className="property__container container">
+          <div className="property__container">
             <div className="property__productcontroler">
               <h2 className="property__controlindex">新規追加する</h2>
               <button className="property__button button--insertproduct">
