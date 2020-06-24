@@ -115,20 +115,15 @@ export class objectCreator {
     });
   }
 
-  // createProductDefinition(dataset) {
-  //   return {
-  //     canEditProduct: false,
-  //     dataset,
-  //   };
-  // }
-
   createEntityState() {
     return {
       canEdit: null,
-      current: null,
-      currentIndex: null,
+      current: {
+        index: null,
+        isNull: null,
+        value: null,
+      },
       dataContainer: null,
-      currentInfoIsNull: null,
     };
   }
 

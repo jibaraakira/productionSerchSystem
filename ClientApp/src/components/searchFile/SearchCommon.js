@@ -90,14 +90,14 @@ export class Card extends React.Component {
         return {
           info: props.init.store.current,
           canEdit: props.init.store.canEdit,
-          isNone: props.init.store.currentInfoIsNull,
+          isNone: props.init.store.current.isNull,
           title: "",
           class: "proinfo__data--type2",
         };
       }
 
       if (outArgs.mode === "product") {
-        let currentIndex = props.init.product.currentIndex;
+        let currentIndex = props.init.product.current.index;
         let canEdit = null;
         if (currentIndex == null) {
           canEdit = props.init.product.canEdit;
@@ -109,7 +109,7 @@ export class Card extends React.Component {
         return {
           info: outArgs.current,
           canEdit: canEdit,
-          isNone: props.init.product.currentInfoIsNull,
+          isNone: props.init.product.current.isNull,
           title: "商品詳細",
           class: "proinfo__data--type2",
         };
@@ -241,7 +241,7 @@ export class Card extends React.Component {
         ),
         button: this.getButtons(
           {
-            infoIsNone: prop.store.currentInfoIsNull,
+            infoIsNone: prop.store.current.isNull,
             canEdit: prop.store.canEdit,
           },
           {
@@ -272,17 +272,19 @@ export class Card extends React.Component {
         ),
         button: this.getButtons(
           {
-            infoIsNone: prop.store.currentInfoIsNull,
+            infoIsNone: prop.store.current.isNull,
             canEdit: prop.store.canEdit,
           },
           {
             insertMethod: prop.updateProductInfo,
             updateMethod: () =>
-              prop.enableToEditProduct(this.props.current.valuesIndex),
+              prop.enableToEditProduct(
+                this.props.current.value.value.valuesIndex
+              ),
             deleteMethod: prop.deleteProductInfo,
             saveBtnIsVisible:
               prop.product.canEdit &&
-              outerArgs.current.valuesIndex === prop.product.currentIndex,
+              outerArgs.current.valuesIndex === prop.product.current.index,
           }
         ),
       };

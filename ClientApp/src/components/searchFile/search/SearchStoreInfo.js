@@ -2,7 +2,7 @@ import React from "react";
 import * as common from "../SearchCommon";
 export class ProductInformation extends React.Component {
   render() {
-    let storeInfo = this.props.init.store.current;
+    let storeInfo = this.props.init.store.current.value;
     if (storeInfo == null) return null;
     const storeDefinition = common.getStoreDefinition(storeInfo.loopValues);
     return (
@@ -23,7 +23,6 @@ export class ProductInformation extends React.Component {
             </div>
           </div>
         </div>
-
       </section>
     );
   }

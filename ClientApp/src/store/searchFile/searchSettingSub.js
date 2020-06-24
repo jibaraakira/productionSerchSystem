@@ -110,7 +110,7 @@ class searchReducer {
 
   updateStoreInfo(state, action) {
     if (action == null) return state;
-    let update = Object.assign({}, state.store.current);
+    let update = Object.assign({}, state.store.current.value);
     let shopContainer = Object.assign({}, state.store.dataContainer);
 
     update.loopValues.forEach((ele) => {
@@ -175,11 +175,11 @@ class searchReducer {
 
   updateProductInfo(state, action) {
     if (action == null) return state;
-    let update = Object.assign({}, state.product.current);
+    let update = Object.assign({}, state.product.current.value);
     let productContainer = Object.assign({}, state.product.dataContainer);
 
     update.loopValues.forEach((ele) => {
-      productContainer.valueArray[state.product.current.valuesIndex][
+      productContainer.valueArray[state.product.current.value.valuesIndex][
         ele.keyName
       ] = ele.value;
     });
