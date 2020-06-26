@@ -166,35 +166,45 @@ export class ButtonContainer extends React.Component {
     );
   }
 }
+
 export class Photo extends React.Component {
   render() {
+    let photo = (photoUrl) => {
+      if (photoUrl === null || photoUrl === "") {
+        return (
+          <a href="">
+            <div className="hovertile__container">
+              <div className="hovertile__detail">
+                <div className="hovertile__message--icon">
+                  <svg
+                    className="hovertile__bi-upload"
+                    width="1em"
+                    height="1em"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M.5 8a.5.5 0 0 1 .5.5V12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8.5a.5.5 0 0 1 1 0V12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V8.5A.5.5 0 0 1 .5 8zM5 4.854a.5.5 0 0 0 .707 0L8 2.56l2.293 2.293A.5.5 0 1 0 11 4.146L8.354 1.5a.5.5 0 0 0-.708 0L5 4.146a.5.5 0 0 0 0 .708z"
+                    />
+                    <path
+                      fillRule="evenodd"
+                      d="M8 2a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0v-8A.5.5 0 0 1 8 2z"
+                    />
+                  </svg>
+                </div>
+                <div className="hovertile__message--info">写真を読み込む</div>
+              </div>
+            </div>
+          </a>
+        );
+      } else {
+        return null;
+      }
+    };
     return (
       <div className="property__img hovertile">
-        <a href="">
-          <div className="hovertile__container">
-            <div className="hovertile__detail">
-              <div className="hovertile__message--icon">
-                <svg
-                  className="hovertile__bi-upload"
-                  width="1em"
-                  height="1em"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M.5 8a.5.5 0 0 1 .5.5V12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8.5a.5.5 0 0 1 1 0V12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V8.5A.5.5 0 0 1 .5 8zM5 4.854a.5.5 0 0 0 .707 0L8 2.56l2.293 2.293A.5.5 0 1 0 11 4.146L8.354 1.5a.5.5 0 0 0-.708 0L5 4.146a.5.5 0 0 0 0 .708z"
-                  />
-                  <path
-                    fillRule="evenodd"
-                    d="M8 2a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0v-8A.5.5 0 0 1 8 2z"
-                  />
-                </svg>
-              </div>
-              <div className="hovertile__message--info">写真を読み込む</div>
-            </div>
-          </div>
-        </a>
+        {photo(this.props.photoUrl)}
       </div>
     );
   }
@@ -255,12 +265,14 @@ export class Card extends React.Component {
   getCardJsx() {
     let objCreator = new globalSource.objectCreator();
     let prop = this.props.init;
-
+    let photoURL = this.props.init.store.dataContainer.valueArray[
+      this.props.init.store.current.value.valuesIndex
+    ].photoUrl;
     if (this.props.mode === "store") {
       return objCreator.createCardJsx({
         topPartial: (
           <div className="property__toppartial">
-            <Photo init={this.props.init} />
+            <Photo init={this.props.init} photoUrl={photoURL} />
             <div className="property__detail">
               {this.renderDefinition(
                 objCreator.createDefProperty({
@@ -295,10 +307,14 @@ export class Card extends React.Component {
         mode: this.props.mode,
         current: this.props.thisDefine,
       });
+      console.log(this.props.init);
+      let photoURL = this.props.init.product.dataContainer.valueArray[
+        outerArgs.current.valuesIndex
+      ].photoUrl;
       return {
         topPartial: (
           <div className="property__toppartial">
-            <Photo init={this.props.init} />
+            <Photo init={this.props.init} photoUrl={photoURL} />
             <div className="property__detail">
               {this.renderDefinition(objCreator.createDefProperty(outerArgs))}
             </div>

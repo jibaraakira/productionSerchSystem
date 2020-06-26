@@ -7,22 +7,25 @@ export class dummy {
 
   getDummySearchStoreByCustomer() {
     let data = [
-      ["AA店", "ラーメン太郎の麺", "2階", "220", "19"],
-      ["BB店", "ラーメン太郎の麺", "1階", "230", "5"],
-      ["CC店", "ラーメン次郎の麺", "5階", "240", "3"],
+      ["AA店", "ラーメン太郎の麺", "2階", "220", "19", ""],
+      ["BB店", "ラーメン太郎の麺", "1階", "230", "5", ""],
+      ["CC店", "ラーメン次郎の麺", "5階", "240", "3", ""],
     ];
 
     return this.objectCreator.createSearchStoreByCustomerContainer({
       searchWord: "麺",
       list: data.map((index) => {
-        return this.objectCreator.createSearchStoreByCustomerItem({
-          storeName: index[0],
-          productName: index[1],
-          placeName: index[2],
-          value: index[3],
-          count: index[4],
-          photoUrl: index[5],
-        });
+        return this.objectCreator.createSearchStoreByCustomerItem(
+          {
+            storeName: index[0],
+            productName: index[1],
+            placeName: index[2],
+            value: index[3],
+            count: index[4],
+            photoUrl: index[5],
+          },
+          { photoUrl: true }
+        );
       }),
     });
   }

@@ -4,6 +4,9 @@ export class objectCreator {
     this.counterOf = 0;
     this.count = 0;
   }
+  
+  // Cardに表示させる、ProductEntity.logicNamesのオブジェクトのキー追加の判断をする。
+  // logicNamesのオブジェクトにあるキーの有無で、、ProductEntity.valueArrayのエンティティの表示を決定する。
   fixEntity(entity, useBranch, data) {
     Object.keys(useBranch).forEach((key) => {
       if (useBranch[key]) {
