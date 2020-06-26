@@ -1,4 +1,4 @@
-import { objectCreator } from "./CommonSource";
+import { objectCreator } from "./GlobalSource";
 
 export class dummy {
   constructor() {
@@ -21,6 +21,7 @@ export class dummy {
           placeName: index[2],
           value: index[3],
           count: index[4],
+          photoUrl: index[5],
         });
       }),
     });
@@ -35,6 +36,8 @@ export class dummy {
             "000-0000-0000",
             "https://asdf/asdf",
             "10:00~20:00 土曜休業",
+            "abcd",
+            "",
           ],
           [
             "BB店",
@@ -42,6 +45,7 @@ export class dummy {
             "11-1111-11111",
             "https://ddd/dasf",
             "10:00~20:00 土曜休業",
+            "",
           ],
           [
             "CC店",
@@ -49,26 +53,34 @@ export class dummy {
             "22-2222-2222",
             "https://ffff/wwwww",
             "10:00~20:00 土曜休業",
+            "",
           ],
         ]
       : ["", "", "", "", ""];
 
     return this.objectCreator.createDataContainerObject({
-      logicNames: this.objectCreator.createShopObject({
-        storeName: "店舗名",
-        address: "住所",
-        telephone: "電話番号",
-        url: "URL",
-        time: "営業時間",
-      }),
+      logicNames: this.objectCreator.createShopEntity(
+        {
+          storeName: "店舗名",
+          address: "住所",
+          telephone: "電話番号",
+          url: "URL",
+          time: "営業時間",
+        },
+        { photoUrl: false }
+      ),
       valueArray: data.map((index) => {
-        return this.objectCreator.createShopObject({
-          storeName: index[0],
-          address: index[1],
-          telephone: index[2],
-          url: index[3],
-          time: index[4],
-        });
+        return this.objectCreator.createShopEntity(
+          {
+            storeName: index[0],
+            address: index[1],
+            telephone: index[2],
+            url: index[3],
+            time: index[4],
+            photoUrl: index[5],
+          },
+          { photoUrl: true }
+        );
       }),
     });
   }
@@ -83,6 +95,7 @@ export class dummy {
         "小麦粉（国産）、食塩、油",
         "株式会社　ドコドコ食品",
         "何某製麺部式会社",
+        "kkk",
       ],
       [
         "ラーメン太郎の麺",
@@ -92,6 +105,7 @@ export class dummy {
         "小麦粉（国産）、食塩、油",
         "株式会社　ドコドコ食品",
         "何某製麺部式会社",
+        "",
       ],
       [
         "ラーメン次郎の麺",
@@ -101,11 +115,12 @@ export class dummy {
         "小麦粉（国産）、食塩、ショートニング",
         "何某製麺部式会社",
         "何某製麺部式会社　岐阜工場",
+        "",
       ],
     ];
 
     return this.objectCreator.createDataContainerObject({
-      logicNames: this.objectCreator.createProductObject(
+      logicNames: this.objectCreator.createProductEntity(
         {
           productName: "製品名",
           value: "値段",
@@ -115,10 +130,11 @@ export class dummy {
           seller: "製造者",
           factory: "製造者",
         },
+        { photoUrl: false },
         false
       ),
       valueArray: data.map((index) => {
-        return this.objectCreator.createProductObject(
+        return this.objectCreator.createProductEntity(
           {
             productName: index[0],
             value: index[1],
@@ -127,7 +143,9 @@ export class dummy {
             expirationDate: index[4],
             seller: index[5],
             factory: index[6],
+            photoUrl: index[7],
           },
+          { photoUrl: true },
           true
         );
       }),

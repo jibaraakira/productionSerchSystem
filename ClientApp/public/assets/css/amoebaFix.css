@@ -662,3 +662,97 @@ section:last-child {
 .property__data--type2 dl dd input {
   width: 100%;
 }
+
+.hovertile {
+  margin: 10px;
+  position: relative;
+}
+
+.hovertile__container {
+  width: 100%;
+  height: 100%;
+}
+
+.hovertile__container:before {
+  content: "";
+  background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  transition-property: top, opacity;
+  transition-duration: 150ms;
+}
+
+.hovertile__container:hover:before {
+  opacity: 1;
+}
+
+.hovertile__container:hover .hovertile__detail {
+  opacity: 1;
+}
+
+.hovertile__container:hover .hovertile__message--icon {
+  opacity: 1;
+  top: 0;
+  transition-delay: 100ms;
+}
+
+.hovertile__container:hover .hovertile__message--info {
+  opacity: 1;
+  top: 0;
+  transition-delay: 150ms;
+}
+
+.hovertile__container:active:before {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.9) 100%);
+}
+
+.hovertile__container:active .hovertile__detail {
+  opacity: 0.5;
+}
+
+.hovertile__detail {
+  font-size: 16px;
+  padding: 20px;
+  margin: 0 auto;
+  color: #fff;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  opacity: 0;
+}
+
+.hovertile__bi-upload {
+  width: 40px;
+  height: 40px;
+}
+
+.hovertile .hovertile__message--icon, .hovertile .hovertile__message--info {
+  margin: 0 auto;
+  margin-bottom: 10px;
+  display: block;
+  opacity: 0;
+  position: relative;
+  text-align: center;
+  transition-property: top, opacity;
+  transition-duration: 150ms;
+  transition-delay: 0s;
+  z-index: 2;
+}
+
+.hovertile__message--icon {
+  justify-content: center;
+  line-height: 1;
+  font-weight: 600;
+}
+
+.hovertile__message--info {
+  margin: 10px 0;
+  line-height: 1.2;
+  margin-top: 5px;
+  font-size: 24px;
+}

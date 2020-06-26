@@ -1,5 +1,5 @@
 import React from "react";
-import * as common from "../../store/searchFile/CommonSource";
+import * as globalSource from "../../store/searchFile/GlobalSource";
 
 export function selectJsx(jsxArray, keyName, selector) {
   let result = jsxArray.find((index) => {
@@ -8,31 +8,27 @@ export function selectJsx(jsxArray, keyName, selector) {
   return result;
 }
 
-export function createDefinitions(storeInfo) {
-  let definitions = [];
-  storeInfo.forEach((ele) => {
-    definitions.push(
-      <dl>
-        <dt>{ele.logicName}</dt>
-        <dd>{ele.value}</dd>
-      </dl>
-    );
-  });
-  return definitions;
+export function createDefinitions(define) {
+  return define.map((ele) => (
+    <dl>
+      <dt>{ele.logicName}</dt>
+      <dd>{ele.value}</dd>
+    </dl>
+  ));
 }
 
-export function getStoreDefinition(storeInfo) {
-  if (storeInfo == null) return null;
+export function getStoreDefinition(storeDefine) {
+  if (storeDefine == null) return null;
 
-  let definitions = createDefinitions(storeInfo);
+  let definitions = createDefinitions(storeDefine);
 
   return <div className="proinfo__data--type1">{definitions}</div>;
 }
 
-export function getProductDefinitions(product, title) {
-  if (product == null) return null;
+export function getProductDefinitions(productDefine, title) {
+  if (productDefine == null) return null;
 
-  let definitions = createDefinitions(product);
+  let definitions = createDefinitions(productDefine);
 
   return (
     <div className="proinfo__detail">
@@ -80,6 +76,127 @@ export class InputDefinition extends React.Component {
       </dl>
     ));
     return <div className="proinfo__container">{data}</div>;
+  }
+}
+
+export class ButtonContainer extends React.Component {
+  insertButton() {
+    return (
+      <div className="property__btncontainer">
+        <button
+          className="property__button button--insertnormal "
+          onClick={this.props.init.enableToEditStore}
+        >
+          追加
+        </button>
+      </div>
+    );
+  }
+
+  renderInsertBtn({ infoIsNone, canEdit } = {}) {
+    if (this.props.init == null) {
+      return null;
+    }
+
+    if (canEdit) {
+      return null;
+    }
+
+    if (infoIsNone) {
+      return this.insertButton();
+    } else {
+      return null;
+    }
+  }
+
+  renderBtns({
+    insertMethod,
+    updateMethod,
+    deleteMethod,
+    saveBtnIsVisible,
+  } = {}) {
+    const saveButton = (
+      <button
+        className="property__button button--update"
+        onClick={insertMethod}
+      >
+        保存する
+      </button>
+    );
+
+    const updateButton = (
+      <div className="property__btncontainer">
+        <button
+          className="property__button button--update"
+          onClick={updateMethod}
+        >
+          更新
+        </button>
+        <button
+          className="property__button button--delete"
+          onClick={deleteMethod}
+        >
+          削除
+        </button>
+      </div>
+    );
+
+    if (saveBtnIsVisible) {
+      return saveButton;
+    } else {
+      return updateButton;
+    }
+  }
+
+  render() {
+    let setting = this.props.buttonSetting;
+    return (
+      <div className="property__buttons">
+        {this.renderInsertBtn({
+          infoIsNone: setting.switch.infoIsNone,
+          canEdit: setting.switch.canEdit,
+        })}
+        {this.renderBtns({
+          insertMethod: setting.method.insertMethod,
+          updateMethod: setting.method.updateMethod,
+          deleteMethod: setting.method.deleteMethod,
+          saveBtnIsVisible: setting.method.saveBtnIsVisible,
+        })}
+      </div>
+    );
+  }
+}
+export class Photo extends React.Component {
+  render() {
+    return (
+      <div className="property__img hovertile">
+        <a href="">
+          <div className="hovertile__container">
+            <div className="hovertile__detail">
+              <div className="hovertile__message--icon">
+                <svg
+                  className="hovertile__bi-upload"
+                  width="1em"
+                  height="1em"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M.5 8a.5.5 0 0 1 .5.5V12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8.5a.5.5 0 0 1 1 0V12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V8.5A.5.5 0 0 1 .5 8zM5 4.854a.5.5 0 0 0 .707 0L8 2.56l2.293 2.293A.5.5 0 1 0 11 4.146L8.354 1.5a.5.5 0 0 0-.708 0L5 4.146a.5.5 0 0 0 0 .708z"
+                  />
+                  <path
+                    fillRule="evenodd"
+                    d="M8 2a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0v-8A.5.5 0 0 1 8 2z"
+                  />
+                </svg>
+              </div>
+              <div className="hovertile__message--info">写真を読み込む</div>
+            </div>
+          </div>
+        </a>
+      </div>
+    );
   }
 }
 
@@ -135,164 +252,89 @@ export class Card extends React.Component {
     }
   }
 
-  insertButton() {
-    return (
-      <div className="property__btncontainer">
-        <button
-          className="property__button button--insertnormal "
-          onClick={this.props.init.enableToEditStore}
-        >
-          追加
-        </button>
-      </div>
-    );
-  }
-
-  renderInsertBtn({ infoIsNone, canEdit } = {}) {
-    if (this.props.init.current == null) {
-      return null;
-    }
-
-    if (canEdit) {
-      return null;
-    }
-
-    if (infoIsNone) {
-      return this.insertButton();
-    } else {
-      return null;
-    }
-  }
-
-  renderBtns({
-    insertMethod,
-    updateMethod,
-    deleteMethod,
-    saveBtnIsVisible,
-  } = {}) {
-    const saveButton = (
-      <button
-        className="property__button button--update"
-        onClick={insertMethod}
-      >
-        保存する
-      </button>
-    );
-
-    const updateButton = (
-      <div className="property__btncontainer">
-        <button
-          className="property__button button--update"
-          onClick={updateMethod}
-        >
-          更新
-        </button>
-        <button
-          className="property__button button--delete"
-          onClick={deleteMethod}
-        >
-          削除
-        </button>
-      </div>
-    );
-
-    if (saveBtnIsVisible) {
-      return saveButton;
-    } else {
-      return updateButton;
-    }
-  }
-
-  getButtons(
-    { infoIsNone, canEdit },
-    { insertMethod, updateMethod, deleteMethod, saveBtnIsVisible }
-  ) {
-    return (
-      <div className="property__buttons">
-        {this.renderInsertBtn({ infoIsNone, canEdit })}
-        {this.renderBtns({
-          insertMethod,
-          updateMethod,
-          deleteMethod,
-          saveBtnIsVisible,
-        })}
-      </div>
-    );
-  }
-
-  render() {
-    let cardSetting = { topPartial: null, button: null };
-    let objCreator = new common.objectCreator();
+  getCardJsx() {
+    let objCreator = new globalSource.objectCreator();
+    let prop = this.props.init;
 
     if (this.props.mode === "store") {
-      let prop = this.props.init;
-      let outerArgs = objCreator.createDefProperty({
-        mode: this.props.mode,
-        current: null,
-      });
-      cardSetting = {
+      return objCreator.createCardJsx({
         topPartial: (
           <div className="property__toppartial">
-            <div className="property__img"></div>
+            <Photo init={this.props.init} />
             <div className="property__detail">
-              {this.renderDefinition(outerArgs)}
+              {this.renderDefinition(
+                objCreator.createDefProperty({
+                  mode: this.props.mode,
+                  current: null,
+                })
+              )}
             </div>
           </div>
         ),
-        button: this.getButtons(
-          {
-            infoIsNone: prop.store.current.isNull,
-            canEdit: prop.store.canEdit,
-          },
-          {
-            insertMethod: prop.updateStoreInfo,
-            updateMethod: prop.enableToEditStore,
-            deleteMethod: null,
-            saveBtnIsVisible: prop.store.canEdit,
-          }
+        button: (
+          <ButtonContainer
+            buttonSetting={objCreator.createButtonSetting(
+              {
+                infoIsNone: prop.store.current.isNull,
+                canEdit: prop.store.canEdit,
+              },
+              {
+                insertMethod: prop.updateStoreInfo,
+                updateMethod: prop.enableToEditStore,
+                deleteMethod: null,
+                saveBtnIsVisible: prop.store.canEdit,
+              }
+            )}
+          />
         ),
-      };
+      });
     }
 
     if (this.props.mode === "product") {
-      let prop = this.props.init;
       let outerArgs = objCreator.createDefProperty({
         mode: this.props.mode,
         current: this.props.thisDefine,
       });
-
-      cardSetting = {
+      return {
         topPartial: (
           <div className="property__toppartial">
-            <div className="property__img"></div>
+            <Photo init={this.props.init} />
             <div className="property__detail">
-              {this.renderDefinition(outerArgs)}
+              {this.renderDefinition(objCreator.createDefProperty(outerArgs))}
             </div>
           </div>
         ),
-        button: this.getButtons(
-          {
-            infoIsNone: prop.store.current.isNull,
-            canEdit: prop.store.canEdit,
-          },
-          {
-            insertMethod: prop.updateProductInfo,
-            updateMethod: () =>
-              prop.enableToEditProduct(this.props.thisDefine.valuesIndex),
-            deleteMethod: prop.deleteProductInfo,
-            saveBtnIsVisible:
-              prop.product.canEdit &&
-              outerArgs.current.valuesIndex === prop.product.current.index,
-          }
+        button: (
+          <ButtonContainer
+            init={this.props.init}
+            buttonSetting={objCreator.createButtonSetting(
+              {
+                infoIsNone: prop.store.current.isNull,
+                canEdit: prop.store.canEdit,
+              },
+              {
+                insertMethod: prop.updateProductInfo,
+                updateMethod: () =>
+                  prop.enableToEditProduct(this.props.thisDefine.valuesIndex),
+                deleteMethod: prop.deleteProductInfo,
+                saveBtnIsVisible:
+                  prop.product.canEdit &&
+                  outerArgs.current.valuesIndex === prop.product.current.index,
+              }
+            )}
+          />
         ),
       };
     }
+  }
 
+  render() {
+    let cardJsx = this.getCardJsx();
     return (
       <div className="property__card--setting">
-        {cardSetting.topPartial}
+        {cardJsx.topPartial}
         <div className="property__bottompartial--onlyButton">
-          {cardSetting.button}
+          {cardJsx.button}
         </div>
       </div>
     );

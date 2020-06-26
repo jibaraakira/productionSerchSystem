@@ -1,4 +1,4 @@
-import * as common from "./CommonSource";
+import * as common from "./GlobalSource";
 import { dummy } from "./DummyData";
 
 const searchProduct = "Search";

@@ -1,4 +1,4 @@
-import * as common from "./CommonSource";
+import * as common from "./GlobalSource";
 import { dummy } from "./DummyData";
 
 const enableToEditStore = "enableToEditStore";
@@ -47,6 +47,7 @@ class searchReducer {
   }
 
   enableToEditStore(state, action) {
+    console.log("ddd");
     return {
       ...state,
       store: { ...state.store, canEdit: true },
@@ -120,7 +121,6 @@ class searchReducer {
           index: action.index,
         },
         canEdit: !state.product.canEdit,
-
       },
     };
   }
@@ -177,7 +177,7 @@ class searchReducer {
 export const reducer = (state, action) => {
   state = state || initialState;
   let sr = new searchReducer();
-  console.log(state);
+
   if (action.type === enableToEditStore) {
     return sr.enableToEditStore(state, action);
   }

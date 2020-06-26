@@ -1,6 +1,6 @@
 import React from "react";
 import * as common from "../CommonComponent";
-import * as storeCommon from "../../../store/searchFile/CommonSource";
+import * as storeCommon from "../../../store/searchFile/GlobalSource";
 
 export class ProductItems extends React.Component {
   getProductions() {

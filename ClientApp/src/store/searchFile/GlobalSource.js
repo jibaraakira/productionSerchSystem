@@ -4,7 +4,14 @@ export class objectCreator {
     this.counterOf = 0;
     this.count = 0;
   }
-
+  fixEntity(entity, useBranch, data) {
+    Object.keys(useBranch).forEach((key) => {
+      if (useBranch[key]) {
+        entity[key] = data[key];
+      }
+    });
+    return entity;
+  }
   createStateObject({ searchStoreByCustomer, store, product } = {}) {
     const stateObject = {
       searchStoreByCustomer,
@@ -22,13 +29,10 @@ export class objectCreator {
     return dataSetObject;
   }
 
-  createSearchStoreByCustomerItem({
-    storeName,
-    productName,
-    placeName,
-    value,
-    count,
-  } = {}) {
+  createSearchStoreByCustomerItem(
+    { storeName, productName, placeName, value, count, photoUrl } = {},
+    useBranch
+  ) {
     const resultObj = {
       index: this.counterOf++,
       storeName,
@@ -37,10 +41,16 @@ export class objectCreator {
       value,
       count,
     };
-    return resultObj;
+    let fixResultObj = this.fixEntity(resultObj, useBranch, {
+      photoUrl: photoUrl,
+    });
+    return fixResultObj;
   }
 
-  createShopObject({ storeName, address, telephone, url, time } = {}) {
+  createShopEntity(
+    { storeName, address, telephone, url, time, photoUrl } = {},
+    useBranch
+  ) {
     const shopInfo = {
       storeName,
       address,
@@ -48,10 +58,12 @@ export class objectCreator {
       url,
       time,
     };
-    return shopInfo;
+    let fixShopInfo = this.fixEntity(shopInfo, useBranch, {
+      photoUrl: photoUrl,
+    });
+    return fixShopInfo;
   }
-
-  createProductObject(
+  createProductEntity(
     {
       productName,
       value,
@@ -60,10 +72,12 @@ export class objectCreator {
       expirationDate,
       seller,
       factory,
+      photoUrl,
     } = {},
+    useBranch,
     indexIsNeed
   ) {
-    const shopInfo = {
+    const product = {
       productName,
       value,
       count,
@@ -73,9 +87,11 @@ export class objectCreator {
       factory,
     };
 
-    if (indexIsNeed) shopInfo["index"] = this.count++;
-
-    return shopInfo;
+    if (indexIsNeed) product["index"] = this.count++;
+    let fixProduct = this.fixEntity(product, useBranch, {
+      photoUrl: photoUrl,
+    });
+    return fixProduct;
   }
 
   createDefProperty({ mode, current } = {}) {
@@ -153,6 +169,31 @@ export class objectCreator {
       dataContainer,
     };
     return createEntityState;
+  }
+
+  createButtonSetting(
+    { infoIsNone, canEdit },
+    { insertMethod, updateMethod, deleteMethod, saveBtnIsVisible }
+  ) {
+    return {
+      switch: {
+        infoIsNone,
+        canEdit,
+      },
+      method: {
+        insertMethod,
+        updateMethod,
+        deleteMethod,
+        saveBtnIsVisible,
+      },
+    };
+  }
+  createCardJsx({ topPartial, button } = {}) {
+    const cardJsx = {
+      topPartial,
+      button,
+    };
+    return cardJsx;
   }
 }
 
