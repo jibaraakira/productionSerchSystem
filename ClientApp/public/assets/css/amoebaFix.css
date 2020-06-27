@@ -1,9 +1,18 @@
+* {
+  font-size: 18px;
+}
+
 button:focus {
   outline: none;
 }
 
 body {
   color: #555;
+}
+
+h1 {
+  text-align: center;
+  margin: 20px auto;
 }
 
 section {
@@ -61,11 +70,6 @@ section:last-child {
 .mainsearch {
   background: rgba(112, 185, 176, 0.85);
   padding-bottom: 30px;
-}
-
-.mainsearch__container h1 {
-  text-align: center;
-  margin: 20px auto;
 }
 
 .mainsearch__search {
@@ -361,13 +365,12 @@ section:last-child {
 }
 
 .proinfo__img, .proinfo__img2, .property__img, .property__img2 {
-  margin: 50px 10px 10px 10px;
   width: 400px;
   height: 200px;
 }
 
-.proinfo__card--result, .proinfo__card--setting .property__toppartial, .property__card--result, .property__card--setting .property__toppartial {
-  display: flex;
+.proinfo__card--result, .proinfo__card--setting, .property__card--result, .property__card--setting {
+  border: 1px solid #2d6760;
   margin-top: 20px;
   padding: 20px;
 }
@@ -445,15 +448,9 @@ section:last-child {
   border: 1px solid #2d6760;
 }
 
-.proinfo__card--setting {
-  border: 1px solid #2d6760;
-  margin-top: 20px;
-  padding: 20px;
-}
-
 .proinfo__detail {
-  width: 100%;
-  margin: 10px;
+  width: 90%;
+  margin: 30px auto 0 auto;
 }
 
 .proinfo__detail h3 {
@@ -472,6 +469,9 @@ section:last-child {
 }
 
 .proinfo__img {
+  margin: 0 auto;
+  width: 600px;
+  height: 400px;
   background-color: #c3d61a;
 }
 
@@ -521,6 +521,9 @@ section:last-child {
 }
 
 .property__img {
+  margin: 0 auto;
+  width: 600px;
+  height: 400px;
   background-color: #c3d61a;
 }
 
@@ -562,13 +565,14 @@ section:last-child {
 }
 
 .property__bottompartial--setting {
-  display: flex;
   margin-top: 10px;
 }
 
 .property__buttons {
   display: flex;
   justify-content: flex-end;
+  width: 80%;
+  margin: 0 auto 10px auto;
 }
 
 .property__btncontainer {
@@ -580,13 +584,13 @@ section:last-child {
   text-align: center;
 }
 
-.property__mapsetting {
-  margin-top: 30px;
+.property__mapcontainer {
+  width: 80%;
+  margin: auto;
 }
 
-.property__map {
-  width: 60%;
-  margin: 0 20px;
+.property__mapsetting {
+  margin-top: 30px;
 }
 
 .property__setters {
@@ -596,6 +600,11 @@ section:last-child {
 .property__productstoppartial, .property__productsbottompartial {
   margin: 0 auto 120px auto;
   width: 80%;
+}
+
+.property__pointcontrol {
+  margin: 30px auto 0 auto;
+  width: 70%;
 }
 
 .property__setter {
@@ -644,15 +653,9 @@ section:last-child {
   border: 1px solid #2d6760;
 }
 
-.property__card--setting {
-  border: 1px solid #2d6760;
-  margin-top: 20px;
-  padding: 20px;
-}
-
 .property__detail {
-  width: 100%;
-  margin: 10px;
+  width: 90%;
+  margin: 30px auto 0 auto;
 }
 
 .property__detail h3 {
@@ -664,7 +667,7 @@ section:last-child {
 }
 
 .hovertile {
-  margin: 10px;
+  margin: 0 auto;
   position: relative;
 }
 

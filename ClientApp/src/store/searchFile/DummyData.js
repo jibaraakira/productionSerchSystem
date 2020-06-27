@@ -39,7 +39,7 @@ export class dummy {
             "000-0000-0000",
             "https://asdf/asdf",
             "10:00~20:00 土曜休業",
-            "abcd",
+            "",
             "",
           ],
           [
