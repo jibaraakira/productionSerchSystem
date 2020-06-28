@@ -45,6 +45,52 @@ section:last-child {
   background-color: #dcf3f0;
 }
 
+.remove-btn {
+  margin-right: 0.5rem;
+}
+
+.item-enter {
+  opacity: 0;
+  background-color: blue;
+}
+
+.item-enter-active {
+  opacity: 1;
+  background-color: blue;
+  transition: all 200ms ease-in;
+}
+
+.item-enter-done {
+  background-color: blue;
+}
+
+.item-exit {
+  opacity: 1;
+}
+
+.item-exit-active {
+  opacity: 0;
+  transition: opacity 200ms ease-in;
+}
+
+.my-node-enter {
+  opacity: 0;
+}
+
+.my-node-enter-active {
+  opacity: 1;
+  transition: opacity 200ms;
+}
+
+.my-node-exit {
+  opacity: 1;
+}
+
+.my-node-exit-active {
+  opacity: 0;
+  transition: opacity 200ms;
+}
+
 @media (max-width: 991px) {
   #header {
     height: auto;
@@ -365,7 +411,7 @@ section:last-child {
 }
 
 .proinfo__img, .proinfo__img2, .property__img, .property__img2 {
-  width: 400px;
+  width: 80%;
   height: 200px;
 }
 
@@ -470,7 +516,6 @@ section:last-child {
 
 .proinfo__img {
   margin: 0 auto;
-  width: 600px;
   height: 400px;
   background-color: #c3d61a;
 }
@@ -522,7 +567,6 @@ section:last-child {
 
 .property__img {
   margin: 0 auto;
-  width: 600px;
   height: 400px;
   background-color: #c3d61a;
 }
@@ -735,7 +779,7 @@ section:last-child {
 }
 
 .hovertile .hovertile__message--icon, .hovertile .hovertile__message--info {
-  margin: 0 auto;
+  margin: 0px auto;
   margin-bottom: 10px;
   display: block;
   opacity: 0;

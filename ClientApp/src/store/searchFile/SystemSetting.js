@@ -11,6 +11,7 @@ const enableToEditProduct = "enableToEditProduct";
 const deleteProductInfo = "deleteProductInfo";
 const editProduct = "editProduct";
 const memoryProductSearch = "memoryProductSearch";
+const test = "test";
 
 export const actionCreators = {
   enableToEditStore: () => ({ type: enableToEditStore }),
@@ -26,6 +27,7 @@ export const actionCreators = {
   updateProductInfo: () => ({ type: updateProductInfo }),
   enableToEditProduct: (index) => ({ type: enableToEditProduct, index }),
   deleteProductInfo: () => ({ type: deleteProductInfo }),
+  test: () => ({ type: test }),
 };
 
 const initialState = new common.stateCreator().getSearchSettingDefault();
@@ -50,7 +52,13 @@ class searchReducer {
     console.log("ddd");
     return {
       ...state,
-      store: { ...state.store, canEdit: true },
+      store: {
+        ...state.store,
+        flag: {
+          ...state.flag,
+          canEdit: true,
+        },
+      },
     };
   }
 
@@ -90,7 +98,10 @@ class searchReducer {
       store: {
         ...state.store,
         dataContainer: shopContainer,
-        canEdit: false,
+        flag: {
+          ...state.flag,
+          canEdit: false,
+        },
       },
     };
   }
@@ -120,7 +131,10 @@ class searchReducer {
           ),
           index: action.index,
         },
-        canEdit: !state.product.canEdit,
+        flag: {
+          ...state.flag,
+          canEdit: !state.product.flag.canEdit,
+        },
       },
     };
   }
@@ -163,7 +177,10 @@ class searchReducer {
       product: {
         ...state.product,
         dataContainer: productContainer,
-        canEdit: false,
+        flag: {
+          ...state.flag,
+          canEdit: false,
+        },
       },
     };
   }
@@ -177,7 +194,7 @@ class searchReducer {
 export const reducer = (state, action) => {
   state = state || initialState;
   let sr = new searchReducer();
-
+  console.log(state);
   if (action.type === enableToEditStore) {
     return sr.enableToEditStore(state, action);
   }
@@ -215,6 +232,14 @@ export const reducer = (state, action) => {
 
   if (action.type === editProduct) {
     return sr.editProduct(state, action);
+  }
+
+  if (action.type === test) {
+    console.log(state.switch);
+    return {
+      ...state,
+      switch: !state.switch,
+    };
   }
 
   return state;

@@ -4,7 +4,7 @@ export class objectCreator {
     this.counterOf = 0;
     this.count = 0;
   }
-  
+
   // Cardに表示させる、ProductEntity.logicNamesのオブジェクトのキー追加の判断をする。
   // logicNamesのオブジェクトにあるキーの有無で、、ProductEntity.valueArrayのエンティティの表示を決定する。
   fixEntity(entity, useBranch, data) {
@@ -136,7 +136,11 @@ export class objectCreator {
 
   createEntityState() {
     return {
-      canEdit: null,
+      flag: {
+        canInsert: false,
+        canEdit: false,
+        canDelete: false,
+      },
       current: {
         index: null,
         isNull: null,
@@ -161,9 +165,13 @@ export class objectCreator {
       list,
     };
   }
-  insertEntityState({ canEdit, current, dataContainer } = {}) {
+  insertEntityState({ flag, current, dataContainer } = {}) {
     const createEntityState = {
-      canEdit,
+      flag: {
+        canInsert: flag.canInsert,
+        canEdit: flag.canEdit,
+        canDelete: flag.canDelete,
+      },
       current: {
         index: current.index,
         isNull: current.isNull,
@@ -231,7 +239,11 @@ export class stateCreator {
     let dummyState = this.stateOrigin;
     Object.assign(dummyState, {
       store: this.creator.insertEntityState({
-        canEdit: false,
+        flag: {
+          canInsert: false,
+          canEdit: false,
+          canDelete: false,
+        },
         current: {
           index: 0,
           isNull: false,
@@ -243,6 +255,7 @@ export class stateCreator {
         },
         dataContainer: dummyContainer,
       }),
+      switch: false,
     });
     return dummyState;
   }

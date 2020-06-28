@@ -1,5 +1,6 @@
 import React from "react";
 import * as globalSource from "../../store/searchFile/GlobalSource";
+import { CSSTransition } from "react-transition-group";
 
 export function selectJsx(jsxArray, keyName, selector) {
   let result = jsxArray.find((index) => {
@@ -10,10 +11,12 @@ export function selectJsx(jsxArray, keyName, selector) {
 
 export function createDefinitions(define) {
   return define.map((ele) => (
-    <dl>
-      <dt>{ele.logicName}</dt>
-      <dd>{ele.value}</dd>
-    </dl>
+    <CSSTransition timeout={500} classNames="item">
+      <dl>
+        <dt>{ele.logicName}</dt>
+        <dd>{ele.value}</dd>
+      </dl>
+    </CSSTransition>
   ));
 }
 
@@ -171,40 +174,41 @@ export class Photo extends React.Component {
   render() {
     let photo = (photoUrl) => {
       if (photoUrl === null || photoUrl === "") {
-        return (
-          <a href="">
-            <div className="hovertile__container">
-              <div className="hovertile__detail">
-                <div className="hovertile__message--icon">
-                  <svg
-                    className="hovertile__bi-upload"
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M.5 8a.5.5 0 0 1 .5.5V12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8.5a.5.5 0 0 1 1 0V12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V8.5A.5.5 0 0 1 .5 8zM5 4.854a.5.5 0 0 0 .707 0L8 2.56l2.293 2.293A.5.5 0 1 0 11 4.146L8.354 1.5a.5.5 0 0 0-.708 0L5 4.146a.5.5 0 0 0 0 .708z"
-                    />
-                    <path
-                      fillRule="evenodd"
-                      d="M8 2a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0v-8A.5.5 0 0 1 8 2z"
-                    />
-                  </svg>
-                </div>
-                <div className="hovertile__message--info">写真を読み込む</div>
-              </div>
-            </div>
-          </a>
-        );
+        return "写真を読み込む";
       } else {
-        return null;
+        return "写真を変更する";
       }
     };
     return (
       <div className="property__img hovertile">
-        {photo(this.props.photoUrl)}
+        <a href="">
+          <div className="hovertile__container">
+            <div className="hovertile__detail">
+              <div className="hovertile__message--icon">
+                <svg
+                  className="hovertile__bi-upload"
+                  width="1em"
+                  height="1em"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M.5 8a.5.5 0 0 1 .5.5V12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8.5a.5.5 0 0 1 1 0V12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V8.5A.5.5 0 0 1 .5 8zM5 4.854a.5.5 0 0 0 .707 0L8 2.56l2.293 2.293A.5.5 0 1 0 11 4.146L8.354 1.5a.5.5 0 0 0-.708 0L5 4.146a.5.5 0 0 0 0 .708z"
+                  />
+                  <path
+                    fillRule="evenodd"
+                    d="M8 2a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0v-8A.5.5 0 0 1 8 2z"
+                  />
+                </svg>
+              </div>
+              <div className="hovertile__message--info">
+                {" "}
+                {photo(this.props.photoUrl)}
+              </div>
+            </div>
+          </div>
+        </a>
       </div>
     );
   }
@@ -216,7 +220,7 @@ export class Card extends React.Component {
       if (outArgs.mode === "store") {
         return {
           info: props.init.store.current.value,
-          canEdit: props.init.store.canEdit,
+          canEdit: props.init.store.flag.canEdit,
           isNone: props.init.store.current.isNull,
           title: "",
           class: "proinfo__data--type2",
@@ -227,10 +231,10 @@ export class Card extends React.Component {
         let currentIndex = props.init.product.current.index;
         let canEdit = null;
         if (currentIndex == null) {
-          canEdit = props.init.product.canEdit;
+          canEdit = props.init.product.flag.canEdit;
         } else {
           canEdit =
-            props.init.product.canEdit &&
+            props.init.product.flag.canEdit &&
             outArgs.current.valuesIndex === currentIndex;
         }
         return {
@@ -288,13 +292,13 @@ export class Card extends React.Component {
             buttonSetting={objCreator.createButtonSetting(
               {
                 infoIsNone: prop.store.current.isNull,
-                canEdit: prop.store.canEdit,
+                canEdit: prop.store.flag.canEdit,
               },
               {
                 insertMethod: prop.updateStoreInfo,
                 updateMethod: prop.enableToEditStore,
                 deleteMethod: null,
-                saveBtnIsVisible: prop.store.canEdit,
+                saveBtnIsVisible: prop.store.flag.canEdit,
               }
             )}
           />
@@ -326,7 +330,7 @@ export class Card extends React.Component {
             buttonSetting={objCreator.createButtonSetting(
               {
                 infoIsNone: prop.store.current.isNull,
-                canEdit: prop.store.canEdit,
+                canEdit: prop.store.flag.canEdit,
               },
               {
                 insertMethod: prop.updateProductInfo,
@@ -334,7 +338,7 @@ export class Card extends React.Component {
                   prop.enableToEditProduct(this.props.thisDefine.valuesIndex),
                 deleteMethod: prop.deleteProductInfo,
                 saveBtnIsVisible:
-                  prop.product.canEdit &&
+                  prop.product.flag.canEdit &&
                   outerArgs.current.valuesIndex === prop.product.current.index,
               }
             )}

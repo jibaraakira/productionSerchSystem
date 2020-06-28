@@ -1,6 +1,7 @@
 import React from "react";
-import * as common from "../CommonComponent";
+import { Card } from "../CommonComponent";
 import * as storeCommon from "../../../store/searchFile/GlobalSource";
+import { CSSTransition } from "react-transition-group";
 
 export class ProductItems extends React.Component {
   getProductions() {
@@ -8,19 +9,20 @@ export class ProductItems extends React.Component {
 
     if (product == null) return null;
 
-    let cards = [];
-    for (let index = 0; index < product.valueArray.length; index++) {
-      cards.push(
-        <common.Card
-          key={index}
-          init={this.props.init}
-          mode={"product"}
-          thisDefine={storeCommon.getCurrentProduct(this.props.init, index)}
-        />
-      );
-    }
-
-    return <div className="property__products">{cards}</div>;
+    return (
+      <CSSTransition timeout={500} classNames="item">
+        <div className="property__products">
+          {product.valueArray.map((value, index) => (
+            <Card
+              key={index}
+              init={this.props.init}
+              mode={"product"}
+              thisDefine={storeCommon.getCurrentProduct(this.props.init, index)}
+            />
+          ))}
+        </div>
+      </CSSTransition>
+    );
   }
 
   render() {

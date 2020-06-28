@@ -54,6 +54,49 @@ section {
 .portfolio .portfolio-item {
   background-color: $color-main;
 }
+//====
+.remove-btn {
+  margin-right: 0.5rem;
+}
+
+.item {
+  &-enter {
+    opacity: 0;
+    background-color: blue;
+  }
+  &-enter-active {
+    opacity: 1;
+    background-color: blue;
+    transition: all 200ms ease-in;
+  }
+  &-enter-done {
+    background-color: blue;
+  }
+
+  &-exit {
+    opacity: 1;
+  }
+  &-exit-active {
+    opacity: 0;
+    transition: opacity 200ms ease-in;
+  }
+}
+
+.my-node-enter {
+  opacity: 0;
+}
+.my-node-enter-active {
+  opacity: 1;
+  transition: opacity 200ms;
+}
+.my-node-exit {
+  opacity: 1;
+}
+.my-node-exit-active {
+  opacity: 0;
+  transition: opacity 200ms;
+}
+//====
 
 @media (max-width: 991px) {
   #header {
@@ -385,7 +428,8 @@ section {
 
 %img {
   // margin: 50px 10px 10px 10px;
-  width: 400px;
+  // width: 400px;
+  width: 80%;
   height: 200px;
 }
 
@@ -400,7 +444,6 @@ section {
   &__img {
     @extend %img;
     margin: 0 auto;
-    width: 600px;
     height: 400px;
     background-color: rgb(195, 214, 26);
   }
@@ -765,7 +808,7 @@ section {
   }
 
   %mes {
-    margin: 0 auto;
+    margin: 0px auto;
     margin-bottom: 10px;
     display: block;
     opacity: 0;
