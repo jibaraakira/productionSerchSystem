@@ -37,11 +37,13 @@ export class ProductItems extends React.Component {
     );
   }
 
+  searchProduct = storeCommon.debounce((searchTerm) => {
+    this.props.init.scanSearchString(searchTerm);
+  }, 700);
+
   render() {
     let productCards = this.getProductions();
-    let scanSearchString = function (event, th) {
-      th.props.init.scanSearchString(event.target.value);
-    };
+
     return (
       <article id="products" className="products">
         <section>
@@ -74,7 +76,7 @@ export class ProductItems extends React.Component {
                   name=""
                   id=""
                   placeholder="keyword"
-                  onChange={(event) => scanSearchString(event, this)}
+                  onChange={(e) => this.searchProduct(e.target.value)}
                 />
                 <button
                   type="button"

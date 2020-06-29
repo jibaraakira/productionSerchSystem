@@ -215,9 +215,8 @@ export class objectCreator {
     return cardJsx;
   }
 
-  createSearchSavedProduct({ searchString } = {}) {
-    const searchSavedProduct = { searchString };
-    return searchSavedProduct;
+  createSearchSavedProduct() {
+    return { searchWord: null, valueArray: null };
   }
 }
 
@@ -269,6 +268,9 @@ export class stateCreator {
         },
         dataContainer: dummyContainer,
       }),
+      searchSavedProduct: {
+        valueArray: [],
+      },
       switch: false,
     });
     return dummyState;
@@ -323,4 +325,18 @@ export function getInputAction(type, valueKeyName, string, index) {
       index,
     }
   );
+}
+
+export function debounce(a, b, c) {
+  var d, e;
+  return function () {
+    function h() {
+      (d = null), c || (e = a.apply(f, g));
+    }
+    var f = this,
+      g = arguments;
+    return (
+      clearTimeout(d), (d = setTimeout(h, b)), c && !d && (e = a.apply(f, g)), e
+    );
+  };
 }
