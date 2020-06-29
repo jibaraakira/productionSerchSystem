@@ -1,31 +1,37 @@
 import * as common from "./GlobalSource";
 import { dummy } from "./DummyData";
+import { product } from "./EntityClass";
 
-const enableToEditStore = "enableToEditStore";
-const updateStoreInfo = "updateStoreInfo";
-const editStore = "editStore";
 const createStoreInfo = "createStoreInfo";
+const enableToEditStore = "enableToEditStore";
+const editStore = "editStore";
+const updateStoreInfo = "updateStoreInfo";
+
 const searchProducts = "searchProducts";
-const updateProductInfo = "updateProductInfo";
+const enableToCreateProduct = "enableToCreateProduct";
+const createProductInfo = "createProductInfo";
 const enableToEditProduct = "enableToEditProduct";
-const deleteProductInfo = "deleteProductInfo";
 const editProduct = "editProduct";
-const memoryProductSearch = "memoryProductSearch";
+const updateProductInfo = "updateProductInfo";
+const deleteProductInfo = "deleteProductInfo";
+
+const scanSearchString = "scanSearchString";
 const test = "test";
 
 export const actionCreators = {
+  createStoreInfo: () => ({ type: createStoreInfo }),
   enableToEditStore: () => ({ type: enableToEditStore }),
   updateStoreInfo: () => ({ type: updateStoreInfo }),
-  editStore: (valueKeyName, value, index) =>
-    common.getInputAction("editStore", valueKeyName, value, index),
-  editProduct: (valueKeyName, value, index) =>
-    common.getInputAction("editProduct", valueKeyName, value, index),
-  memoryProductSearch: (valueKeyName, value, index) =>
-    common.getInputAction("memoryProductSearch", valueKeyName, value, index),
-  createStoreInfo: () => ({ type: createStoreInfo }),
+  scanSearchString: (string) => ({ type: scanSearchString, string }),
+  editStore: (valueKeyName, string, index) =>
+    common.getInputAction("editStore", valueKeyName, string, index),
   searchProducts: () => ({ type: searchProducts }),
-  updateProductInfo: () => ({ type: updateProductInfo }),
+  enableToCreateProduct: () => ({ type: enableToCreateProduct }),
+  createProductInfo: () => ({ type: createProductInfo }),
   enableToEditProduct: (index) => ({ type: enableToEditProduct, index }),
+  editProduct: (valueKeyName, string, index) =>
+    common.getInputAction("editProduct", valueKeyName, string, index),
+  updateProductInfo: () => ({ type: updateProductInfo }),
   deleteProductInfo: () => ({ type: deleteProductInfo }),
   test: () => ({ type: test }),
 };
@@ -37,15 +43,10 @@ class searchReducer {
     this.objectCreator = new common.objectCreator();
     this.dum = new dummy();
   }
+  createStoreInfo(state, action) {
+    if (action == null) return state;
 
-  searchProducts(state, action) {
-    return {
-      ...state,
-      product: {
-        ...state.product,
-        dataContainer: this.dum.getDummyProductContainer(),
-      },
-    };
+    return [...state, {}];
   }
 
   enableToEditStore(state, action) {
@@ -57,6 +58,27 @@ class searchReducer {
         flag: {
           ...state.flag,
           canEdit: true,
+        },
+      },
+    };
+  }
+
+  updateStoreInfo(state, action) {
+    if (action == null) return state;
+    let update = Object.assign({}, state.store.current.value);
+    let shopContainer = Object.assign({}, state.store.dataContainer);
+
+    update.loopValues.forEach((ele) => {
+      shopContainer.valueArray[update.valuesIndex][ele.keyName] = ele.value;
+    });
+    return {
+      ...state,
+      store: {
+        ...state.store,
+        dataContainer: shopContainer,
+        flag: {
+          ...state.flag,
+          canEdit: false,
         },
       },
     };
@@ -85,36 +107,101 @@ class searchReducer {
     };
   }
 
-  updateStoreInfo(state, action) {
-    if (action == null) return state;
-    let update = Object.assign({}, state.store.current.value);
-    let shopContainer = Object.assign({}, state.store.dataContainer);
-
-    update.loopValues.forEach((ele) => {
-      shopContainer.valueArray[update.valuesIndex][ele.keyName] = ele.value;
-    });
+  scanSearchString(state, action) {
+    console.log("dddd");
     return {
       ...state,
-      store: {
-        ...state.store,
-        dataContainer: shopContainer,
+      searchSavedProduct: {
+        ...state.searchSavedProduct,
+        searchString: action.string,
+      },
+    };
+  }
+
+  searchProducts(state, action) {
+    return {
+      ...state,
+      product: {
+        ...state.product,
+        dataContainer: this.dum.getDummyProductContainer(),
+      },
+    };
+  }
+
+  enableToCreateProduct(state, action) {
+    console.log("enabel to ");
+    let blank = new product().getDataContainer([
+      ["", "", "", "", "", "", "", ""],
+    ]);
+    console.log(blank);
+    let index =
+      state.product.dataContainer === null
+        ? -1
+        : ++state.product.dataContainer.valueArray.length;
+
+    return {
+      ...state,
+      product: {
+        ...state.product,
+        current: this.objectCreator.convertToDefineObject(
+          index,
+          blank.logicNames,
+          blank.valueArray[0]
+        ),
         flag: {
-          ...state.flag,
-          canEdit: false,
+          ...state.product.flag,
+          canInsert: true,
+          canEdit: true,
         },
       },
     };
   }
-  memoryProductSearch(state, action) {
+
+  createProductInfo(state, action) {
     if (action == null) return state;
+    let update = Object.assign({}, state.product.current.value);
 
-    return [...state, {}];
-  }
+    if (state.product.dataContainer === null) {
+      return {
+        ...state,
+        product: {
+          ...state.product,
+          current: {
+            ...state.product.current,
+            valuesIndex: null,
+            value: null,
+            isNull: null,
+          },
+          flag: {
+            ...state.flag,
+            canInsert: false,
+            canEdit: false,
+          },
+        },
+      };
+    }
 
-  createStoreInfo(state, action) {
-    if (action == null) return state;
+    let productContainer = Object.assign({}, state.product.dataContainer);
+    productContainer.valueArray.push({});
 
-    return [...state, {}];
+    update.loopValues.forEach((ele) => {
+      productContainer.valueArray[productContainer.valueArray.length - 1][
+        ele.keyName
+      ] = ele.value;
+    });
+
+    return {
+      ...state,
+      product: {
+        ...state.product,
+        dataContainer: productContainer,
+        flag: {
+          ...state.flag,
+          canInsert: false,
+          canEdit: false,
+        },
+      },
+    };
   }
 
   enableToEditProduct(state, action) {
@@ -129,7 +216,7 @@ class searchReducer {
             state.product.dataContainer.logicNames,
             state.product.dataContainer.valueArray[action.index]
           ),
-          index: action.index,
+          valuesIndex: action.index,
         },
         flag: {
           ...state.flag,
@@ -141,10 +228,13 @@ class searchReducer {
 
   editProduct(state, action) {
     if (action == null) return state;
-    // console.log(`action ${action.value}`);
+    let updateLoopValues = state.product.current.loopValues;
 
-    let selectedStore = state.product.dataContainer.valueArray[action.index];
-    selectedStore[action.valueKeyName] = action.value;
+    updateLoopValues.forEach((ele) => {
+      if (ele["keyName"] === action.valueKeyName) {
+        ele["value"] = action.value;
+      }
+    });
 
     return {
       ...state,
@@ -152,11 +242,10 @@ class searchReducer {
         ...state.product,
         current: {
           ...state.product.current,
-          value: this.objectCreator.convertToDefineObject(
-            action.index,
-            state.product.dataContainer.logicNames,
-            selectedStore
-          ),
+          value: {
+            ...state.string,
+            loopValues: updateLoopValues,
+          },
         },
       },
     };
@@ -172,6 +261,7 @@ class searchReducer {
         ele.keyName
       ] = ele.value;
     });
+
     return {
       ...state,
       product: {
@@ -194,7 +284,6 @@ class searchReducer {
 export const reducer = (state, action) => {
   state = state || initialState;
   let sr = new searchReducer();
-  console.log(state);
   if (action.type === enableToEditStore) {
     return sr.enableToEditStore(state, action);
   }
@@ -209,15 +298,17 @@ export const reducer = (state, action) => {
   if (action.type === createStoreInfo) {
     return sr.createStoreInfo(state, action);
   }
+  if (action.type === scanSearchString) {
+    console.log("scanSearchString");
+    return sr.scanSearchString(state, action);
+  }
 
   if (action.type === searchProducts) {
     return sr.searchProducts(state, action);
   }
-
-  if (action.type === memoryProductSearch) {
-    return sr.memoryProductSearch(state, action);
+  if (action.type === enableToCreateProduct) {
+    return sr.enableToCreateProduct(state, action);
   }
-
   if (action.type === updateProductInfo) {
     return sr.updateProductInfo(state, action);
   }
@@ -240,6 +331,9 @@ export const reducer = (state, action) => {
       ...state,
       switch: !state.switch,
     };
+  }
+  if (action.type === createProductInfo) {
+    return sr.createProductInfo(state, action);
   }
 
   return state;

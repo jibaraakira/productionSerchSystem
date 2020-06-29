@@ -4,6 +4,18 @@ import * as storeCommon from "../../../store/searchFile/GlobalSource";
 import { CSSTransition } from "react-transition-group";
 
 export class ProductItems extends React.Component {
+  getCreateProduct() {
+    if (this.props.init.product.flag.canInsert) {
+      return (
+        <section className="property__productsbottompartial">
+          <Card init={this.props.init} mode={"product"} />
+        </section>
+      );
+    } else {
+      return null;
+    }
+  }
+
   getProductions() {
     let product = this.props.init.product.dataContainer;
 
@@ -27,18 +39,33 @@ export class ProductItems extends React.Component {
 
   render() {
     let productCards = this.getProductions();
+    let scanSearchString = function (event, th) {
+      th.props.init.scanSearchString(event.target.value);
+    };
     return (
       <article id="products" className="products">
-        <section className="property__productstoppartial">
+        <section>
           <div className="property__title section-title">
             <h1>商品項目</h1>
           </div>
+        </section>
+        <section className="property__productstoppartial">
           <div className="property__container">
             <div className="property__productcontroler">
               <h2 className="property__controlindex">新規追加する</h2>
-              <button className="property__button button--insertproduct">
+              <button
+                className="property__button button--insertproduct"
+                onClick={this.props.init.enableToCreateProduct}
+              >
                 商品を追加する
               </button>
+            </div>
+          </div>
+          {this.getCreateProduct()}
+        </section>
+        <section className="property__productstoppartial">
+          <div className="property__container">
+            <div className="property__productcontroler">
               <h2 className="property__controlindex">既存登録商品の検索</h2>
               <div className="property__refinesearch">
                 <input
@@ -47,6 +74,7 @@ export class ProductItems extends React.Component {
                   name=""
                   id=""
                   placeholder="keyword"
+                  onChange={(event) => scanSearchString(event, this)}
                 />
                 <button
                   type="button"
@@ -58,8 +86,6 @@ export class ProductItems extends React.Component {
               </div>
             </div>
           </div>
-        </section>
-        <section className="property__productsbottompartial">
           {productCards}
         </section>
       </article>

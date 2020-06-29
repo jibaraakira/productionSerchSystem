@@ -1,8 +1,8 @@
-import { objectCreator } from "./GlobalSource";
-
+import * as entityCreator from "./EntityClass";
 export class dummy {
   constructor() {
-    this.objectCreator = new objectCreator();
+    this.product = new entityCreator.product();
+    this.store = new entityCreator.store();
   }
 
   getDummySearchStoreByCustomer() {
@@ -60,32 +60,7 @@ export class dummy {
           ],
         ]
       : ["", "", "", "", ""];
-
-    return this.objectCreator.createDataContainerObject({
-      logicNames: this.objectCreator.createShopEntity(
-        {
-          storeName: "店舗名",
-          address: "住所",
-          telephone: "電話番号",
-          url: "URL",
-          time: "営業時間",
-        },
-        { photoUrl: false }
-      ),
-      valueArray: data.map((index) => {
-        return this.objectCreator.createShopEntity(
-          {
-            storeName: index[0],
-            address: index[1],
-            telephone: index[2],
-            url: index[3],
-            time: index[4],
-            photoUrl: index[5],
-          },
-          { photoUrl: true }
-        );
-      }),
-    });
+    return this.store.getDataContainer(data);
   }
 
   getDummyProductContainer() {
@@ -121,37 +96,7 @@ export class dummy {
         "",
       ],
     ];
-
-    return this.objectCreator.createDataContainerObject({
-      logicNames: this.objectCreator.createProductEntity(
-        {
-          productName: "製品名",
-          value: "値段",
-          count: "個数",
-          commonName: "名称",
-          expirationDate: "原材料名",
-          seller: "製造者",
-          factory: "製造者",
-        },
-        { photoUrl: false },
-        false
-      ),
-      valueArray: data.map((index) => {
-        return this.objectCreator.createProductEntity(
-          {
-            productName: index[0],
-            value: index[1],
-            count: index[2],
-            commonName: index[3],
-            expirationDate: index[4],
-            seller: index[5],
-            factory: index[6],
-            photoUrl: index[7],
-          },
-          { photoUrl: true },
-          true
-        );
-      }),
-    });
+    console.log(this.product.getDataContainer(data));
+    return this.product.getDataContainer(data);
   }
 }

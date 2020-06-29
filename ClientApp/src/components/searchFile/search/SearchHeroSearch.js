@@ -1,6 +1,7 @@
 import React from "react";
 export class MainSearch extends React.Component {
   render() {
+
     return (
       <article className="mainsearch" id="mainsearch">
         <div className="mainsearch__container">

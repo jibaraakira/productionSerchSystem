@@ -228,7 +228,7 @@ export class Card extends React.Component {
       }
 
       if (outArgs.mode === "product") {
-        let currentIndex = props.init.product.current.index;
+        let currentIndex = props.init.product.current.valuesIndex;
         let canEdit = null;
         if (currentIndex == null) {
           canEdit = props.init.product.flag.canEdit;
@@ -272,6 +272,7 @@ export class Card extends React.Component {
     let photoURL = this.props.init.store.dataContainer.valueArray[
       this.props.init.store.current.value.valuesIndex
     ].photoUrl;
+
     if (this.props.mode === "store") {
       return objCreator.createCardJsx({
         topPartial: (
@@ -307,14 +308,32 @@ export class Card extends React.Component {
     }
 
     if (this.props.mode === "product") {
-      let outerArgs = objCreator.createDefProperty({
-        mode: this.props.mode,
-        current: this.props.thisDefine,
-      });
+      let outerArgs = {};
+      let photoURL = "";
+      let saveBtn = null;
+      let insertMethod = null;
+      if (this.props.init.product.flag.canInsert) {
+        outerArgs = objCreator.createDefProperty({
+          mode: this.props.mode,
+          current: this.props.init.product.current,
+        });
+        photoURL = null;
+        saveBtn = prop.product.flag.canInsert;
+        insertMethod = prop.createProductInfo;
+      } else {
+        outerArgs = objCreator.createDefProperty({
+          mode: this.props.mode,
+          current: this.props.thisDefine,
+        });
+        photoURL = this.props.init.product.dataContainer.valueArray[
+          outerArgs.current.valuesIndex
+        ].photoUrl;
+        saveBtn =
+          prop.product.flag.canEdit &&
+          outerArgs.current.valuesIndex === prop.product.current.valuesIndex;
+        insertMethod = prop.updateProductInfo;
+      }
       console.log(this.props.init);
-      let photoURL = this.props.init.product.dataContainer.valueArray[
-        outerArgs.current.valuesIndex
-      ].photoUrl;
       return {
         topPartial: (
           <div className="property__toppartial">
@@ -333,13 +352,11 @@ export class Card extends React.Component {
                 canEdit: prop.store.flag.canEdit,
               },
               {
-                insertMethod: prop.updateProductInfo,
+                insertMethod: insertMethod,
                 updateMethod: () =>
                   prop.enableToEditProduct(this.props.thisDefine.valuesIndex),
                 deleteMethod: prop.deleteProductInfo,
-                saveBtnIsVisible:
-                  prop.product.flag.canEdit &&
-                  outerArgs.current.valuesIndex === prop.product.current.index,
+                saveBtnIsVisible: saveBtn,
               }
             )}
           />

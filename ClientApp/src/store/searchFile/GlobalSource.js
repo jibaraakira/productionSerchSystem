@@ -15,9 +15,15 @@ export class objectCreator {
     });
     return entity;
   }
-  createStateObject({ searchStoreByCustomer, store, product } = {}) {
+  createStateObject({
+    searchStoreByCustomer,
+    searchSavedProduct,
+    store,
+    product,
+  } = {}) {
     const stateObject = {
       searchStoreByCustomer,
+      searchSavedProduct,
       store,
       product,
     };
@@ -66,6 +72,7 @@ export class objectCreator {
     });
     return fixShopInfo;
   }
+
   createProductEntity(
     {
       productName,
@@ -159,12 +166,13 @@ export class objectCreator {
     };
   }
 
-  createSearchStoreByCustomerContainer({ searchWord, list } = {}) {
+  createSearchStoreByCustomerContainer({ searchString, list } = {}) {
     return {
-      searchWord,
+      searchString,
       list,
     };
   }
+
   insertEntityState({ flag, current, dataContainer } = {}) {
     const createEntityState = {
       flag: {
@@ -173,7 +181,7 @@ export class objectCreator {
         canDelete: flag.canDelete,
       },
       current: {
-        index: current.index,
+        index: current.valuesIndex,
         isNull: current.isNull,
         value: current.value,
       },
@@ -206,6 +214,11 @@ export class objectCreator {
     };
     return cardJsx;
   }
+
+  createSearchSavedProduct({ searchString } = {}) {
+    const searchSavedProduct = { searchString };
+    return searchSavedProduct;
+  }
 }
 
 export class stateCreator {
@@ -213,6 +226,7 @@ export class stateCreator {
     this.creator = new objectCreator();
     this.stateOrigin = this.creator.createStateObject({
       searchStoreByCustomer: this.creator.createSearchStoreByCustomer(),
+      searchSavedProduct: this.creator.createSearchSavedProduct(),
       store: this.creator.createEntityState(),
       product: this.creator.createEntityState(),
     });
@@ -226,7 +240,7 @@ export class stateCreator {
       searchStoreByCustomer: {
         ...this.stateOrigin.searchStoreByCustomer,
         resultList: this.creator.createSearchStoreByCustomerContainer({
-          searchWord: "",
+          searchString: "",
           list: [],
         }),
         searchIsDone: false,
@@ -245,7 +259,7 @@ export class stateCreator {
           canDelete: false,
         },
         current: {
-          index: 0,
+          valuesIndex: 0,
           isNull: false,
           value: this.creator.convertToDefineObject(
             0,
@@ -278,6 +292,16 @@ export function getCurrentStore(state, selectedResult) {
 export function getCurrentProduct(state, selectedIndex) {
   const objCreator = new objectCreator();
   let dataContainer = state.product.dataContainer;
+  return objCreator.convertToDefineObject(
+    selectedIndex,
+    dataContainer.logicNames,
+    dataContainer.valueArray[selectedIndex]
+  );
+}
+
+export function getBlankProduct(state, selectedIndex) {
+  const objCreator = new objectCreator();
+  let dataContainer = state.product.dataContainer;
   let productIndex = dataContainer.valueArray.findIndex((product) => {
     return product.index === selectedIndex;
   });
@@ -289,13 +313,13 @@ export function getCurrentProduct(state, selectedIndex) {
   );
 }
 
-export function getInputAction(type, valueKeyName, value, index) {
+export function getInputAction(type, valueKeyName, string, index) {
   return Object.assign(
     {},
     {
       type,
       valueKeyName,
-      value,
+      string,
       index,
     }
   );
