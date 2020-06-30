@@ -89,7 +89,7 @@ class searchReducer {
     if (action == null) return state;
 
     let selectedStore = state.store.dataContainer.valueArray[action.index];
-    selectedStore[action.valueKeyName] = action.value;
+    selectedStore[action.valueKeyName] = action.string;
 
     return {
       ...state,
@@ -230,11 +230,11 @@ class searchReducer {
 
   editProduct(state, action) {
     if (action == null) return state;
-    let updateLoopValues = state.product.current.loopValues;
+    let updateLoopValues = state.product.current.value.loopValues;
 
     updateLoopValues.forEach((ele) => {
       if (ele["keyName"] === action.valueKeyName) {
-        ele["value"] = action.value;
+        ele["value"] = action.string;
       }
     });
 
@@ -246,6 +246,7 @@ class searchReducer {
           ...state.product.current,
           value: {
             ...state.string,
+            valuesIndex: action.index,
             loopValues: updateLoopValues,
           },
         },

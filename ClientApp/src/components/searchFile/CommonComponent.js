@@ -46,16 +46,6 @@ export class InputDefinition extends React.Component {
     let dataSet = this.props.dataSet;
     if (dataSet == null) return null;
 
-    // let insertMethod = function (th, keyName, valuesIndex) {
-    //   if (th.props.mode === "store") {
-    //     return (event) => th.editStore(event, keyName, valuesIndex);
-    //   }
-
-    //   if (th.props.mode === "product") {
-    //     return (event) => th.editProduct(event, keyName, valuesIndex);
-    //   }
-    // };
-
     let data = dataSet.loopValues.map((ele) => (
       <dl>
         <dt>{ele.logicName}</dt>
@@ -268,107 +258,6 @@ export class Card extends React.Component {
     };
   }
 
-  //getCardJsx() {
-
-  // let objCreator = new globalSource.objectCreator();
-  // let outerArgs = {};
-  // let prop = this.props.init;
-  // let photoURL = null;
-  // let saveBtn = null;
-  // let insertMethod = null;
-
-  // if (this.props.mode === "store") {
-  //   photoURL = this.props.init.store.dataContainer.valueArray[
-  //     this.props.init.store.current.value.valuesIndex
-  //   ].photoUrl;
-  //   return objCreator.createCardJsx({
-  //     topPartial: (
-  //       <div className="property__toppartial">
-  //         <Photo init={this.props.init} photoUrl={photoURL} />
-  //         <div className="property__detail">
-  //           {this.renderDefinition(
-  //             objCreator.createDefProperty({
-  //               mode: this.props.mode,
-  //               current: null,
-  //             })
-  //           )}
-  //         </div>
-  //       </div>
-  //     ),
-  //     button: (
-  //       <ButtonContainer
-  //         buttonSetting={objCreator.createButtonSetting(
-  //           {
-  //             infoIsNone: prop.store.current.isNull,
-  //             canEdit: prop.store.flag.canEdit,
-  //           },
-  //           {
-  //             insertMethod: prop.updateStoreInfo,
-  //             updateMethod: prop.enableToEditStore,
-  //             deleteMethod: null,
-  //             saveBtnIsVisible: prop.store.flag.canEdit,
-  //           }
-  //         )}
-  //       />
-  //     ),
-  //   });
-  // }
-
-  // if (this.props.mode === "insert_product") {
-  //   outerArgs = objCreator.createDefProperty({
-  //     mode: this.props.mode,
-  //     current: this.props.init.product.current,
-  //   });
-  //   photoURL = null;
-  //   saveBtn = prop.product.flag.canInsert;
-  //   insertMethod = prop.createProductInfo;
-  // }
-
-  // if (this.props.mode === "product") {
-  //   outerArgs = objCreator.createDefProperty({
-  //     mode: this.props.mode,
-  //     current: this.props.thisDefine,
-  //   });
-  //   photoURL = this.props.init.product.dataContainer.valueArray[
-  //     outerArgs.current.valuesIndex
-  //   ].photoUrl;
-  //   saveBtn =
-  //     prop.product.flag.canEdit &&
-  //     outerArgs.current.valuesIndex === prop.product.current.valuesIndex;
-  //   insertMethod = prop.updateProductInfo;
-  // }
-
-  // console.log(this.props.init);
-  // return {
-  //   topPartial: (
-  //     <div className="property__toppartial">
-  //       <Photo init={this.props.init} photoUrl={photoURL} />
-  //       <div className="property__detail">
-  //         {this.renderDefinition(objCreator.createDefProperty(outerArgs))}
-  //       </div>
-  //     </div>
-  //   ),
-  //   button: (
-  //     <ButtonContainer
-  //       init={this.props.init}
-  //       buttonSetting={objCreator.createButtonSetting(
-  //         {
-  //           infoIsNone: prop.store.current.isNull,
-  //           canEdit: prop.store.flag.canEdit,
-  //         },
-  //         {
-  //           insertMethod: insertMethod,
-  //           updateMethod: () =>
-  //             prop.enableToEditProduct(this.props.thisDefine.valuesIndex),
-  //           deleteMethod: prop.deleteProductInfo,
-  //           saveBtnIsVisible: saveBtn,
-  //         }
-  //       )}
-  //     />
-  //   ),
-  // };
-  //}
-
   render() {
     let cardJsx = this.getCardJsx();
     return (
@@ -422,7 +311,7 @@ class storeCardSetter extends cardSetter {
           {this.th.renderDefinition(
             this.objCreator.createDefProperty({
               mode: this.props.mode,
-              current: null,
+              current: this.props.store.current,
             })
           )}
         </div>
