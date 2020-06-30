@@ -8,7 +8,7 @@ export class ProductItems extends React.Component {
     if (this.props.init.product.flag.canInsert) {
       return (
         <section className="property__productsbottompartial">
-          <Card init={this.props.init} mode={"product"} />
+          <Card init={this.props.init} mode={"insert_product"} />
         </section>
       );
     } else {
@@ -78,13 +78,6 @@ export class ProductItems extends React.Component {
                   placeholder="keyword"
                   onChange={(e) => this.searchProduct(e.target.value)}
                 />
-                <button
-                  type="button"
-                  className="nav__button button--search2"
-                  onClick={this.props.init.searchProducts}
-                >
-                  検索
-                </button>
               </div>
             </div>
           </div>

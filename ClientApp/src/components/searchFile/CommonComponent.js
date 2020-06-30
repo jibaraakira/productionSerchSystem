@@ -42,28 +42,19 @@ export function getProductDefinitions(productDefine, title) {
 }
 
 export class InputDefinition extends React.Component {
-  editProduct(event, valueKeyName, valueIndex) {
-    console.log(`edit ${event.target.value}`);
-    this.props.init.editProduct(valueKeyName, event.target.value, valueIndex);
-  }
-  editStore(event, valueKeyName, valueIndex) {
-    console.log(`store ${event.target.value}`);
-    this.props.init.editStore(valueKeyName, event.target.value, valueIndex);
-  }
-
   render() {
     let dataSet = this.props.dataSet;
     if (dataSet == null) return null;
 
-    let insertMethod = function (th, keyName, valuesIndex) {
-      if (th.props.mode === "store") {
-        return (event) => th.editStore(event, keyName, valuesIndex);
-      }
+    // let insertMethod = function (th, keyName, valuesIndex) {
+    //   if (th.props.mode === "store") {
+    //     return (event) => th.editStore(event, keyName, valuesIndex);
+    //   }
 
-      if (th.props.mode === "product") {
-        return (event) => th.editProduct(event, keyName, valuesIndex);
-      }
-    };
+    //   if (th.props.mode === "product") {
+    //     return (event) => th.editProduct(event, keyName, valuesIndex);
+    //   }
+    // };
 
     let data = dataSet.loopValues.map((ele) => (
       <dl>
@@ -72,7 +63,13 @@ export class InputDefinition extends React.Component {
           <input
             type="text"
             className="search__input input--type3"
-            onChange={insertMethod(this, ele.keyName, dataSet.valuesIndex)}
+            onChange={(event) =>
+              this.props.cardSetter.getInsertMethod(
+                event,
+                ele.keyName,
+                dataSet.valuesIndex
+              )
+            }
             defaultValue={ele.value}
           />
         </dd>
@@ -215,39 +212,8 @@ export class Photo extends React.Component {
 }
 
 export class Card extends React.Component {
-  renderDefinition(outArgs) {
-    const renderProperty = function (props) {
-      if (outArgs.mode === "store") {
-        return {
-          info: props.init.store.current.value,
-          canEdit: props.init.store.flag.canEdit,
-          isNone: props.init.store.current.isNull,
-          title: "",
-          class: "proinfo__data--type2",
-        };
-      }
-
-      if (outArgs.mode === "product") {
-        let currentIndex = props.init.product.current.valuesIndex;
-        let canEdit = null;
-        if (currentIndex == null) {
-          canEdit = props.init.product.flag.canEdit;
-        } else {
-          canEdit =
-            props.init.product.flag.canEdit &&
-            outArgs.current.valuesIndex === currentIndex;
-        }
-        return {
-          info: outArgs.current,
-          canEdit: canEdit,
-          isNone: props.init.product.current.isNull,
-          title: "商品詳細",
-          class: "proinfo__data--type2",
-        };
-      }
-    };
-
-    let property = renderProperty(this.props);
+  renderDefinition() {
+    let property = vender(this.props.mode, this).getDefinition();
     if (property.canEdit) {
       return (
         <div className={property.class}>
@@ -255,6 +221,7 @@ export class Card extends React.Component {
             init={this.props.init}
             dataSet={property.info}
             mode={this.props.mode}
+            cardSetter={vender(this.props.mode, this)}
           />
         </div>
       );
@@ -268,102 +235,139 @@ export class Card extends React.Component {
 
   getCardJsx() {
     let objCreator = new globalSource.objectCreator();
+
     let prop = this.props.init;
-    let photoURL = this.props.init.store.dataContainer.valueArray[
-      this.props.init.store.current.value.valuesIndex
-    ].photoUrl;
+    let jsx = vender(this.props.mode, this).getInstance();
 
-    if (this.props.mode === "store") {
-      return objCreator.createCardJsx({
-        topPartial: (
-          <div className="property__toppartial">
-            <Photo init={this.props.init} photoUrl={photoURL} />
-            <div className="property__detail">
-              {this.renderDefinition(
-                objCreator.createDefProperty({
-                  mode: this.props.mode,
-                  current: null,
-                })
-              )}
-            </div>
-          </div>
-        ),
-        button: (
-          <ButtonContainer
-            buttonSetting={objCreator.createButtonSetting(
-              {
-                infoIsNone: prop.store.current.isNull,
-                canEdit: prop.store.flag.canEdit,
-              },
-              {
-                insertMethod: prop.updateStoreInfo,
-                updateMethod: prop.enableToEditStore,
-                deleteMethod: null,
-                saveBtnIsVisible: prop.store.flag.canEdit,
-              }
-            )}
-          />
-        ),
-      });
-    }
+    console.log(this.props.init);
 
-    if (this.props.mode === "product") {
-      let outerArgs = {};
-      let photoURL = "";
-      let saveBtn = null;
-      let insertMethod = null;
-      if (this.props.init.product.flag.canInsert) {
-        outerArgs = objCreator.createDefProperty({
-          mode: this.props.mode,
-          current: this.props.init.product.current,
-        });
-        photoURL = null;
-        saveBtn = prop.product.flag.canInsert;
-        insertMethod = prop.createProductInfo;
-      } else {
-        outerArgs = objCreator.createDefProperty({
-          mode: this.props.mode,
-          current: this.props.thisDefine,
-        });
-        photoURL = this.props.init.product.dataContainer.valueArray[
-          outerArgs.current.valuesIndex
-        ].photoUrl;
-        saveBtn =
-          prop.product.flag.canEdit &&
-          outerArgs.current.valuesIndex === prop.product.current.valuesIndex;
-        insertMethod = prop.updateProductInfo;
-      }
-      console.log(this.props.init);
-      return {
-        topPartial: (
-          <div className="property__toppartial">
-            <Photo init={this.props.init} photoUrl={photoURL} />
-            <div className="property__detail">
-              {this.renderDefinition(objCreator.createDefProperty(outerArgs))}
-            </div>
-          </div>
-        ),
-        button: (
-          <ButtonContainer
-            init={this.props.init}
-            buttonSetting={objCreator.createButtonSetting(
-              {
-                infoIsNone: prop.store.current.isNull,
-                canEdit: prop.store.flag.canEdit,
-              },
-              {
-                insertMethod: insertMethod,
-                updateMethod: () =>
-                  prop.enableToEditProduct(this.props.thisDefine.valuesIndex),
-                deleteMethod: prop.deleteProductInfo,
-                saveBtnIsVisible: saveBtn,
-              }
-            )}
-          />
-        ),
-      };
-    }
+    return {
+      topPartial: (
+        <div className="property__toppartial">
+          <Photo init={this.props.init} photoUrl={jsx.photoURL} />
+          {jsx.detail}
+        </div>
+      ),
+      button: (
+        <ButtonContainer
+          init={this.props.init}
+          buttonSetting={objCreator.createButtonSetting(
+            {
+              infoIsNone: prop.store.current.isNull,
+              canEdit: prop.store.flag.canEdit,
+            },
+            {
+              insertMethod: jsx.insertMethod,
+              updateMethod: jsx.updateMethod,
+              deleteMethod: prop.deleteProductInfo,
+              saveBtnIsVisible: jsx.saveBtn,
+            }
+          )}
+        />
+      ),
+    };
   }
+
+  //getCardJsx() {
+
+  // let objCreator = new globalSource.objectCreator();
+  // let outerArgs = {};
+  // let prop = this.props.init;
+  // let photoURL = null;
+  // let saveBtn = null;
+  // let insertMethod = null;
+
+  // if (this.props.mode === "store") {
+  //   photoURL = this.props.init.store.dataContainer.valueArray[
+  //     this.props.init.store.current.value.valuesIndex
+  //   ].photoUrl;
+  //   return objCreator.createCardJsx({
+  //     topPartial: (
+  //       <div className="property__toppartial">
+  //         <Photo init={this.props.init} photoUrl={photoURL} />
+  //         <div className="property__detail">
+  //           {this.renderDefinition(
+  //             objCreator.createDefProperty({
+  //               mode: this.props.mode,
+  //               current: null,
+  //             })
+  //           )}
+  //         </div>
+  //       </div>
+  //     ),
+  //     button: (
+  //       <ButtonContainer
+  //         buttonSetting={objCreator.createButtonSetting(
+  //           {
+  //             infoIsNone: prop.store.current.isNull,
+  //             canEdit: prop.store.flag.canEdit,
+  //           },
+  //           {
+  //             insertMethod: prop.updateStoreInfo,
+  //             updateMethod: prop.enableToEditStore,
+  //             deleteMethod: null,
+  //             saveBtnIsVisible: prop.store.flag.canEdit,
+  //           }
+  //         )}
+  //       />
+  //     ),
+  //   });
+  // }
+
+  // if (this.props.mode === "insert_product") {
+  //   outerArgs = objCreator.createDefProperty({
+  //     mode: this.props.mode,
+  //     current: this.props.init.product.current,
+  //   });
+  //   photoURL = null;
+  //   saveBtn = prop.product.flag.canInsert;
+  //   insertMethod = prop.createProductInfo;
+  // }
+
+  // if (this.props.mode === "product") {
+  //   outerArgs = objCreator.createDefProperty({
+  //     mode: this.props.mode,
+  //     current: this.props.thisDefine,
+  //   });
+  //   photoURL = this.props.init.product.dataContainer.valueArray[
+  //     outerArgs.current.valuesIndex
+  //   ].photoUrl;
+  //   saveBtn =
+  //     prop.product.flag.canEdit &&
+  //     outerArgs.current.valuesIndex === prop.product.current.valuesIndex;
+  //   insertMethod = prop.updateProductInfo;
+  // }
+
+  // console.log(this.props.init);
+  // return {
+  //   topPartial: (
+  //     <div className="property__toppartial">
+  //       <Photo init={this.props.init} photoUrl={photoURL} />
+  //       <div className="property__detail">
+  //         {this.renderDefinition(objCreator.createDefProperty(outerArgs))}
+  //       </div>
+  //     </div>
+  //   ),
+  //   button: (
+  //     <ButtonContainer
+  //       init={this.props.init}
+  //       buttonSetting={objCreator.createButtonSetting(
+  //         {
+  //           infoIsNone: prop.store.current.isNull,
+  //           canEdit: prop.store.flag.canEdit,
+  //         },
+  //         {
+  //           insertMethod: insertMethod,
+  //           updateMethod: () =>
+  //             prop.enableToEditProduct(this.props.thisDefine.valuesIndex),
+  //           deleteMethod: prop.deleteProductInfo,
+  //           saveBtnIsVisible: saveBtn,
+  //         }
+  //       )}
+  //     />
+  //   ),
+  // };
+  //}
 
   render() {
     let cardJsx = this.getCardJsx();
@@ -375,5 +379,164 @@ export class Card extends React.Component {
         </div>
       </div>
     );
+  }
+}
+
+function vender(mode, th) {
+  switch (mode) {
+    case "store":
+      return new storeCardSetter(th);
+    case "insert_product":
+      return new insertProductCardSetter(th);
+    case "product":
+      return new productCardSetter(th);
+    default:
+      break;
+  }
+}
+
+class cardSetter {
+  constructor(th) {
+    this.th = th;
+    this.props = th.props.init;
+    this.objCreator = new globalSource.objectCreator();
+  }
+  getInstance() {}
+  getDefinition() {}
+  getInsertMethod() {}
+}
+
+class storeCardSetter extends cardSetter {
+  getInstance() {
+    return {
+      outerArgs: null,
+      prop: null,
+      photoURL: this.props.store.dataContainer.valueArray[
+        this.props.store.current.value.valuesIndex
+      ].photoUrl,
+      saveBtn: this.props.store.flag.canEdit,
+      insertMethod: this.props.updateStoreInfo,
+      updateMethod: this.props.enableToEditStore,
+      detail: (
+        <div className="property__detail">
+          {this.th.renderDefinition(
+            this.objCreator.createDefProperty({
+              mode: this.props.mode,
+              current: null,
+            })
+          )}
+        </div>
+      ),
+    };
+  }
+  getDefinition() {
+    return {
+      info: this.props.store.current.value,
+      canEdit: this.props.store.flag.canEdit,
+      isNone: this.props.store.current.isNull,
+      title: "",
+      class: "proinfo__data--type2",
+    };
+  }
+
+  getInsertMethod(event, valueKeyName, valueIndex) {
+    console.log(`store ${event.target.value}`);
+    this.props.editStore(valueKeyName, event.target.value, valueIndex);
+  }
+}
+
+class insertProductCardSetter extends cardSetter {
+  getInstance() {
+    let outerArgs = this.objCreator.createDefProperty({
+      mode: this.props.mode,
+      current: this.props.product.current,
+    });
+    return {
+      outerArgs: outerArgs,
+      prop: null,
+      photoURL: null,
+      saveBtn: this.props.product.flag.canInsert,
+      insertMethod: this.props.createProductInfo,
+      updateMethod: () =>
+        this.props.enableToEditProduct(this.props.thisDefine.valuesIndex),
+      detail: this.th.renderDefinition(outerArgs),
+    };
+  }
+
+  getDefinition() {
+    let currentIndex = this.props.product.current.valuesIndex;
+    let canEdit = null;
+    let outerArgs = this.objCreator.createDefProperty({
+      mode: this.props.mode,
+      current: this.props.product.current,
+    });
+    if (currentIndex == null) {
+      canEdit = this.props.product.flag.canEdit;
+    } else {
+      canEdit =
+        this.props.product.flag.canEdit &&
+        outerArgs.current.valuesIndex === currentIndex;
+    }
+    return {
+      info: outerArgs.current,
+      canEdit: canEdit,
+      isNone: this.props.product.current.isNull,
+      title: "商品詳細",
+      class: "proinfo__data--type2",
+    };
+  }
+
+  getInsertMethod(event, valueKeyName, valueIndex) {
+    console.log(`edit ${event.target.value}`);
+    this.props.editProduct(valueKeyName, event.target.value, valueIndex);
+  }
+}
+
+class productCardSetter extends cardSetter {
+  getInstance() {
+    let dd = this.objCreator.createDefProperty({
+      mode: this.props.mode,
+      current: this.th.props.thisDefine,
+    });
+    return {
+      outerArgs: dd,
+      prop: null,
+      photoURL: this.props.product.dataContainer.valueArray[
+        this.th.props.thisDefine.valuesIndex
+      ].photoUrl,
+      saveBtn: this.props.product.flag.canEdit, //&&  dd.current.valuesIndex === prop.product.current.valuesIndex
+      insertMethod: this.props.updateProductInfo,
+      updateMethod: () =>
+        this.props.enableToEditProduct(dd.current.valuesIndex),
+      detail: this.th.renderDefinition(dd),
+    };
+  }
+
+  getDefinition() {
+    let currentIndex = this.props.product.current.valuesIndex;
+    let canEdit = null;
+    let outerArgs = this.objCreator.createDefProperty({
+      mode: this.props.mode,
+      current: this.th.props.thisDefine,
+    });
+    if (currentIndex == null) {
+      canEdit = this.props.product.flag.canEdit;
+    } else {
+      canEdit =
+        this.props.product.flag.canEdit &&
+        outerArgs.current.valuesIndex === currentIndex;
+    }
+    return {
+      info: outerArgs.current,
+      canEdit: canEdit,
+      isNone: this.props.product.current.isNull,
+      title: "商品詳細",
+      class: "proinfo__data--type2",
+    };
+  }
+
+  getInsertMethod(event, valueKeyName, valueIndex) {
+    console.log(`edit ${event.target.value}`);
+    this.props.editProduct(valueKeyName, event.target.value, valueIndex);
   }
 }

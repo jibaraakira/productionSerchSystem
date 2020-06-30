@@ -326,6 +326,15 @@ export function getInputAction(type, valueKeyName, string, index) {
     }
   );
 }
+// export function debounce(fn, interval) {
+//   var timer;
+//   return function () {
+//     clearTimeout(timer);
+//     timer = setTimeout(function () {
+//       fn();
+//     }, interval);
+//   };
+// }
 
 export function debounce(a, b, c) {
   var d, e;

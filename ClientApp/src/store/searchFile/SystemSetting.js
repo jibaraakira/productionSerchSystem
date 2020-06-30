@@ -109,9 +109,9 @@ class searchReducer {
 
   scanSearchString(state, action) {
     console.log(action.string);
-    let array = state.searchSavedProduct.valueArray;
+    let dataContainer = this.dum.getDummyProductContainer();
 
-    let result = array.filter((ele) =>
+    dataContainer.valueArray = dataContainer.valueArray.filter((ele) =>
       Object.keys(ele)
         .map((key) => {
           let ddd = new RegExp(action.string, "g").test(ele[key]);
@@ -125,28 +125,7 @@ class searchReducer {
       ...state,
       product: {
         ...state.product,
-        dataContainer: {
-          ...state.product.dataContainer,
-          valueArray: result,
-        },
-      },
-      searchSavedProduct: {
-        ...state.searchSavedProduct,
-        searchString: action.string,
-      },
-    };
-  }
-
-  searchProducts(state, action) {
-    return {
-      ...state,
-      product: {
-        ...state.product,
-        dataContainer: this.dum.getDummyProductContainer(),
-      },
-      searchSavedProduct: {
-        ...state.searchSavedProduct,
-        valueArray: this.dum.getDummyProductContainer().valueArray,
+        dataContainer: dataContainer,
       },
     };
   }
