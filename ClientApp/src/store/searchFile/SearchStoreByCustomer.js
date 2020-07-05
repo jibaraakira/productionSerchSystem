@@ -1,6 +1,5 @@
 import * as common from "./GlobalSource";
 import { dummy } from "./DummyData";
-
 const searchProduct = "Search";
 const selectStore = "selectStore";
 const memoryStoreSearch = "memoryStoreSearch";

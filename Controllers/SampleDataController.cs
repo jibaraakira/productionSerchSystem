@@ -1,44 +1,24 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using reared.net.Model;
+using reared.net.Model.Entity;
 
-namespace reared.net.Controllers
-{
-    [Route("api/[controller]")]
-    public class SampleDataController : Controller
-    {
-        private static string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+namespace reared.net.Controllers {
 
-        [HttpGet("[action]")]
-        public IEnumerable<WeatherForecast> WeatherForecasts(int startDateIndex)
-        {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                DateFormatted = DateTime.Now.AddDays(index + startDateIndex).ToString("d"),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            });
+    // public class StoreController : ControllerBase {
+    //     [Route ("[controller]")]
+    //     public Store[] Get () {
+    //         return new DummyDataCreator ().GetStores ();
+    //     }
+
+    // }
+    [Route ("[controller]")]
+    public class ProductController : ControllerBase {
+        public List<string[]> get () {
+            return (new DummyDataCreator ().GetProduct ());
         }
 
-        public class WeatherForecast
-        {
-            public string DateFormatted { get; set; }
-            public int TemperatureC { get; set; }
-            public string Summary { get; set; }
-
-            public int TemperatureF
-            {
-                get
-                {
-                    return 32 + (int)(TemperatureC / 0.5556);
-                }
-            }
-        }
     }
+
 }

@@ -40,7 +40,6 @@ export class dummy {
             "https://asdf/asdf",
             "10:00~20:00 土曜休業",
             "",
-            "",
           ],
           [
             "BB店",
@@ -60,43 +59,11 @@ export class dummy {
           ],
         ]
       : ["", "", "", "", ""];
+
     return this.store.getDataContainer(data);
   }
 
-  getDummyProductContainer() {
-    const data = [
-      [
-        "ラーメン太郎の麺",
-        "220",
-        "19",
-        "麺類",
-        "小麦粉（国産）、食塩、油",
-        "株式会社　ドコドコ食品",
-        "何某製麺部式会社",
-        "kkk",
-      ],
-      [
-        "ラーメン太郎の麺",
-        "230",
-        "5",
-        "麺類",
-        "小麦粉（国産）、食塩、油",
-        "株式会社　ドコドコ食品",
-        "何某製麺部式会社",
-        "",
-      ],
-      [
-        "ラーメン次郎の麺",
-        "240",
-        "3",
-        "麺類",
-        "小麦粉（国産）、食塩、ショートニング",
-        "何某製麺部式会社",
-        "何某製麺部式会社　岐阜工場",
-        "",
-      ],
-    ];
-    console.log(this.product.getDataContainer(data));
-    return this.product.getDataContainer(data);
+  getDummyProductContainer(dd) {
+    return this.product.getDataContainer(dd);
   }
 }

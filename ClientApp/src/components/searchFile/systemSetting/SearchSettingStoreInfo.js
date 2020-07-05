@@ -88,6 +88,11 @@ export class StoreInfo extends React.Component {
 
   render() {
     const storeMapSetter = this.getStoreMapSetter();
+    const tryCshart = function () {
+      
+    }
+
+
     return (
       <article id="shopinfo">
         <h1>店舗情報設定</h1>
@@ -96,6 +101,7 @@ export class StoreInfo extends React.Component {
           <Card init={this.props.init} mode={"store"} />
         </section>
         {storeMapSetter}
+        {tryCshart}
       </article>
     );
   }

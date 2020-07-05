@@ -1,0 +1,96 @@
+store:
+    current:
+        index: 0
+        isNull: false
+        value:
+            loopValues: Array(5)
+                0: {keyName: "storeName", logicName: "店舗名", value: "AA店"}
+                1: {keyName: "address", logicName: "住所", value: "何某都　何某区　春風1-10-2"}
+                2: {keyName: "telephone", logicName: "電話番号", value: "000-0000-0000"}
+                3: {keyName: "url", logicName: "URL", value: "https://asdf/asdf"}
+                4: {keyName: "time", logicName: "営業時間", value: "10:00~20:00 土曜休業"}
+                length: 5
+        valuesIndex: 0
+        __proto__: Object
+    dataContainer:
+        logicNames: {storeName: "店舗名", address: "住所", telephone: "電話番号", url: "URL", time: "営業時間"}
+        valueArray:
+            0: {storeName: "AA店", address: "何某都　何某区　春風1-10-2", telephone: "000-0000-0000", url: "https://asdf/asdf", time: "10:00~20:00 土曜休業", …}
+            1: {storeName: "BB店", address: "何某県　何某市　富士見1-10-2", telephone: "11-1111-11111", url: "https://ddd/dasf", time: "10:00~20:00 土曜休業", …}
+            2: {storeName: "CC店", address: "何某府　何某町　十日町1-10-2", telephone: "22-2222-2222", url: "https://ffff/wwwww", time: "10:00~20:00 土曜休業", …}
+        __proto__: Object
+    flag:
+        canDelete: false
+        canEdit: false
+        canInsert: false
+        __proto__: Object
+    __proto__: Object
+    switch: false
+
+========
+
+product:
+    current:
+        index: null
+        isNull: null
+        value: null
+        __proto__: Object
+    dataContainer:
+        logicNames: {productName: "製品名", value: "値段", count: "個数", commonName: "名称", expirationDate: "原材料名", …}
+        valueArray: Array(3)
+            0: {productName: "ラーメン太郎の麺", value: "220", count: "19", commonName: "麺類", expirationDate: "小麦粉（国産）、食塩、油", …}
+            1: {productName: "ラーメン太郎の麺", value: "230", count: "5", commonName: "麺類", expirationDate: "小麦粉（国産）、食塩、油", …}
+            2: {productName: "ラーメン次郎の麺", value: "240", count: "3", commonName: "麺類", expirationDate: "小麦粉（国産）、食塩、ショートニング", …}
+            length: 3
+            __proto__: Array(0)
+        __proto__: Object
+    flag:
+        canDelete: false
+        canEdit: false
+        canInsert: false
+        __proto__: Object
+__proto__: Object
+
+
+×
+TypeError: Cannot read property 'canEdit' of undefined
+Card.renderDefinition
+src/components/searchFile/CommonComponent.js:254
+  251 |    };
+  252 |
+  253 |    let property = renderProperty(this.props);
+> 254 |    if (property.canEdit) {
+  255 |      return (
+  256 |        <div className={property.class}>
+  257 |          <InputDefinition
+View compiled
+
+Card.getinstance
+src/components/searchFile/CommonComponent.js:309
+  306 | insertMethod: prop.createProductInfo,
+  307 | updateMethod: () =>
+  308 |   prop.enableToEditProduct(this.props.thisDefine.valuesIndex),
+> 309 | detail: this.renderDefinition(
+  310 |   objCreator.createDefProperty({
+  311 |     mode: this.props.mode,
+  312 |     current: this.props.init.product.current,
+View compiled
+
+Card.getCardJsx
+src/components/searchFile/CommonComponent.js:352
+  349 |
+  350 |    let prop = this.props.init;
+  351 |
+> 352 |    let jsx = this.getinstance(this.props.mode);
+  353 |
+  354 |    console.log(this.props.init);
+  355 |
+View compiled
+
+
+current:
+index: null
+isNull: null
+value:
+loopValues: (7) [{…}, {…}, {…}, {…}, {…}, {…}, {…}]
+valuesIndex: 0

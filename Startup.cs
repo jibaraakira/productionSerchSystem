@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -37,7 +38,9 @@ namespace reared.net {
             app.UseHttpsRedirection ();
             app.UseStaticFiles ();
             app.UseSpaStaticFiles ();
-
+            app.UseDefaultFiles ();
+            app.UseStaticFiles ();
+            
             app.UseMvc (routes => {
                 routes.MapRoute (
                     name: "default",
@@ -48,7 +51,9 @@ namespace reared.net {
                 spa.Options.SourcePath = "ClientApp";
 
                 if (env.IsDevelopment ()) {
-                    spa.UseReactDevelopmentServer ("http://localhost:3000");
+                    spa.Options.StartupTimeout = TimeSpan.FromSeconds (120);
+                    spa.UseReactDevelopmentServer (npmScript: "start");
+
                 }
             });
         }

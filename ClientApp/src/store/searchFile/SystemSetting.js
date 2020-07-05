@@ -22,7 +22,11 @@ export const actionCreators = {
   createStoreInfo: () => ({ type: createStoreInfo }),
   enableToEditStore: () => ({ type: enableToEditStore }),
   updateStoreInfo: () => ({ type: updateStoreInfo }),
-  scanSearchString: (string) => ({ type: scanSearchString, string }),
+  scanSearchString: (string) => async (dispatch) => {
+    const response = await fetch("product");
+    const forecasts = await response.json();
+    dispatch({ type: scanSearchString, string, forecasts });
+  },
   editStore: (valueKeyName, string, index) =>
     common.getInputAction("editStore", valueKeyName, string, index),
   searchProducts: () => ({ type: searchProducts }),
@@ -109,8 +113,7 @@ class searchReducer {
 
   scanSearchString(state, action) {
     console.log(action.string);
-    let dataContainer = this.dum.getDummyProductContainer();
-
+    let dataContainer = this.dum.getDummyProductContainer(action.forecasts);
     dataContainer.valueArray = dataContainer.valueArray.filter((ele) =>
       Object.keys(ele)
         .map((key) => {
@@ -120,7 +123,6 @@ class searchReducer {
         })
         .includes(true)
     );
-
     return {
       ...state,
       product: {
@@ -287,6 +289,7 @@ class searchReducer {
 export const reducer = (state, action) => {
   state = state || initialState;
   let sr = new searchReducer();
+
   if (action.type === enableToEditStore) {
     return sr.enableToEditStore(state, action);
   }
@@ -302,7 +305,6 @@ export const reducer = (state, action) => {
     return sr.createStoreInfo(state, action);
   }
   if (action.type === scanSearchString) {
-    console.log("scanSearchString");
     return sr.scanSearchString(state, action);
   }
 
