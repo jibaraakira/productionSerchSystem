@@ -1,6 +1,7 @@
+/* tslint:disable:no-string-literal */
 import * as common from "./GlobalSource";
-import { dummy } from "./DummyData";
-import { product } from "./EntityClass";
+import { Dummy } from "./DummyData";
+import { Product } from "./EntityClass";
 
 const createStoreInfo = "createStoreInfo";
 const enableToEditStore = "enableToEditStore";
@@ -22,33 +23,33 @@ export const actionCreators = {
   createStoreInfo: () => ({ type: createStoreInfo }),
   enableToEditStore: () => ({ type: enableToEditStore }),
   updateStoreInfo: () => ({ type: updateStoreInfo }),
-  scanSearchString: (string) => async (dispatch) => {
+  scanSearchString: (inputString) => async (dispatch) => {
     const response = await fetch("product");
     const forecasts = await response.json();
-    dispatch({ type: scanSearchString, string, forecasts });
+    dispatch({ type: scanSearchString, inputString, forecasts });
   },
-  editStore: (valueKeyName, string, index) =>
-    common.getInputAction("editStore", valueKeyName, string, index),
-  searchProducts: () => ({ type: searchProducts }),
+  editStore: (valueKeyName, inputString, index) =>
+    common.getInputAction("editStore", valueKeyName, inputString, index),
+  searchProducts: (event) => ({ type: searchProducts, event }),
   enableToCreateProduct: () => ({ type: enableToCreateProduct }),
   createProductInfo: () => ({ type: createProductInfo }),
   enableToEditProduct: (index) => ({ type: enableToEditProduct, index }),
-  editProduct: (valueKeyName, string, index) =>
-    common.getInputAction("editProduct", valueKeyName, string, index),
+  editProduct: (valueKeyName, inputString, index) =>
+    common.getInputAction("editProduct", valueKeyName, inputString, index),
   updateProductInfo: () => ({ type: updateProductInfo }),
   deleteProductInfo: () => ({ type: deleteProductInfo }),
   test: () => ({ type: test }),
 };
 
-const initialState = new common.stateCreator().getSearchSettingDefault();
+const initialState = new common.StateCreator().getSearchSettingDefault();
 
-class searchReducer {
-	public objectCreator: any;
-	public dum: any;
+class SearchReducer {
+  public ObjectCreator: any;
+  public dum: any;
 
   constructor() {
-    this.objectCreator = new common.objectCreator();
-    this.dum = new dummy();
+    this.ObjectCreator = new common.ObjectCreator();
+    this.dum = new Dummy();
   }
   createStoreInfo(state, action) {
     if (action == null) return state;
@@ -72,8 +73,8 @@ class searchReducer {
 
   updateStoreInfo(state, action) {
     if (action == null) return state;
-    let update = Object.assign({}, state.store.current.value);
-    let shopContainer = Object.assign({}, state.store.dataContainer);
+    const update = Object.assign({}, state.store.current.value);
+    const shopContainer = Object.assign({}, state.store.dataContainer);
 
     update.loopValues.forEach((ele) => {
       shopContainer.valueArray[update.valuesIndex][ele.keyName] = ele.value;
@@ -95,8 +96,8 @@ class searchReducer {
     console.log(`editstreo${action.value}`);
     if (action == null) return state;
 
-    let selectedStore = state.store.dataContainer.valueArray[action.index];
-    selectedStore[action.valueKeyName] = action.string;
+    const selectedStore = state.store.dataContainer.valueArray[action.index];
+    selectedStore[action.valueKeyName] = action.inputString;
 
     return {
       ...state,
@@ -104,7 +105,7 @@ class searchReducer {
         ...state.store,
         current: {
           ...state.product.current,
-          value: this.objectCreator.convertToDefineObject(
+          value: this.ObjectCreator.convertToDefineObject(
             action.index,
             state.store.dataContainer.logicNames,
             selectedStore
@@ -114,34 +115,39 @@ class searchReducer {
     };
   }
 
+  searchProducts(state, action) {
+    return null;
+  }
+
   scanSearchString(state, action) {
     console.log(action.string);
-    let dataContainer = this.dum.getDummyProductContainer(action.forecasts);
-    dataContainer.valueArray = dataContainer.valueArray.filter((ele) =>
-      Object.keys(ele)
-        .map((key) => {
-          let ddd = new RegExp(action.string, "g").test(ele[key]);
-          console.log(`${action.string} ${ele[key]} ${ddd}`);
-          return ddd;
-        })
-        .includes(true)
-    );
+    const dataContainer = this.dum.getDummyProductContainer(action.forecasts);
+    dataContainer.valueArray = dataContainer.valueArray.filter((ele) => {
+      let flag: boolean = false;
+      Object.keys(ele).forEach((key) => {
+        if (new RegExp(action.inputString, "g").test(ele[key])) {
+          flag = true;
+        }
+      });
+      return flag;
+    });
+
     return {
       ...state,
       product: {
         ...state.product,
-        dataContainer: dataContainer,
+        dataContainer,
       },
     };
   }
 
   enableToCreateProduct(state, action) {
     console.log("enabel to ");
-    let blank = new product().getDataContainer([
+    const blank = new Product().getDataContainer([
       ["", "", "", "", "", "", "", ""],
     ]);
     console.log(blank);
-    let index =
+    const index =
       state.product.dataContainer === null
         ? -1
         : ++state.product.dataContainer.valueArray.length;
@@ -150,7 +156,7 @@ class searchReducer {
       ...state,
       product: {
         ...state.product,
-        current: this.objectCreator.convertToDefineObject(
+        current: this.ObjectCreator.convertToDefineObject(
           index,
           blank.logicNames,
           blank.valueArray[0]
@@ -166,7 +172,7 @@ class searchReducer {
 
   createProductInfo(state, action) {
     if (action == null) return state;
-    let update = Object.assign({}, state.product.current.value);
+    const update = Object.assign({}, state.product.current.value);
 
     if (state.product.dataContainer === null) {
       return {
@@ -188,7 +194,7 @@ class searchReducer {
       };
     }
 
-    let productContainer = Object.assign({}, state.product.dataContainer);
+    const productContainer = Object.assign({}, state.product.dataContainer);
     productContainer.valueArray.push({});
 
     update.loopValues.forEach((ele) => {
@@ -218,7 +224,7 @@ class searchReducer {
         ...state.product,
         current: {
           ...state.product.current,
-          value: this.objectCreator.convertToDefineObject(
+          value: this.ObjectCreator.convertToDefineObject(
             action.index,
             state.product.dataContainer.logicNames,
             state.product.dataContainer.valueArray[action.index]
@@ -235,7 +241,7 @@ class searchReducer {
 
   editProduct(state, action) {
     if (action == null) return state;
-    let updateLoopValues = state.product.current.value.loopValues;
+    const updateLoopValues = state.product.current.value.loopValues;
 
     updateLoopValues.forEach((ele) => {
       if (ele["keyName"] === action.valueKeyName) {
@@ -250,7 +256,7 @@ class searchReducer {
         current: {
           ...state.product.current,
           value: {
-            ...state.string,
+            ...state.inputString,
             valuesIndex: action.index,
             loopValues: updateLoopValues,
           },
@@ -261,8 +267,8 @@ class searchReducer {
 
   updateProductInfo(state, action) {
     if (action == null) return state;
-    let update = Object.assign({}, state.product.current.value);
-    let productContainer = Object.assign({}, state.product.dataContainer);
+    const update = Object.assign({}, state.product.current.value);
+    const productContainer = Object.assign({}, state.product.dataContainer);
 
     update.loopValues.forEach((ele) => {
       productContainer.valueArray[state.product.current.value.valuesIndex][
@@ -291,7 +297,7 @@ class searchReducer {
 
 export const reducer = (state, action) => {
   state = state || initialState;
-  let sr = new searchReducer();
+  const sr = new SearchReducer();
 
   if (action.type === enableToEditStore) {
     return sr.enableToEditStore(state, action);

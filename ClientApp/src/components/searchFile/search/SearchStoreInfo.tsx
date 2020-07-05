@@ -1,10 +1,10 @@
 import React from "react";
 import * as common from "../CommonComponent";
 export class ProductInformation extends React.Component {
-	public props: any;
+  public props: any;
 
   render() {
-    let storeInfo = this.props.init.store.current.value;
+    const storeInfo = this.props.init.store.current.value;
     if (storeInfo == null) return null;
     const storeDefinition = common.getStoreDefinition(storeInfo.loopValues);
     return (

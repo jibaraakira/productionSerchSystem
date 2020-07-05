@@ -1,17 +1,19 @@
-import { objectCreator } from "./GlobalSource";
+/* tslint:disable:max-classes-per-file */
+import { ObjectCreator } from "./GlobalSource";
 
-export class entity {
-	public objectCreator: any;
-	public createLogicNames: any;
+export abstract class Entity {
+  public ObjectCreator: any;
 
   constructor() {
-    this.objectCreator = new objectCreator();
+    this.ObjectCreator = new ObjectCreator();
   }
 
-  getLogicName() {}
+  abstract getLogicName(): any;
+
+  abstract createLogicNames(names, userBranch): any;
 
   createDataContainer(valueArraySource, userBranch, userBranchSetting) {
-    return this.objectCreator.createDataContainerObject({
+    return this.ObjectCreator.createDataContainerObject({
       logicNames: this.createLogicNames(this.getLogicName(), userBranch),
       valueArray: valueArraySource.map((index) => {
         return this.createEntity(index, userBranchSetting);
@@ -19,12 +21,12 @@ export class entity {
     });
   }
 
-  createEntity(index, ddd) {}
+  abstract createEntity(index, ddd): Entity;
 }
 
-export class store extends entity {
-	public userBranch: any;
-	public userBranchSetting: any;
+export class Store extends Entity {
+  public userBranch: any;
+  public userBranchSetting: any;
 
   constructor() {
     super();
@@ -55,11 +57,11 @@ export class store extends entity {
   }
 
   createLogicNames(names, userBranch) {
-    return this.objectCreator.createShopEntity(names, userBranch);
+    return this.ObjectCreator.createShopEntity(names, userBranch);
   }
 
   createEntity(index, ddd) {
-    return this.objectCreator.createShopEntity(
+    return this.ObjectCreator.createShopEntity(
       {
         storeName: index[0],
         address: index[1],
@@ -73,9 +75,9 @@ export class store extends entity {
   }
 }
 
-export class product extends entity {
-	public userBranch: any;
-	public userBranchSetting: any;
+export class Product extends Entity {
+  public userBranch: any;
+  public userBranchSetting: any;
 
   constructor() {
     super();
@@ -100,7 +102,7 @@ export class product extends entity {
   }
 
   createLogicNames(names, userBranch) {
-    return this.objectCreator.createProductEntity(names, userBranch);
+    return this.ObjectCreator.createProductEntity(names, userBranch);
   }
 
   getDataContainer(valueArraySource) {
@@ -112,7 +114,7 @@ export class product extends entity {
   }
 
   createEntity(index, ddd) {
-    return this.objectCreator.createProductEntity(
+    return this.ObjectCreator.createProductEntity(
       {
         productName: index[0],
         value: index[1],

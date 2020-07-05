@@ -1,25 +1,25 @@
 import * as entityCreator from "./EntityClass";
-export class dummy {
-	public product: any;
-	public store: any;
-	public objectCreator: any;
+export class Dummy {
+  public product: any;
+  public store: any;
+  public ObjectCreator: any;
 
   constructor() {
-    this.product = new entityCreator.product();
-    this.store = new entityCreator.store();
+    this.product = new entityCreator.Product();
+    this.store = new entityCreator.Store();
   }
 
   getDummySearchStoreByCustomer() {
-    let data = [
+    const data = [
       ["AA店", "ラーメン太郎の麺", "2階", "220", "19", ""],
       ["BB店", "ラーメン太郎の麺", "1階", "230", "5", ""],
       ["CC店", "ラーメン次郎の麺", "5階", "240", "3", ""],
     ];
 
-    return this.objectCreator.createSearchStoreByCustomerContainer({
+    return this.ObjectCreator.createSearchStoreByCustomerContainer({
       searchWord: "麺",
       list: data.map((index) => {
-        return this.objectCreator.createSearchStoreByCustomerItem(
+        return this.ObjectCreator.createSearchStoreByCustomerItem(
           {
             storeName: index[0],
             productName: index[1],
@@ -35,7 +35,7 @@ export class dummy {
   }
 
   getDummyStoreContainer(isValues) {
-    let data = isValues
+    const data = isValues
       ? [
           [
             "AA店",

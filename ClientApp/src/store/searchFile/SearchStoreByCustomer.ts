@@ -1,23 +1,22 @@
+/* tslint:disable:no-string-literal */
 import * as common from "./GlobalSource";
-import { dummy } from "./DummyData";
+import { Dummy } from "./DummyData";
 const searchProduct = "Search";
 const selectStore = "selectStore";
 const memoryStoreSearch = "memoryStoreSearch";
 
 export const actionCreators = {
   searchProduct: () => ({ type: searchProduct }),
-  selectStore: function (key, index) {
-    return {
-      type: selectStore,
-      selectedIndex: index,
-      selectedKeyWord: key,
-    };
-  },
+  selectStore: (key, index) => ({
+    type: selectStore,
+    selectedIndex: index,
+    selectedKeyWord: key,
+  }),
   memoryStoreSearch: () => ({ type: memoryStoreSearch }),
 };
 
-const dum = new dummy();
-const initial = new common.stateCreator().getSearchDefault();
+const dum = new Dummy();
+const initial = new common.StateCreator().getSearchDefault();
 export const reducer = (state, action) => {
   state = state || initial;
 
@@ -41,7 +40,7 @@ export const reducer = (state, action) => {
   }
 
   if (action.type === selectStore) {
-    let selectedResult = state.searchStoreByCustomer.resultList["list"].find(
+    const selectedResult = state.searchStoreByCustomer.resultList["list"].find(
       (result) => {
         return result.index === action.selectedIndex;
       }
@@ -66,6 +65,7 @@ export const reducer = (state, action) => {
     };
   }
   if (action.type === memoryStoreSearch) {
+    return null;
   }
   return state;
 };

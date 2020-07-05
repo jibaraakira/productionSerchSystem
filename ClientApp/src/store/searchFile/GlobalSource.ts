@@ -1,5 +1,7 @@
-import { dummy } from "./DummyData";
-export class objectCreator {
+/* tslint:disable:no-string-literal */
+/* tslint:disable:max-classes-per-file */
+import { Dummy } from "./DummyData";
+export class ObjectCreator {
   public counterOf: any;
   public count: any;
 
@@ -10,20 +12,21 @@ export class objectCreator {
 
   // Cardに表示させる、ProductEntity.logicNamesのオブジェクトのキー追加の判断をする。
   // logicNamesのオブジェクトにあるキーの有無で、、ProductEntity.valueArrayのエンティティの表示を決定する。
-  fixEntity(entity, useBranch, data) {
+  fixEntity(Entity, useBranch, data) {
     Object.keys(useBranch).forEach((key) => {
       if (useBranch[key]) {
-        entity[key] = data[key];
+        Entity[key] = data[key];
       }
     });
-    return entity;
+    return Entity;
   }
+
   createStateObject({
     searchStoreByCustomer,
     searchSavedProduct,
     store,
     product,
-  } = {}) {
+  }: any = {}) {
     const stateObject = {
       searchStoreByCustomer,
       searchSavedProduct,
@@ -33,7 +36,7 @@ export class objectCreator {
     return stateObject;
   }
 
-  createDataContainerObject({ logicNames, valueArray } = {}) {
+  createDataContainerObject({ logicNames, valueArray }: any = {}) {
     const dataSetObject = {
       logicNames,
       valueArray,
@@ -42,7 +45,7 @@ export class objectCreator {
   }
 
   createSearchStoreByCustomerItem(
-    { storeName, productName, placeName, value, count, photoUrl } = {},
+    { storeName, productName, placeName, value, count, photoUrl }: any = {},
     useBranch
   ) {
     const resultObj = {
@@ -53,14 +56,14 @@ export class objectCreator {
       value,
       count,
     };
-    let fixResultObj = this.fixEntity(resultObj, useBranch, {
-      photoUrl: photoUrl,
+    const fixResultObj = this.fixEntity(resultObj, useBranch, {
+      photoUrl,
     });
     return fixResultObj;
   }
 
   createShopEntity(
-    { storeName, address, telephone, url, time, photoUrl } = {},
+    { storeName, address, telephone, url, time, photoUrl }: any = {},
     useBranch
   ) {
     const shopInfo = {
@@ -70,8 +73,8 @@ export class objectCreator {
       url,
       time,
     };
-    let fixShopInfo = this.fixEntity(shopInfo, useBranch, {
-      photoUrl: photoUrl,
+    const fixShopInfo = this.fixEntity(shopInfo, useBranch, {
+      photoUrl,
     });
     return fixShopInfo;
   }
@@ -86,7 +89,7 @@ export class objectCreator {
       seller,
       factory,
       photoUrl,
-    } = {},
+    }: any = {},
     useBranch,
     indexIsNeed
   ) {
@@ -101,20 +104,20 @@ export class objectCreator {
     };
 
     if (indexIsNeed) product["index"] = this.count++;
-    let fixProduct = this.fixEntity(product, useBranch, {
-      photoUrl: photoUrl,
+    const fixProduct = this.fixEntity(product, useBranch, {
+      photoUrl,
     });
     return fixProduct;
   }
 
-  createDefProperty({ mode, current } = {}) {
+  createDefProperty({ mode, current }: any = {}) {
     return {
       mode,
       current,
     };
   }
 
-  createLoopValues({ keyName, logicName, value } = {}) {
+  createLoopValues({ keyName, logicName, value }: any = {}) {
     const loopValues = {
       keyName,
       logicName,
@@ -123,7 +126,7 @@ export class objectCreator {
     return loopValues;
   }
 
-  createDefineObject({ valuesIndex, loopValues } = {}) {
+  createDefineObject({ valuesIndex, loopValues }: any = {}) {
     const define = {
       valuesIndex,
       loopValues,
@@ -169,14 +172,14 @@ export class objectCreator {
     };
   }
 
-  createSearchStoreByCustomerContainer({ searchString, list } = {}) {
+  createSearchStoreByCustomerContainer({ searchString, list }: any = {}) {
     return {
       searchString,
       list,
     };
   }
 
-  insertEntityState({ flag, current, dataContainer } = {}) {
+  insertEntityState({ flag, current, dataContainer }: any = {}) {
     const createEntityState = {
       flag: {
         canInsert: flag.canInsert,
@@ -210,7 +213,7 @@ export class objectCreator {
       },
     };
   }
-  createCardJsx({ topPartial, button } = {}) {
+  createCardJsx({ topPartial, button }: any = {}) {
     const cardJsx = {
       topPartial,
       button,
@@ -223,13 +226,13 @@ export class objectCreator {
   }
 }
 
-export class stateCreator {
+export class StateCreator {
   public creator: any;
   public stateOrigin: any;
   public dum: any;
 
   constructor() {
-    this.creator = new objectCreator();
+    this.creator = new ObjectCreator();
     this.stateOrigin = this.creator.createStateObject({
       searchStoreByCustomer: this.creator.createSearchStoreByCustomer(),
       searchSavedProduct: this.creator.createSearchSavedProduct(),
@@ -237,7 +240,7 @@ export class stateCreator {
       product: this.creator.createEntityState(),
     });
 
-    this.dum = new dummy();
+    this.dum = new Dummy();
   }
 
   getSearchDefault() {
@@ -255,8 +258,8 @@ export class stateCreator {
   }
 
   getSearchSettingDefault() {
-    let dummyContainer = this.dum.getDummyStoreContainer(true);
-    let dummyState = this.stateOrigin;
+    const dummyContainer = this.dum.getDummyStoreContainer(true);
+    const dummyState = this.stateOrigin;
     Object.assign(dummyState, {
       store: this.creator.insertEntityState({
         flag: {
@@ -285,9 +288,9 @@ export class stateCreator {
 }
 
 export function getCurrentStore(state, selectedResult) {
-  const objCreator = new objectCreator();
-  let dataContainer = state.store.dataContainer;
-  let storeIndex = dataContainer.valueArray.findIndex((store) => {
+  const objCreator = new ObjectCreator();
+  const dataContainer = state.store.dataContainer;
+  const storeIndex = dataContainer.valueArray.findIndex((store) => {
     return store.storeName === selectedResult.storeName;
   });
 
@@ -299,8 +302,8 @@ export function getCurrentStore(state, selectedResult) {
 }
 
 export function getCurrentProduct(state, selectedIndex) {
-  const objCreator = new objectCreator();
-  let dataContainer = state.product.dataContainer;
+  const objCreator = new ObjectCreator();
+  const dataContainer = state.product.dataContainer;
   return objCreator.convertToDefineObject(
     selectedIndex,
     dataContainer.logicNames,
@@ -309,9 +312,9 @@ export function getCurrentProduct(state, selectedIndex) {
 }
 
 export function getBlankProduct(state, selectedIndex) {
-  const objCreator = new objectCreator();
-  let dataContainer = state.product.dataContainer;
-  let productIndex = dataContainer.valueArray.findIndex((product) => {
+  const objCreator = new ObjectCreator();
+  const dataContainer = state.product.dataContainer;
+  const productIndex = dataContainer.valueArray.findIndex((product) => {
     return product.index === selectedIndex;
   });
 
@@ -322,20 +325,20 @@ export function getBlankProduct(state, selectedIndex) {
   );
 }
 
-export function getInputAction(type, valueKeyName, string, index) {
+export function getInputAction(type, valueKeyName, value, index) {
   return Object.assign(
     {},
     {
       type,
       valueKeyName,
-      string,
+      value,
       index,
     }
   );
 }
 
 export function debounce(fn, interval) {
-  var timer;
+  let timer: any;
   return function () {
     clearTimeout(timer);
     timer = setTimeout(function () {

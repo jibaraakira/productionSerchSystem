@@ -1,11 +1,12 @@
+/* tslint:disable:no-string-literal */
 import React from "react";
 import * as common from "./CommonComponent";
 export class Header extends React.Component {
-	public props: any;
+  public props: any;
 
   createForm(selector) {
     if (selector == null) return null;
-    let formPattern = [
+    const formPattern = [
       {
         path: "/",
         jsx: (
@@ -59,7 +60,7 @@ export class Header extends React.Component {
         ),
       },
     ];
-    let resultSet = common.selectJsx(formPattern, "path", selector);
+    const resultSet = common.selectJsx(formPattern, "path", selector);
     return resultSet["jsx"];
   }
   render() {

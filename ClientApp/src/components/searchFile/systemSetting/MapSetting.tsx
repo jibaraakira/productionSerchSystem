@@ -1,5 +1,4 @@
 import React from "react";
-import * as common from "../CommonComponent";
 export class Header extends React.Component {
   render() {
     return (

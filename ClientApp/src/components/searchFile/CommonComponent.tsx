@@ -1,9 +1,10 @@
+/* tslint:disable:max-classes-per-file */
 import React from "react";
 import * as globalSource from "../../store/searchFile/GlobalSource";
 import { CSSTransition } from "react-transition-group";
 
 export function selectJsx(jsxArray, keyName, selector) {
-  let result = jsxArray.find((index) => {
+  const result = jsxArray.find((index) => {
     return index[keyName] === selector;
   });
   return result;
@@ -23,7 +24,7 @@ export function createDefinitions(define) {
 export function getStoreDefinition(storeDefine) {
   if (storeDefine == null) return null;
 
-  let definitions = createDefinitions(storeDefine);
+  const definitions = createDefinitions(storeDefine);
 
   return <div className="proinfo__data--type1">{definitions}</div>;
 }
@@ -31,7 +32,7 @@ export function getStoreDefinition(storeDefine) {
 export function getProductDefinitions(productDefine, title) {
   if (productDefine == null) return null;
 
-  let definitions = createDefinitions(productDefine);
+  const definitions = createDefinitions(productDefine);
 
   return (
     <div className="proinfo__detail">
@@ -42,13 +43,13 @@ export function getProductDefinitions(productDefine, title) {
 }
 
 export class InputDefinition extends React.Component {
-	public props: any;
+  public props: any;
 
   render() {
-    let dataSet = this.props.dataSet;
+    const dataSet = this.props.dataSet;
     if (dataSet == null) return null;
 
-    let data = dataSet.loopValues.map((ele) => (
+    const data = dataSet.loopValues.map((ele) => (
       <dl>
         <dt>{ele.logicName}</dt>
         <dd>
@@ -56,7 +57,7 @@ export class InputDefinition extends React.Component {
             type="text"
             className="search__input input--type3"
             onChange={(event) =>
-              this.props.cardSetter.getInsertMethod(
+              this.props.CardSetter.getInsertMethod(
                 event,
                 ele.keyName,
                 dataSet.valuesIndex
@@ -72,7 +73,7 @@ export class InputDefinition extends React.Component {
 }
 
 export class ButtonContainer extends React.Component {
-	public props: any;
+  public props: any;
 
   insertButton() {
     return (
@@ -87,7 +88,7 @@ export class ButtonContainer extends React.Component {
     );
   }
 
-  renderInsertBtn({ infoIsNone, canEdit } = {}) {
+  renderInsertBtn({ infoIsNone, canEdit }: any = {}) {
     if (this.props.init == null) {
       return null;
     }
@@ -108,7 +109,7 @@ export class ButtonContainer extends React.Component {
     updateMethod,
     deleteMethod,
     saveBtnIsVisible,
-  } = {}) {
+  }: any = {}) {
     const saveButton = (
       <button
         className="property__button button--update"
@@ -143,7 +144,7 @@ export class ButtonContainer extends React.Component {
   }
 
   render() {
-    let setting = this.props.buttonSetting;
+    const setting = this.props.buttonSetting;
     return (
       <div className="property__buttons">
         {this.renderInsertBtn({
@@ -162,10 +163,10 @@ export class ButtonContainer extends React.Component {
 }
 
 export class Photo extends React.Component {
-	public props: any;
+  public props: any;
 
   render() {
-    let photo = (photoUrl) => {
+    const photo = (photoUrl) => {
       if (photoUrl === null || photoUrl === "") {
         return "写真を読み込む";
       } else {
@@ -208,10 +209,10 @@ export class Photo extends React.Component {
 }
 
 export class Card extends React.Component {
-	public props: any;
+  public props: any;
 
   renderDefinition() {
-    let property = vender(this.props.mode, this).getDefinition();
+    const property = vender(this.props.mode, this).getDefinition();
     if (property.canEdit) {
       return (
         <div className={property.class}>
@@ -219,7 +220,7 @@ export class Card extends React.Component {
             init={this.props.init}
             dataSet={property.info}
             mode={this.props.mode}
-            cardSetter={vender(this.props.mode, this)}
+            CardSetter={vender(this.props.mode, this)}
           />
         </div>
       );
@@ -232,10 +233,10 @@ export class Card extends React.Component {
   }
 
   getCardJsx() {
-    let objCreator = new globalSource.objectCreator();
+    const objCreator = new globalSource.ObjectCreator();
 
-    let prop = this.props.init;
-    let jsx = vender(this.props.mode, this).getInstance();
+    const prop = this.props.init;
+    const jsx = vender(this.props.mode, this).getInstance();
 
     console.log(this.props.init);
 
@@ -267,7 +268,7 @@ export class Card extends React.Component {
   }
 
   render() {
-    let cardJsx = this.getCardJsx();
+    const cardJsx = this.getCardJsx();
     return (
       <div className="property__card--setting">
         {cardJsx.topPartial}
@@ -279,35 +280,36 @@ export class Card extends React.Component {
   }
 }
 
-function vender(mode, th) {
+function vender(mode: string, th: any) {
   switch (mode) {
     case "store":
-      return new storeCardSetter(th);
+      return new StoreCardSetter(th);
     case "insert_product":
-      return new insertProductCardSetter(th);
+      return new InsertProductCardSetter(th);
     case "product":
-      return new productCardSetter(th);
+      return new ProductCardSetter(th);
     default:
       break;
   }
+  return <div></div>;
 }
 
-class cardSetter {
-	public th: any;
-	public props: any;
-	public objCreator: any;
+abstract class CardSetter {
+  public th: any;
+  public props: any;
+  public objCreator: any;
 
   constructor(th) {
     this.th = th;
     this.props = th.props.init;
-    this.objCreator = new globalSource.objectCreator();
+    this.objCreator = new globalSource.ObjectCreator();
   }
-  getInstance() {}
-  getDefinition() {}
-  getInsertMethod() {}
+  abstract getInstance(): any;
+  abstract getDefinition(): any;
+  abstract getInsertMethod(event: any, valueKeyName: any, valueIndex: any): any;
 }
 
-class storeCardSetter extends cardSetter {
+class StoreCardSetter extends CardSetter {
   getInstance() {
     return {
       outerArgs: null,
@@ -346,14 +348,14 @@ class storeCardSetter extends cardSetter {
   }
 }
 
-class insertProductCardSetter extends cardSetter {
+class InsertProductCardSetter extends CardSetter {
   getInstance() {
-    let outerArgs = this.objCreator.createDefProperty({
+    const outerArgs = this.objCreator.createDefProperty({
       mode: this.props.mode,
       current: this.props.product.current,
     });
     return {
-      outerArgs: outerArgs,
+      outerArgs,
       prop: null,
       photoURL: null,
       saveBtn: this.props.product.flag.canInsert,
@@ -365,9 +367,9 @@ class insertProductCardSetter extends cardSetter {
   }
 
   getDefinition() {
-    let currentIndex = this.props.product.current.valuesIndex;
-    let canEdit = null;
-    let outerArgs = this.objCreator.createDefProperty({
+    const currentIndex = this.props.product.current.valuesIndex;
+    let canEdit: boolean;
+    const outerArgs = this.objCreator.createDefProperty({
       mode: this.props.mode,
       current: this.props.product.current,
     });
@@ -380,7 +382,7 @@ class insertProductCardSetter extends cardSetter {
     }
     return {
       info: outerArgs.current,
-      canEdit: canEdit,
+      canEdit,
       isNone: this.props.product.current.isNull,
       title: "商品詳細",
       class: "proinfo__data--type2",
@@ -393,9 +395,9 @@ class insertProductCardSetter extends cardSetter {
   }
 }
 
-class productCardSetter extends cardSetter {
+class ProductCardSetter extends CardSetter {
   getInstance() {
-    let dd = this.objCreator.createDefProperty({
+    const dd = this.objCreator.createDefProperty({
       mode: this.props.mode,
       current: this.th.props.thisDefine,
     });
@@ -414,9 +416,9 @@ class productCardSetter extends cardSetter {
   }
 
   getDefinition() {
-    let currentIndex = this.props.product.current.valuesIndex;
-    let canEdit = null;
-    let outerArgs = this.objCreator.createDefProperty({
+    const currentIndex = this.props.product.current.valuesIndex;
+    let canEdit: boolean;
+    const outerArgs = this.objCreator.createDefProperty({
       mode: this.props.mode,
       current: this.th.props.thisDefine,
     });
@@ -429,7 +431,7 @@ class productCardSetter extends cardSetter {
     }
     return {
       info: outerArgs.current,
-      canEdit: canEdit,
+      canEdit,
       isNone: this.props.product.current.isNull,
       title: "商品詳細",
       class: "proinfo__data--type2",

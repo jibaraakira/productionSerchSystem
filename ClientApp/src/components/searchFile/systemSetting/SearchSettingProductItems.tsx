@@ -4,7 +4,7 @@ import * as storeCommon from "../../../store/searchFile/GlobalSource";
 import { CSSTransition } from "react-transition-group";
 
 export class ProductItems extends React.Component {
-	public props: any;
+  public props: any;
 
   getCreateProduct() {
     if (this.props.init.product.flag.canInsert) {
@@ -19,7 +19,7 @@ export class ProductItems extends React.Component {
   }
 
   getProductions() {
-    let product = this.props.init.product.dataContainer;
+    const product = this.props.init.product.dataContainer;
 
     if (product == null) return null;
 
@@ -44,7 +44,7 @@ export class ProductItems extends React.Component {
   }, 700);
 
   render() {
-    let productCards = this.getProductions();
+    const productCards = this.getProductions();
 
     return (
       <article id="products" className="products">
@@ -78,7 +78,7 @@ export class ProductItems extends React.Component {
                   name=""
                   id=""
                   placeholder="keyword"
-                  onChange={(e) => this.searchProduct(e.target.value)}
+                  onChange={(e) => this.searchProduct()} //e.target.value
                 />
               </div>
             </div>

@@ -2,7 +2,7 @@ import React from "react";
 import { Card } from "../CommonComponent";
 import { CSSTransition } from "react-transition-group";
 export class StoreInfo extends React.Component {
-	public props: any;
+  public props: any;
 
   getStoreMapSetter() {
     return (
@@ -86,14 +86,11 @@ export class StoreInfo extends React.Component {
       </section>
     );
   }
-  renderInsertedStoreDefinition() {}
+  // renderInsertedStoreDefinition() {}
 
   render() {
     const storeMapSetter = this.getStoreMapSetter();
-    const tryCshart = function () {
-      
-    }
-
+    // const tryCshart = function () { }
 
     return (
       <article id="shopinfo">
@@ -103,7 +100,7 @@ export class StoreInfo extends React.Component {
           <Card init={this.props.init} mode={"store"} />
         </section>
         {storeMapSetter}
-        {tryCshart}
+        {/* {tryCshart} */}
       </article>
     );
   }

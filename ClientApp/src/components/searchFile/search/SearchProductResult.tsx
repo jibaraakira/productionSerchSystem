@@ -4,9 +4,9 @@ export class ProductResult extends React.Component {
   public props: any;
 
   render() {
-    let product = this.props.init.product.current.value;
+    const product = this.props.init.product.current.value;
     if (product == null) return null;
-    let productDefinitions = common.getProductDefinitions(
+    const productDefinitions = common.getProductDefinitions(
       product.loopValues,
       ""
     );
