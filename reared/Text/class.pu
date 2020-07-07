@@ -1,0 +1,20 @@
+@startuml syste
+class store{
+    storeName
+    address
+    telephone
+    url
+    time
+}
+
+class product{
+    productName
+    value
+    count
+    commonName
+    expirationDate
+    seller
+    factory
+    photoUrl
+}
+@enduml
