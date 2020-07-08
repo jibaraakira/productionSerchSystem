@@ -1,0 +1,250 @@
+
+====
+ C:\Users\user\OneDrive\reared.net\reared\ClientApp\src\components\searchFile\search
+====
+
+
+****C:\Users\user\OneDrive\reared.net\reared\ClientApp\src\components\searchFile\search\Search.js
+ }
+ class  Search  { }
+  render() {
+        <Header />
+          <MainSearch />
+          <SearchStoreByCustomer />
+          <ProductInformation />
+          <ProductResult />
+  (state) => state.search,
+  (dispatch) => bindActionCreators(actionCreators, dispatch)
+)(Search);
+
+****C:\Users\user\OneDrive\reared.net\reared\ClientApp\src\components\searchFile\search\SearchHeroSearch.js
+ }
+ class  MainSearch  { }
+  render() {
+
+****C:\Users\user\OneDrive\reared.net\reared\ClientApp\src\components\searchFile\search\SearchProductResult.js
+ }
+ class  ProductResult  { }
+  render() {
+ }
+ class ="proinfo__result"> }
+
+****C:\Users\user\OneDrive\reared.net\reared\ClientApp\src\components\searchFile\search\SearchStoreByCustomer.js
+ }
+ class  SearchStoreByCustomer  { }
+  selectShop(key, index) {
+  getResultCards() {
+  resultView(resultCards) {
+  render() {
+ }
+ class ="result portfolio"> }
+
+****C:\Users\user\OneDrive\reared.net\reared\ClientApp\src\components\searchFile\search\SearchStoreInfo.js
+ }
+ class  ProductInformation  { }
+  render() {
+ }
+ class ="proinfo contact section-bg"> }
+
+====
+ C:\Users\user\OneDrive\reared.net\reared\ClientApp\src\components\searchFile\systemSetting
+====
+
+
+****C:\Users\user\OneDrive\reared.net\reared\ClientApp\src\components\searchFile\systemSetting\MapSetting.js
+ }
+ class  Header  { }
+  render() {
+
+****C:\Users\user\OneDrive\reared.net\reared\ClientApp\src\components\searchFile\systemSetting\SearchSetting.js
+ }
+ class  SystemSetting  { }
+  render() {
+        <Header />
+          <StoreInfo />
+          <ProductItems />
+  (state) => state.systemSetting,
+  (dispatch) => bindActionCreators(actionCreators, dispatch)
+)(SystemSetting);
+
+****C:\Users\user\OneDrive\reared.net\reared\ClientApp\src\components\searchFile\systemSetting\SearchSettingProductItems.js
+ }
+ class  ProductItems  { }
+  getCreateProduct() {
+          <Card />
+  getProductions() {
+  render() {
+
+****C:\Users\user\OneDrive\reared.net\reared\ClientApp\src\components\searchFile\systemSetting\SearchSettingStoreInfo.js
+ }
+ class  StoreInfo  { }
+  getStoreMapSetter() {
+  renderInsertedStoreDefinition() {}
+  render() {
+          <Card />
+
+====
+ C:\Users\user\OneDrive\reared.net\reared\ClientApp\src\components\searchFile
+====
+
+
+****C:\Users\user\OneDrive\reared.net\reared\ClientApp\src\components\searchFile\CommonComponent.js
+class selectJsx <<(F,#FF7700)>>  selectJsx(jsxArray, keyName, selector) {
+class selectJsx <<(F,#FF7700)>>  createDefinitions(define) {
+class selectJsx <<(F,#FF7700)>>  getStoreDefinition(storeDefine) {
+class selectJsx <<(F,#FF7700)>>  getProductDefinitions(productDefine, title) {
+ }
+ class  InputDefinition  { }
+  render() {
+            onChange={(event) =>
+ }
+ class  ButtonContainer  { }
+  insertButton() {
+  renderInsertBtn({ infoIsNone, canEdit } = {}) {
+  renderBtns({
+  render() {
+ }
+ class  Photo  { }
+  render() {
+                {photo(this.props.photoUrl)}
+ }
+ class  Card  { }
+  renderDefinition() {
+            cardSetter={vender(this.props.mode, this)}
+  getCardJsx() {
+          <Photo />
+  render() {
+function vender(mode, th) {
+  switch (mode) {
+ }
+ class  cardSetter { }
+  constructor(th) {
+  getInstance() {}
+  getDefinition() {}
+  getInsertMethod() {}
+ }
+ class  storeCardSetter extends cardSetter { }
+  getInstance() {
+  getDefinition() {
+ }
+ class : "proinfo__data--type2", }
+  getInsertMethod(event, valueKeyName, valueIndex) {
+ }
+ class  insertProductCardSetter extends cardSetter { }
+  getInstance() {
+  getDefinition() {
+ }
+ class : "proinfo__data--type2", }
+  getInsertMethod(event, valueKeyName, valueIndex) {
+ }
+ class  productCardSetter extends cardSetter { }
+  getInstance() {
+  getDefinition() {
+ }
+ class : "proinfo__data--type2", }
+  getInsertMethod(event, valueKeyName, valueIndex) {
+
+****C:\Users\user\OneDrive\reared.net\reared\ClientApp\src\components\searchFile\SearchHeader.js
+ }
+ class  Header  { }
+  createForm(selector) {
+  render() {
+
+====
+ C:\Users\user\OneDrive\reared.net\reared\ClientApp\src\store\searchFile
+====
+
+
+****C:\Users\user\OneDrive\reared.net\reared\ClientApp\src\store\searchFile\DummyData.js
+ }
+ class  dummy { }
+  constructor() {
+  getDummySearchStoreByCustomer() {
+  getDummyStoreContainer(isValues) {
+  getDummyProductContainer(dd) {
+
+****C:\Users\user\OneDrive\reared.net\reared\ClientApp\src\store\searchFile\EntityClass.js
+ }
+ class  entity { }
+  constructor() {
+  getLogicName() {}
+  createDataContainer(valueArraySource, userBranch, userBranchSetting) {
+  createEntity(index, ddd) {}
+ }
+ class  store extends entity { }
+  constructor() {
+  getLogicName() {
+  getDataContainer(valueArraySource) {
+  createLogicNames(names, userBranch) {
+  createEntity(index, ddd) {
+ }
+ class  product extends entity { }
+  constructor() {
+  getLogicName() {
+  createLogicNames(names, userBranch) {
+  getDataContainer(valueArraySource) {
+  createEntity(index, ddd) {
+
+****C:\Users\user\OneDrive\reared.net\reared\ClientApp\src\store\searchFile\GlobalSource.js
+ }
+ class  objectCreator { }
+  constructor() {
+  fixEntity(entity, useBranch, data) {
+  createStateObject({
+  createDataContainerObject({ logicNames, valueArray } = {}) {
+  createSearchStoreByCustomerItem(
+  createShopEntity(
+  createProductEntity(
+  createDefProperty({ mode, current } = {}) {
+  createLoopValues({ keyName, logicName, value } = {}) {
+  createDefineObject({ valuesIndex, loopValues } = {}) {
+  convertToDefineObject(valuesIndex, logicNames, valueArray) {
+  createEntityState() {
+  createSearchStoreByCustomer() {
+  createSearchStoreByCustomerContainer({ searchString, list } = {}) {
+  insertEntityState({ flag, current, dataContainer } = {}) {
+  createButtonSetting(
+  createCardJsx({ topPartial, button } = {}) {
+  createSearchSavedProduct() {
+ }
+ class  stateCreator { }
+  constructor() {
+  getSearchDefault() {
+  getSearchSettingDefault() {
+class selectJsx <<(F,#FF7700)>>  getCurrentStore(state, selectedResult) {
+class selectJsx <<(F,#FF7700)>>  getCurrentProduct(state, selectedIndex) {
+class selectJsx <<(F,#FF7700)>>  getBlankProduct(state, selectedIndex) {
+class selectJsx <<(F,#FF7700)>>  getInputAction(type, valueKeyName, string, index) {
+class selectJsx <<(F,#FF7700)>>  debounce(fn, interval) {
+//     clearTimeout(timer);
+//     timer = setTimeout(function () {
+//       fn();
+class selectJsx <<(F,#FF7700)>>  debounce(a, b, c) {
+//     function h() {
+
+****C:\Users\user\OneDrive\reared.net\reared\ClientApp\src\store\searchFile\SearchStoreByCustomer.js
+      (result) => {
+
+****C:\Users\user\OneDrive\reared.net\reared\ClientApp\src\store\searchFile\SystemSetting.js
+  //   dispatch({ type: scanSearchString, string, forecasts });
+ }
+ class  searchReducer { }
+  constructor() {
+  createStoreInfo(state, action) {
+  enableToEditStore(state, action) {
+  updateStoreInfo(state, action) {
+  editStore(state, action) {
+  scanSearchString(state, action) {
+  enableToCreateProduct(state, action) {
+  createProductInfo(state, action) {
+  enableToEditProduct(state, action) {
+  editProduct(state, action) {
+  updateProductInfo(state, action) {
+
+====
+ C:\Users\user\OneDrive\reared.net\reared\ClientApp\src\store
+====
+
+
+****C:\Users\user\OneDrive\reared.net\reared\ClientApp\src\store\configureStore.js
+    compose(applyMiddleware(...middleware), ...enhancers)

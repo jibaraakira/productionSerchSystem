@@ -1,0 +1,61 @@
+@startuml classPicture
+
+class "店舗情報管理者\n(AdmininAccount)" as admin{
+ string userId
+ string userName
+ string password
+}
+
+class "商品\n(Product)" as prod{
+    string productName
+    string value
+    string count
+    string commonName
+    string expirationDate
+    string seller
+    string factory
+    string photoUrl
+}
+
+class "店舗\n(Store)" as store{
+    stiring   storeName
+    stiring address
+    stiring telephone
+    stiring url
+    stiring time
+
+}
+
+interface "店内表示座標\n(StoreCoordinate)" as storeCoordinate{
+ enum coorinateKind
+ int coorinateId
+ string pointName
+}
+
+class "店内点座標\n(StorePointCoodinate)" as dotCoordinate <店内表示座標\n(StoreCoordinate)> {
+ int pointX
+ int pointY
+
+}
+
+class "店内面積座標\n(StoreForceCornerCoordinate)" as StoreForceCornerCoordinate <店内表示座標\n(StoreCoordinate)>{}
+
+
+note "店舗、商品、店内表示座標（以下、座標とする）の三角関係は、次を意味する\n(1)商品と座標は、それぞれ独立して登録、更新、削除できる。\n(2)商品と座標を結びつけるかどうかは、任意であり、システムの構造手に絶対ではない。" as M1
+
+
+
+admin "1"--"0..*" store
+
+store"1"--"0..*" prod
+store"1"--"0..*" storeCoordinate
+
+prod "1"--"0..*" storeCoordinate
+
+storeCoordinate --* dotCoordinate
+storeCoordinate --* StoreForceCornerCoordinate
+
+store .. M1
+
+M1 .. storeCoordinate
+@enduml

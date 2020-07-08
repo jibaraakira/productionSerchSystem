@@ -1,0 +1,102 @@
+@startuml usercase
+    left to right direction
+
+
+    skinparam usecase {
+        BackgroundColor LightGreen
+        BorderColor Blue
+        BackgroundColor<<main>> MistyRose
+        BackgroundColor<<Entity>> MistyRose
+    }
+
+    actor "ユーザー" as customer
+    actor 店舗情報管理者
+
+    package "店舗商品検索システム" {
+
+        rectangle "店舗管理者のアカウント"{
+            usecase "店舗管理者のアカウントを、\n登録・変更・削除する" as editAdminAccount
+        }
+        rectangle "エンティティの操作" {
+            rectangle "エンティティの登録・変更・削除操作"{
+                usecase "エンティティを\n登録・変更・削除する" as editEntity
+                usecase "文字情報を\n登録・変更・削除する" as editStringInformation
+                usecase "画像情報を\n登録・変更・削除する" as editImage
+            }
+
+            usecase  既存エンティティを検索する
+        }
+
+        rectangle "店舗エンティティの操作" {
+             rectangle "店舗エンティティの登録操作"{
+                usecase "店舗を\n登録・変更・削除する" as editStore
+                usecase "店舗の文字情報を\n登録・変更・削除する" as editStoreString
+                usecase "店舗画像の\n登録・変更・削除する" as editStoreImage
+             }
+            usecase "既存店舗を検索する" as searchStore
+        }
+
+        rectangle "商品エンティティの操作"{
+             rectangle "商品エンティティの登録・変更・削除操作"{
+                usecase "商品の登録" as editProduct
+                usecase "商品の文字情報を\n登録・変更・削除する" as editProductString
+                usecase "商品画像の\n登録・変更・削除する" as editProductImage
+             }
+             usecase "既存商品を検索する" as searchProduct
+        }
+
+        rectangle "座標設定"{
+             usecase "店内地図を\n登録・変更・削除する" as eidtStoreMap
+             usecase "店内地図に、座標を登録・変更・削除する" as eidtCoordinate
+             usecase "店内地図に、点座標を登録・変更・削除する" as eidtPinCoordinate
+             usecase "店内地図に、面積座標を登録・変更・削除する" as EditStoreForceCornerCoordinate
+             usecase "座標と、商品の関係性について、登録・変更・削除をする。" as relateCoordinateAndProduct
+        }
+
+          usecase "商品がある店舗調べる" as searchStoreIncludesProduct
+
+    }
+
+
+
+    'アクターと、主要なユースケースとの関係
+    customer -down-> searchStoreIncludesProduct
+    店舗情報管理者 -down-> editAdminAccount
+    店舗情報管理者 -down-> editStore
+    店舗情報管理者 -down-> editProduct
+
+    'ユースケースの継承の関係：エンティティ作成に対して
+    editEntity ..>  editStore : <<extends>>
+    editEntity .left.> editProduct : <<extends>>
+
+    'ユースケースの包括関係：エンティテ作成に対して
+    editAdminAccount ..> editEntity : <<include>>
+    editEntity ..> editImage : <<include>>
+    editEntity ..> editStringInformation : <<include>>
+    editEntity -up- (既存エンティティを検索する)
+
+    '関係設定：店舗エンティティの操作内に対して
+    editStore ..> editStoreString : <<include>>
+    editStore ..> editStoreImage : <<include>>
+    editStore -up- searchStore
+
+    '関係設定：商品エンティティの操作内に対して
+    editProduct ..> editProductString : <<include>>
+    editProduct ..> editProductImage : <<include>>
+    editProduct -left- searchProduct
+
+
+    '関係設定：座標設定とそれ以外の要素との関係
+    editStore -down- eidtStoreMap
+    editProduct -right-relateCoordinateAndProduct
+
+    '関係設定：座標設定内に対して
+     eidtStoreMap -down->  eidtCoordinate : <<include>>
+     eidtCoordinate  .left.> eidtPinCoordinate : <<extends>>
+     eidtCoordinate  .left.> EditStoreForceCornerCoordinate : <<extends>>
+     eidtStoreMap .left.> relateCoordinateAndProduct : <<include>>
+
+
+    note "特定の要素を絞り込み検索で、\nより扱いやすくする" as noteOfSearch
+    noteOfSearch .down. (既存エンティティを検索する)
+@enduml

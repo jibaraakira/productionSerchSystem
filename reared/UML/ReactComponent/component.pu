@@ -1,0 +1,195 @@
+@startuml component
+
+rectangle ReactComponemt{
+    left to right direction
+    class  Header  {
+        render()
+        -- render --
+    }
+
+    rectangle SearchPage{
+        class Search {
+            render()
+            -- render --
+            <Header />
+            <MainSearch />
+            <SearchStoreByCustomer />
+            <ProductInformation />
+            <ProductResult />
+
+        }
+
+        class  MainSearch  {
+            render()
+            -- render --
+        }
+
+        class  ProductResult  {
+            render()
+            -- render --
+        }
+
+        class  SearchStoreByCustomer  {
+            getResultCards()
+            render()
+            -- render --
+        }
+        class  ProductInformation  {
+            render()
+            -- render --
+        }
+    }
+
+
+    rectangle SystemSettingPage{
+        class  Header  {
+            render()
+        }
+
+        class  SystemSetting  {
+            render()
+            -- render--
+            <Header />
+            <StoreInfo />
+            <ProductItems />
+        }
+
+        class  StoreInfo  {
+            getStoreMapSetter()
+            renderInsertedStoreDefinition()
+            render()
+            -- render --
+            <Card />
+        }
+
+        class  ProductItems  {
+            getCreateProduct()
+            -- getCreateProduct  --
+            <Card />
+            ----
+            getProductions()
+        }
+     }
+
+     rectangle CommonComponent.js {
+
+        class selectJsx <<(F,#FF7700)>> {
+            jsxArray
+            keyName
+            selector
+         }
+
+        class createDefinitions <<(F,#FF7700)>> {
+            define
+        }
+
+        class getStoreDefinition <<(F,#FF7700)>> {
+            storeDefine
+        }
+
+        class getProductDefinitions <<(F,#FF7700)>> {
+            productDefine
+            title
+        }
+
+        class vender <<(F,#FF7700)>> {
+            mode
+            th
+        }
+
+        class  InputDefinition  {
+            render()
+            -- render--
+         }
+
+        class  ButtonContainer  {
+            insertButton()
+            render()
+            -- render--
+        }
+
+        class  Photo  {
+            render()
+            -- render--
+         }
+
+        class  Card  {
+            renderDefinition()
+            getCardJsx()
+            --  getCardJsx --
+             <Photo />
+            ----
+            render()
+            <Photo />
+        }
+
+        class  cardSetter {
+            getInstance()
+            getDefinition()
+            getInsertMethod()
+        }
+        class storeCardSetter {}
+        class insertProductCardSetter {}
+        class productCardSetter { }
+
+        cardSetter <|-- storeCardSetter
+        cardSetter <|-- insertProductCardSetter
+         cardSetter <|-- productCardSetter
+     }
+
+class  dummy {
+    constructor()
+    getDummySearchStoreByCustomer()
+}
+rectangle store{
+    class  entity {
+    constructor()
+    getLogicName()
+    }
+    class  store { }
+    class  product{ }
+
+    class  objectCreator {
+        constructor()
+        fixEntity()
+        createStateObject()
+        createDataContainerObject()
+        createSearchStoreByCustomerItem()
+        createShopEntity()
+        createProductEntity()
+        createDefProperty()
+        createLoopValues()
+        createDefineObject()
+        convertToDefineObject()
+        createEntityState()
+        createSearchStoreByCustomer()
+        createSearchStoreByCustomerContainer()
+        insertEntityState()
+        createButtonSetting()
+        createCardJsx()
+        createSearchSavedProduct()
+    }
+     class  stateCreator {
+        constructor()
+        getSearchDefault()
+        getSearchSettingDefault()
+    }
+}
+
+
+Search -- Header
+Search -- MainSearch
+Search -- SearchStoreByCustomer
+Search -- ProductResult
+Search -- ProductInformation
+
+SystemSetting -- Header
+SystemSetting -- StoreInfo
+SystemSetting -- ProductItems
+
+
+}
+
+
+
+@enduml

@@ -1,0 +1,18 @@
+@startuml usercase
+    left to right direction
+
+    actor "ユーザー" as customer
+    actor "店舗情報管理者" as administrator
+
+    rectangle "店舗商品検索システム" {
+        usecase "店舗の登録" as addStore
+        usecase "商品の登録" as addProduct
+        usecase "商品の所在を調べる" as searchProduct
+    }
+
+    addStore <-- administrator
+    addProduct <-- administrator
+    customer --> searchProduct
+
+
+@enduml
